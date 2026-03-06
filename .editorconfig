@@ -1,0 +1,20 @@
+[*.cs]
+# Roslynator
+dotnet_diagnostic.RCS1124.severity = warning
+dotnet_diagnostic.RCS1021.severity = warning
+dotnet_diagnostic.IDE0305.severity = warning
+dotnet_diagnostic.IDE0340.severity = warning
+dotnet_diagnostic.RCS1154.severity = warning
+dotnet_diagnostic.RCS1163.severity = warning
+dotnet_diagnostic.RCS1146.severity = warning
+dotnet_diagnostic.IDE0060.severity = warning
+dotnet_diagnostic.SYSLIB10.severity = warning
+dotnet_diagnostic.RCS1212.severity = warning
+dotnet_diagnostic.RCS1261.severity = warning
+dotnet_diagnostic.RCS1001.severity = none
+dotnet_diagnostic.IDE0130.severity = none
+dotnet_diagnostic.IDE0019.severity = warning
+dotnet_diagnostic.IDE0028.severity = warning
+dotnet_diagnostic.RCS1205.severity = warning
+dotnet_diagnostic.IDE0290.severity = warning
+dotnet_diagnostic.RCS1243.severity = warning

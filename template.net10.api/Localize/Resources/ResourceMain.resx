@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MapperExceptionResultNotSupported" xml:space="preserve">
+    <value>Mapper for exception type {0} is not supported.</value>
+  </data>
+  <data name="ExceptionStatusCodeNotSupported" xml:space="preserve">
+    <value>Status Code for exception type {0} is not supported.</value>
+  </data>
+  <data name="ProblemDetailsInternalServerErrorTitle" xml:space="preserve">
+    <value>There is something wrong with our bloody servers today.</value>
+  </data>
+  <data name="MapperExceptionStatusCodeNotSupported" xml:space="preserve">
+    <value>Mapper for http status code {0} is not supported.</value>
+  </data>
+  <data name="GenieAccessTokenServerError" xml:space="preserve">
+    <value>Something went wrong when creating the genie access token.</value>
+  </data>
+  <data name="DejaVu" xml:space="preserve">
+    <value>A Dejavu is usually a glitch in the matrix, it happens when they change something.</value>
+  </data>
+  <data name="GenericValidatorError" xml:space="preserve">
+    <value>There is something wrong with the validators for your request.</value>
+  </data>
+  <data name="ProblemDetailsBadRequestTitle" xml:space="preserve">
+    <value>Incorrect Inputs.</value>
+  </data>
+  <data name="ProblemDetailsConflictTitle" xml:space="preserve">
+    <value>Operation Not Allowed.</value>
+  </data>
+  <data name="ProblemDetailsForbiddenTitle" xml:space="preserve">
+    <value>Forbidden Access.</value>
+  </data>
+  <data name="ProblemDetailsGoneTitle" xml:space="preserve">
+    <value>Expired Data.</value>
+  </data>
+  <data name="ProblemDetailsNotFoundTitle" xml:space="preserve">
+    <value>Data not Found.</value>
+  </data>
+  <data name="ProblemDetailsRequestTimeoutTitle" xml:space="preserve">
+    <value>Request Timeout. Try Again.</value>
+  </data>
+  <data name="ProblemDetailsUnauthorizedTitle" xml:space="preserve">
+    <value>Unauthorized Access.</value>
+  </data>
+  <data name="ProblemDetailsUnprocessableEntityTitle" xml:space="preserve">
+    <value>Data inconsistency.</value>
+  </data>
+  <data name="ProblemDetailsValidationDetail" xml:space="preserve">
+    <value>Check the described errors and relaunch the request with the fixed values.</value>
+  </data>
+  <data name="ProblemDetailsValidationTitle" xml:space="preserve">
+    <value>One or more validation errors occurred.</value>
+  </data>
+  <data name="ProblemDetailsValidationCode" xml:space="preserve">
+    <value>BE-R-EV-001</value>
+  </data>
+  <data name="ProblemDetailsBadRequestValidationJsonMalformedDetail" xml:space="preserve">
+    <value>The payload is malformed and is not a valid json file.</value>
+  </data>
+  <data name="ProblemDetailsBadRequestValidationJsonMalformedCode" xml:space="preserve">
+    <value>BE-R-EV-002</value>
+  </data>
+  <data name="ProblemDetailsBadRequestCode" xml:space="preserve">
+    <value>BE-R-E-400</value>
+  </data>
+  <data name="ProblemDetailsBadRequestHttpNotSupportedCode" xml:space="preserve">
+    <value>BE-R-E-001</value>
+  </data>
+  <data name="ProblemDetailsBadRequestHttpNotSupportedDetail" xml:space="preserve">
+    <value>HTTPS protocol is required.</value>
+  </data>
+  <data name="ProblemDetailsBadRequestHttpNotSupportedTitle" xml:space="preserve">
+    <value>HTTP protocol is not allowed.</value>
+  </data>
+  <data name="ProblemDetailsBadRequestValidationJsonInvalidCode" xml:space="preserve">
+    <value>BE-R-EV-003</value>
+  </data>
+  <data name="ProblemDetailsBadRequestValidationJsonInvalidDetail" xml:space="preserve">
+    <value>The Json used as payload does not honour the required contract.</value>
+  </data>
+  <data name="ProblemDetailsConflictCode" xml:space="preserve">
+    <value>BE-R-E-409</value>
+  </data>
+  <data name="ProblemDetailsForbiddenCode" xml:space="preserve">
+    <value>BE-R-E-403</value>
+  </data>
+  <data name="ProblemDetailsGoneCode" xml:space="preserve">
+    <value>BE-R-E-410</value>
+  </data>
+  <data name="ProblemDetailsMethodNotAllowedCode" xml:space="preserve">
+    <value>BE-R-E-405</value>
+  </data>
+  <data name="ProblemDetailsMethodNotAllowedTitle" xml:space="preserve">
+    <value>Method Not Allowed.</value>
+  </data>
+  <data name="ProblemDetailsNotFoundCode" xml:space="preserve">
+    <value>BE-R-E-404</value>
+  </data>
+  <data name="ProblemDetailsRequestTimeoutCode" xml:space="preserve">
+    <value>BE-R-E-408</value>
+  </data>
+  <data name="ProblemDetailsUnauthorizedCode" xml:space="preserve">
+    <value>BE-R-E-401</value>
+  </data>
+  <data name="ProblemDetailsUnprocessableEntityCode" xml:space="preserve">
+    <value>BE-R-E-422</value>
+  </data>
+  <data name="ProblemDetailsUnsupportedMediaTypeCode" xml:space="preserve">
+    <value>BE-R-E-415</value>
+  </data>
+  <data name="ProblemDetailsUnsupportedMediaTypeTitle" xml:space="preserve">
+    <value>Content Type Header Not Allowed.</value>
+  </data>
+  <data name="ProblemDetailsInternalServerErrorCode" xml:space="preserve">
+    <value>BE-R-E-500</value>
+  </data>
+  <data name="ProblemDetailsNotImplementedCode" xml:space="preserve">
+    <value>BE-R-E-501</value>
+  </data>
+  <data name="ProblemDetailsNotImplementedTitle" xml:space="preserve">
+    <value>Not Implemented.</value>
+  </data>
+  <data name="ProblemDetailsTooManyRequestCode" xml:space="preserve">
+    <value>BE-R-E-429</value>
+  </data>
+  <data name="ProblemDetailsTooManyRequestTitle" xml:space="preserve">
+    <value>Too Many Requests.</value>
+  </data>
+  <data name="InternalServerErrorValidationData" xml:space="preserve">
+    <value>An error occurred in the data validation process against the database.</value>
+  </data>
+  <data name="ProblemDetailsForbiddenAccessCode" xml:space="preserve">
+    <value>BE-R-E-002</value>
+  </data>
+  <data name="ProblemDetailsForbiddenAccessDetail" xml:space="preserve">
+    <value>The token provided does not comply with the requested resource access policies.</value>
+  </data>
+  <data name="ProblemDetailsForbiddenAccessTitle" xml:space="preserve">
+    <value>Forbidden Access.</value>
+  </data>
+  <data name="ProblemDetailsUnauthorizedProcessFailTitle" xml:space="preserve">
+    <value>Unauthorized Access.</value>
+  </data>
+  <data name="ProblemDetailsUnauthorizedProcessFailCode" xml:space="preserve">
+    <value>BE-R-E-003</value>
+  </data>
+  <data name="ProblemDetailsUnauthorizedMissingTokenTitle" xml:space="preserve">
+    <value>Missing Token.</value>
+  </data>
+  <data name="ProblemDetailsUnauthorizedMissingTokenDetail" xml:space="preserve">
+    <value>The token is missing.</value>
+  </data>
+  <data name="ProblemDetailsUnauthorizedMissingTokenCode" xml:space="preserve">
+    <value>BE-R-E-004</value>
+  </data>
+  <data name="UserHubConnectionOnlineMsg" xml:space="preserve">
+    <value>Connection is active.</value>
+  </data>
+  <data name="UserHubConnectionStatusMsg" xml:space="preserve">
+    <value>Connection successfully established.</value>
+  </data>
+  <data name="GetUserEventsCheckConnectionStatusDescription" xml:space="preserve">
+    <value>Client request to check the connection status.</value>
+  </data>
+  <data name="GetUserEventsConnectionStatusDescription" xml:space="preserve">
+    <value>Server response of the CheckConnectionStatus method.</value>
+  </data>
+  <data name="GetUserEventsConnectionOnlineDescription" xml:space="preserve">
+    <value>Server event when a client is online.</value>
+  </data>
+  <data name="GetUserEventsNewUserDescription" xml:space="preserve">
+    <value>Server event when a new user is created.</value>
+  </data>
+  <data name="UserHubNewUserMsg" xml:space="preserve">
+    <value>New User Created</value>
+  </data>
+  <data name="UserHubCreatedUserMsg" xml:space="preserve">
+    <value>UserHubCreatedUserMsg</value>
+  </data>
+  <data name="UserHubDeletedUserMsg" xml:space="preserve">
+    <value>UserHubDeletedUserMsg</value>
+    <comment>UserHubDeletedUserMsg</comment>
+  </data>
+  <data name="UserHubUpdatedUserMsg" xml:space="preserve">
+    <value>UserHubUpdatedUserMsg</value>
+    <comment>UserHubUpdatedUserMsg</comment>
+  </data>
+  <data name="GetUserEventsUpdateUserDescription" xml:space="preserve">
+    <value>GetUserEventsUpdateUserDescription</value>
+    <comment>GetUserEventsUpdateUserDescription</comment>
+  </data>
+  <data name="GetUserEventsDeleteUserDescription" xml:space="preserve">
+    <value>GetUserEventsDeleteUserDescription</value>
+    <comment>GetUserEventsDeleteUserDescription</comment>
+  </data>
+  <data name="CreateUserValidatorPasswordNotValidMsg" xml:space="preserve">
+    <value>CreateUserValidatorPasswordNotValidMsg</value>
+    <comment>CreateUserValidatorPasswordNotValidMsg</comment>
+  </data>
+  <data name="CreateUserValidatorPasswordNotValidCode" xml:space="preserve">
+    <value>CreateUserValidatorPasswordNotValidCode</value>
+    <comment>CreateUserValidatorPasswordNotValidCode</comment>
+  </data>
+  <data name="CreateUserValidatorEmailNotValidMsg" xml:space="preserve">
+    <value>CreateUserValidatorEmailNotValidMsg</value>
+    <comment>CreateUserValidatorEmailNotValidMsg</comment>
+  </data>
+  <data name="CreateUserValidatorEmailNotValidCode" xml:space="preserve">
+    <value>CreateUserValidatorEmailNotValidCode</value>
+    <comment>CreateUserValidatorEmailNotValidCode</comment>
+  </data>
+  <data name="CreateUserValidatorEmailUsedCode" xml:space="preserve">
+    <value>CreateUserValidatorEmailUsedCode</value>
+    <comment>CreateUserValidatorEmailUsedCode</comment>
+  </data>
+  <data name="CreateUserValidatorEmailUsedMsg" xml:space="preserve">
+    <value>CreateUserValidatorEmailUsedMsg</value>
+    <comment>CreateUserValidatorEmailUsedMsg</comment>
+  </data>
+  <data name="TokenValidatoUserExistMsg" xml:space="preserve">
+    <value>TokenValidatoUserExistMsg</value>
+    <comment>TokenValidatoUserExistMsg</comment>
+  </data>
+  <data name="TokenValidatoUserExistCode" xml:space="preserve">
+    <value>TokenValidatoUserExistCode</value>
+    <comment>TokenValidatoUserExistCode</comment>
+  </data>
+  <data name="TokenValidatoUserDisabledMsg" xml:space="preserve">
+    <value>TokenValidatoUserDisabledMsg</value>
+    <comment>TokenValidatoUserDisabledMsg</comment>
+  </data>
+  <data name="TokenValidatoUserDisabledCode" xml:space="preserve">
+    <value>TokenValidatoUserDisabledCode</value>
+    <comment>TokenValidatoUserDisabledCode</comment>
+  </data>
+  <data name="DeleteUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>DeleteUserValidatorUuidNotFoundMsg</value>
+    <comment>DeleteUserValidatorUuidNotFoundMsg</comment>
+  </data>
+  <data name="DeleteUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>DeleteUserValidatorUuidNotFoundCode</value>
+    <comment>DeleteUserValidatorUuidNotFoundCode</comment>
+  </data>
+  <data name="DisableUserValidatorUserDisabledMsg" xml:space="preserve">
+    <value>DisableUserValidatorUserDisabledMsg</value>
+    <comment>DisableUserValidatorUserDisabledMsg</comment>
+  </data>
+  <data name="DisableUserValidatorUserDisabledCode" xml:space="preserve">
+    <value>DisableUserValidatorUserDisabledCode</value>
+    <comment>DisableUserValidatorUserDisabledCode</comment>
+  </data>
+  <data name="DisableUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>DisableUserValidatorUuidNotFoundCode</value>
+    <comment>DisableUserValidatorUuidNotFoundCode</comment>
+  </data>
+  <data name="DisableUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>DisableUserValidatorUuidNotFoundMsg</value>
+    <comment>DisableUserValidatorUuidNotFoundMsg</comment>
+  </data>
+  <data name="EnableUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>EnableUserValidatorUuidNotFoundMsg</value>
+    <comment>EnableUserValidatorUuidNotFoundMsg</comment>
+  </data>
+  <data name="EnableUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>EnableUserValidatorUuidNotFoundCode</value>
+    <comment>EnableUserValidatorUuidNotFoundCode</comment>
+  </data>
+  <data name="EnableUserValidatorUserEnabledCode" xml:space="preserve">
+    <value>EnableUserValidatorUserEnabledCode</value>
+    <comment>EnableUserValidatorUserEnabledCode</comment>
+  </data>
+  <data name="EnableUserValidatorUserEnabledMsg" xml:space="preserve">
+    <value>EnableUserValidatorUserEnabledMsg</value>
+    <comment>EnableUserValidatorUserEnabledMsg</comment>
+  </data>
+  <data name="ResetUserPasswordValidatorPasswordNotValidMasg" xml:space="preserve">
+    <value>ResetUserPasswordValidatorPasswordNotValidMasg</value>
+    <comment>ResetUserPasswordValidatorPasswordNotValidMasg</comment>
+  </data>
+  <data name="ResetUserPasswordValidatorPasswordNotValidCode" xml:space="preserve">
+    <value>ResetUserPasswordValidatorPasswordNotValidCode</value>
+    <comment>ResetUserPasswordValidatorPasswordNotValidCode</comment>
+  </data>
+  <data name="ResetUserPasswordValidatorUserDisabledCode" xml:space="preserve">
+    <value>ResetUserPasswordValidatorUserDisabledCode</value>
+    <comment>ResetUserPasswordValidatorUserDisabledCode</comment>
+  </data>
+  <data name="ResetUserPasswordValidatorUserDisabledMsg" xml:space="preserve">
+    <value>ResetUserPasswordValidatorUserDisabledMsg</value>
+    <comment>ResetUserPasswordValidatorUserDisabledMsg</comment>
+  </data>
+  <data name="ResetUserPasswordValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>ResetUserPasswordValidatorUuidNotFoundCode</value>
+    <comment>ResetUserPasswordValidatorUuidNotFoundCode</comment>
+  </data>
+  <data name="ResetUserPasswordValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>ResetUserPasswordValidatorUuidNotFoundMsg</value>
+    <comment>ResetUserPasswordValidatorUuidNotFoundMsg</comment>
+  </data>
+  <data name="UpdateUserValidatorRoleNotFoundCode" xml:space="preserve">
+    <value>UpdateUserValidatorRoleNotFoundCode</value>
+    <comment>UpdateUserValidatorRoleNotFoundCode</comment>
+  </data>
+  <data name="UpdateUserValidatorRoleNotFoundMsg" xml:space="preserve">
+    <value>UpdateUserValidatorRoleNotFoundMsg</value>
+    <comment>UpdateUserValidatorRoleNotFoundMsg</comment>
+  </data>
+  <data name="UpdateUserValidatorEmailUsedMsg" xml:space="preserve">
+    <value>UpdateUserValidatorEmailUsedMsg</value>
+    <comment>UpdateUserValidatorEmailUsedMsg</comment>
+  </data>
+  <data name="UpdateUserValidatorEmailUsedCode" xml:space="preserve">
+    <value>UpdateUserValidatorEmailUsedCode</value>
+    <comment>UpdateUserValidatorEmailUsedCode</comment>
+  </data>
+  <data name="UpdateUserValidatorEmailNotValidCode" xml:space="preserve">
+    <value>UpdateUserValidatorEmailNotValidCode</value>
+    <comment>UpdateUserValidatorEmailNotValidCode</comment>
+  </data>
+  <data name="UpdateUserValidatorEmailNotValidMsg" xml:space="preserve">
+    <value>UpdateUserValidatorEmailNotValidMsg</value>
+    <comment>UpdateUserValidatorEmailNotValidMsg</comment>
+  </data>
+  <data name="UpdateUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>UpdateUserValidatorUuidNotFoundMsg</value>
+    <comment>UpdateUserValidatorUuidNotFoundMsg</comment>
+  </data>
+  <data name="UpdateUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>UpdateUserValidatorUuidNotFoundCode</value>
+    <comment>UpdateUserValidatorUuidNotFoundCode</comment>
+  </data>
+  <data name="AccessUserValidatorUuidMissingMsg" xml:space="preserve">
+    <value>AccessUserValidatorUuidMissingMsg</value>
+    <comment>AccessUserValidatorUuidMissingMsg</comment>
+  </data>
+  <data name="AccessUserValidatorUuidMissingCode" xml:space="preserve">
+    <value>AccessUserValidatorUuidMissingCode</value>
+    <comment>AccessUserValidatorUuidMissingCode</comment>
+  </data>
+  <data name="AccessUserValidatorUuidEmptyMsg" xml:space="preserve">
+    <value>AccessUserValidatorUuidEmptyMsg</value>
+    <comment>AccessUserValidatorUuidEmptyMsg</comment>
+  </data>
+  <data name="AccessUserValidatorUuidEmptyCode" xml:space="preserve">
+    <value>AccessUserValidatorUuidEmptyCode</value>
+    <comment>AccessUserValidatorUuidEmptyCode</comment>
+  </data>
+  <data name="AccessUserValidatorUserDisabledCode" xml:space="preserve">
+    <value>AccessUserValidatorUserDisabledCode</value>
+    <comment>AccessUserValidatorUserDisabledCode</comment>
+  </data>
+  <data name="AccessUserValidatorUserDisabledMsg" xml:space="preserve">
+    <value>AccessUserValidatorUserDisabledMsg</value>
+    <comment>AccessUserValidatorUserDisabledMsg</comment>
+  </data>
+  <data name="AccessUserValidatorRoleInvalidCode" xml:space="preserve">
+    <value>AccessUserValidatorRoleInvalidCode</value>
+    <comment>AccessUserValidatorRoleInvalidCode</comment>
+  </data>
+  <data name="AccessUserValidatorRoleInvalidMsg" xml:space="preserve">
+    <value>AccessUserValidatorRoleInvalidMsg</value>
+    <comment>AccessUserValidatorRoleInvalidMsg</comment>
+  </data>
+  <data name="GetUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>GetUserValidatorUuidNotFoundMsg</value>
+    <comment>GetUserValidatorUuidNotFoundMsg</comment>
+  </data>
+  <data name="GetUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>GetUserValidatorUuidNotFoundCode</value>
+    <comment>GetUserValidatorUuidNotFoundCode</comment>
+  </data>
+  <data name="LoginUserValidatorEmailNotValidMsg" xml:space="preserve">
+    <value>LoginUserValidatorEmailNotValidMsg</value>
+    <comment>LoginUserValidatorEmailNotValidMsg</comment>
+  </data>
+  <data name="LoginUserValidatorEmailNotValidCode" xml:space="preserve">
+    <value>LoginUserValidatorEmailNotValidCode</value>
+    <comment>LoginUserValidatorEmailNotValidCode</comment>
+  </data>
+  <data name="LoginUserValidatorEmailNotFoundMsg" xml:space="preserve">
+    <value>LoginUserValidatorEmailNotFoundMsg</value>
+    <comment>LoginUserValidatorEmailNotFoundMsg</comment>
+  </data>
+  <data name="LoginUserValidatorEmailNotFoundCode" xml:space="preserve">
+    <value>LoginUserValidatorEmailNotFoundCode</value>
+    <comment>LoginUserValidatorEmailNotFoundCode</comment>
+  </data>
+  <data name="LoginUserValidatorUserDisabledMsg" xml:space="preserve">
+    <value>LoginUserValidatorUserDisabledMsg</value>
+    <comment>LoginUserValidatorUserDisabledMsg</comment>
+  </data>
+  <data name="LoginUserValidatorUserDisabledCode" xml:space="preserve">
+    <value>LoginUserValidatorUserDisabledCode</value>
+    <comment>LoginUserValidatorUserDisabledCode</comment>
+  </data>
+  <data name="LoginUserValidatorPasswordInvalidMsg" xml:space="preserve">
+    <value>LoginUserValidatorPasswordInvalidMsg</value>
+    <comment>LoginUserValidatorPasswordInvalidMsg</comment>
+  </data>
+  <data name="LoginUserValidatorPasswordInvalidCode" xml:space="preserve">
+    <value>LoginUserValidatorPasswordInvalidCode</value>
+    <comment>LoginUserValidatorPasswordInvalidCode</comment>
+  </data>
+  <data name="CreateUserValidatorRoleNotFoundCode" xml:space="preserve">
+    <value>CreateUserValidatorRoleNotFoundCode</value>
+    <comment>CreateUserValidatorRoleNotFoundCode</comment>
+  </data>
+  <data name="CreateUserValidatorRoleNotFoundMsg" xml:space="preserve">
+    <value>CreateUserValidatorRoleNotFoundMsg</value>
+    <comment>CreateUserValidatorRoleNotFoundMsg</comment>
+  </data>
+</root>
