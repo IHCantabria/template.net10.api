@@ -8,7 +8,6 @@ using template.net10.api.Settings.Extensions;
 using template.net10.api.Settings.Handlers;
 using ZLinq;
 
-
 //TODO: Replace ADD DOCUMENTATION for real documentation and remove this comment
 [assembly: ComVisible(false), CLSCompliant(false)]
 // Define ZLinq DropIn for the assembly to generate optimized Linq queries

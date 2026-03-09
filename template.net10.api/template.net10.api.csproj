@@ -17,8 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>9999</WarningLevel>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <!--<DocumentationFile>bin\Debug\net10.0\{PROJECT_NAMESPACE}.xml</DocumentationFile>-->
-    <DocumentationFile>bin\Debug\net10.0\template.net10.api.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net10.0\{PROJECT_NAMESPACE}.xml</DocumentationFile>
     <Optimize>False</Optimize>
   </PropertyGroup>
 

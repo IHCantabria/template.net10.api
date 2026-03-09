@@ -5,14 +5,15 @@ Read and follow this steps after clone template repo and  before doing anything 
 ## RENAME .NET PROJECT
 
 1. Manual rename the next files and folders with the SAME NAME:
-   - [ ] Solution file `template.net8.api.sln`.
-   - [ ] Project settings `template.net8.api.sln.DotSettings`.
-   - [ ] Project file `template.net8.api\template.net8.api.csproj`.
-   - [ ] Project folder `template.net8.api`.
-   Ex: `MiProject.Api.sln`, `MiProject.Api.csproj`, `MiProject.Api`, `MiProject.Api.csproj.DotSettings`, `MiProject.Api.http`.
+   - [ ] Solution file `template.net10.api.slnx`.
+   - [ ] Solution settings `template.net10.api.slnx.DotSettings`.
+   - [ ] Project file `template.net10.api\template.net10.api.csproj`.
+   - [ ] Project settings `template.net10.api.csproj.DotSettings`.
+   - [ ] Project folder `template.net10.api`.
+   Ex: `MyProject.Api.slnx`, `MyProject.Api.slnx.DotSettings`, `MyProject.Api.csproj`, `MyProject.Api.csproj.DotSettings`, `MyProject.Api`.
 
-2. Open Solution With Visual Studio, ignore warning. Remove project `template.net8.api (not found)` from the solution.
-3. Add to the solution a existing project, select the renamed file `template.net8.api.csproj`.
+2. Open Solution With Visual Studio, ignore warning. Remove project `template.net10.api (not found)` from the solution.
+3. Add to the solution a existing project, select the renamed file `template.net10.api.csproj`.
 4. Update namespace of the existing projects.
    - Right-click on the project in Solution Explorer
    - Choose `Sync namespaces` to rename the namespace across files.
@@ -22,21 +23,19 @@ Read and follow this steps after clone template repo and  before doing anything 
 
 1. Replace `{PROJECT_NAMESPACE}` with the project namespace value.
    - [ ] `BusinessConstants`
-   - [ ] `appsettings.json`
-   - [ ] Renamed `template.net8.api`
-   - [ ] `.gitignore_template`
-   - [ ] `CoreConstants.cs`
-   
-   Ex: MiProject.Api
+   - [ ] `appsettings.json` files
+   - [ ] Renamed `template.net10.api.csproj`
+   Ex: MyProject.Api
 
 2. Replace `{PROJECT_NAME}` with the project name value. 
    - [ ] `Properties/launchSettings.json`
    - [ ] `package.json`
-   - [ ] Renamed `template.net8.api` folder.
-   Ex: Mi.Project.Api
+   Ex: MyProject.Api
+
 3. Replace `{PROJECT_GUID}` with a new GUID. Visual Studio -> Tools -> Create GUID.
    - [ ] `Properties/PublishProfiles/**`
    Ex: `9E4F3D66-752A-487C-80DE-EA733A0B111B`
+
 4. Remove the unused envs config and/or add custom envs config( Development, Pre, Prod...)
    - [ ] `Envs.cs`
    - [ ] `appsettings."env".json`
@@ -47,15 +46,13 @@ Read and follow this steps after clone template repo and  before doing anything 
 
 1. Use the file gitignore_template. to configure the `.gitignore` for the project, replace the old `.gitignore`. This file will be added to the repository.
 2. Replace `{PROJECT_NAMESPACE}` with the project namespace value.
-   Ex: MiProject.Api
+   Ex: MyProject.Api
 
 ## CUSTOMIZE PACKAGE.JSON FILE
 
-1. Replace `{PROJECT_NAME}` with the project name value. 
-   Ex: MiProject.Api
-2. Replace `{PROJECT_NAME_LOWERCASE}` with the project name value using only lowercase. 
-   Ex: miproject.api
-3. Remove the unused envs compile scripts(build:"env") and/or add custom envs compile scripts( Development, Pre, Prod...)
+1. Replace `{PROJECT_NAME_LOWERCASE}` with the project name value using only lowercase. 
+   Ex: myproject.api
+2. Remove the unused envs compile scripts(build:"env") and/or add custom envs compile scripts( Development, Pre, Prod...)
 
 ## CONFIGURE SONARQUBE
 
@@ -71,12 +68,16 @@ Read and follow this steps after clone template repo and  before doing anything 
 
 1. Rename the file `appsettings.local_template.json` to `appsettings.local.json`. This file will be your configuration for the local env of the project, this file will be omitted from the repository.
 
+## .gitkeep
+
+1. Add ignored file `.gitkeep` to source control
+
 ## COMPLETE DEPLOY REQUIREMENTS FILE
 
 1. Replace `{PROJECT_NAME}` with the project name value.
-   Ex: MiProject.Api
+   Ex: MyProject.Api
 2. Replace `{SUBDOMAIN_API}` with the choosed dns subdomain value.
-   Ex: apimiapi
+   Ex: apimyapi
 3. Remove the unused envs config and/or add custom envs config( Development, Pre, Prod...)
 4. Add the Env variables needed for the Business/Infraestructure logic.
 5. Make the specific changes needed for your Business/Infraestructure logic.
@@ -85,5 +86,5 @@ Read and follow this steps after clone template repo and  before doing anything 
 
 1. Check correct compilation and Startup.
 2. Check correct build using the command `npm build:"env"`.
-3. Check correct sonar and trivy analysis.
+3. Check correct sonar and trivy analysis `npm run sonar`y `npm run trivy`.
 4. ¡DELETE THIS FILE!

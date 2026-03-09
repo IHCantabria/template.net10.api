@@ -24,6 +24,8 @@ internal static class AuthorizationBuilderExtensions
             [PoliciesConstants.UserDeletePolicy] = Create(ClaimIdentityConstants.UserDeleteClaimValue),
             [PoliciesConstants.UserDisablePolicy] = Create(ClaimIdentityConstants.UserEditDisableClaimValue),
             [PoliciesConstants.UserEnablePolicy] = Create(ClaimIdentityConstants.UserEditEnableClaimValue)
+
+            // add here business policies and their requirements
         };
 
         List<ClaimRequirement> Create(string claimValue)

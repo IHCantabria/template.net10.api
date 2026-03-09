@@ -37,7 +37,7 @@ _Prod_
 
 ## App folder
 
-`{PROJECT_NAME}.Api`
+`{PROJECT_NAME}`
 
 ## Distribution
 
