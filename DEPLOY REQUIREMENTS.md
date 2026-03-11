@@ -25,19 +25,19 @@
 
 _Development_
 
-    - Deploy {PROJECT_NAME}.Api - DEV
+    - Deploy {PROJECT_NAME} - DEV
 	
 _Pre_
 
-    - Deploy {PROJECT_NAME}.Api - PRE
+    - Deploy {PROJECT_NAME} - PRE
 	
 _Prod_
 
-    - Deploy {PROJECT_NAME}.Api - PROD
+    - Deploy {PROJECT_NAME} - PROD
 
 ## App folder
 
-`{PROJECT_NAME}`
+`{PROJECT_NAMESPACE}`
 
 ## Distribution
 
@@ -61,7 +61,7 @@ _Prod_
 
 ## Url GIT
 
-	- git@github.com:IHCantabria/{PROJECT_NAME}
+	- git@github.com:IHCantabria/{PROJECT_REPOSITORY_NAME}
 
 ## DNS
 

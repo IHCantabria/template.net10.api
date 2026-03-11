@@ -36,7 +36,7 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>template.net10.api.test</_Parameter1>
+      <_Parameter1>{PROJECT_NAMESPACE}.test</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 

@@ -96,6 +96,8 @@ internal sealed class CommandCreateUserHandler(
     /// <summary>
     ///     Creates a new user DTO from the command parameters using the configured password pepper.
     /// </summary>
+    /// <param name="request">The MediatR command containing the parameters for creating a new user.</param>
+    /// <returns>A <c>Result</c> containing the constructed <see cref="CreateUserDto"/> or an exception on failure.</returns>
     private LanguageExt.Common.Result<CreateUserDto> CreateUser(CommandCreateUser request)
     {
         return UserFactory.CreateUser(request.CommandParams, _config.Pepper).Try();
@@ -111,6 +113,7 @@ internal sealed class CreateUserPasswordValidator : AbstractValidator<CommandCre
     /// <summary>
     ///     Initializes a new instance of the <see cref="CreateUserPasswordValidator" /> class with localization support.
     /// </summary>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException"><paramref name="localizer"/> is <see langword="null"/>.</exception>
     public CreateUserPasswordValidator(IStringLocalizer<ResourceMain> localizer)
     {
@@ -144,6 +147,8 @@ internal sealed class CreateUserEmailValidator : AbstractValidator<CommandCreate
     ///     Initializes a new instance of the <see cref="CreateUserEmailValidator" /> class with repository and localization
     ///     dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to query user data during email validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -174,6 +179,8 @@ internal sealed class CreateUserEmailValidator : AbstractValidator<CommandCreate
     /// <summary>
     ///     Validates that the provided email is not already registered in the system.
     /// </summary>
+    /// <param name="email">The email address to validate for uniqueness.</param>
+    /// <returns><see langword="true"/> if the email is not yet registered; otherwise, <see langword="false"/>.</returns>
     private bool ValidateEmail(string email)
     {
         var verification = new UserEmailVerification(email);
@@ -206,6 +213,8 @@ internal sealed class CreateUserRoleValidator : AbstractValidator<CommandCreateU
     ///     Initializes a new instance of the <see cref="CreateUserRoleValidator" /> class with repository and localization
     ///     dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to query role data during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -231,6 +240,8 @@ internal sealed class CreateUserRoleValidator : AbstractValidator<CommandCreateU
     /// <summary>
     ///     Validates that the specified role identifier exists in the database.
     /// </summary>
+    /// <param name="roleId">The numeric identifier of the role to validate.</param>
+    /// <returns><see langword="true"/> if the role exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateRoleId(short roleId)
     {
         var verification = new EntityVerificationById<Role, short>(roleId);
@@ -263,6 +274,8 @@ internal sealed class CreateUserIdentifierValidator : AbstractValidator<CommandC
     ///     Initializes a new instance of the <see cref="CreateUserIdentifierValidator" /> class with repository and
     ///     localization dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to verify user identity during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -296,6 +309,8 @@ internal sealed class CreateUserIdentifierValidator : AbstractValidator<CommandC
     /// <summary>
     ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
+    /// <param name="uuid">The unique identifier of the user to verify existence for.</param>
+    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateIdentifier(Guid uuid)
     {
         var verification = new EntityVerificationByUuid<User>(uuid);
@@ -310,6 +325,8 @@ internal sealed class CreateUserIdentifierValidator : AbstractValidator<CommandC
     /// <summary>
     ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
+    /// <param name="uuid">The unique identifier of the user to check active status for.</param>
+    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
     private bool ValidateUserActive(Guid uuid)
     {
         var verification = new UserEnabledVerification(uuid);

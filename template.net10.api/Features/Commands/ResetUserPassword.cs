@@ -102,6 +102,12 @@ internal sealed class CommandResetUserPasswordHandler(
     /// <summary>
     ///     Updates the user's password using the command parameters and configured pepper.
     /// </summary>
+    /// <param name="request">The command containing the new password and user key to apply the update for.</param>
+    /// <param name="user">The <see cref="User"/> entity whose password will be updated.</param>
+    /// <returns>
+    ///     A <see cref="Try{User}"/> that, when executed, returns the updated <see cref="User"/> on success
+    ///     or a faulted result containing the exception on failure.
+    /// </returns>
     private Try<User> UpdateUser(CommandResetUserPassword request, User user)
     {
         return () =>
@@ -126,6 +132,7 @@ internal sealed class ResetUserPasswordPasswordValidator : AbstractValidator<Com
     ///     Initializes a new instance of the <see cref="ResetUserPasswordPasswordValidator" /> class with localization
     ///     support.
     /// </summary>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException"><paramref name="localizer"/> is <see langword="null"/>.</exception>
     public ResetUserPasswordPasswordValidator(IStringLocalizer<ResourceMain> localizer)
     {
@@ -161,6 +168,8 @@ internal sealed class ResetUserPasswordIdentifierValidator : AbstractValidator<C
     ///     Initializes a new instance of the <see cref="ResetUserPasswordIdentifierValidator" /> class with repository and
     ///     localization dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to verify user identity during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -194,6 +203,8 @@ internal sealed class ResetUserPasswordIdentifierValidator : AbstractValidator<C
     /// <summary>
     ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
+    /// <param name="uuid">The unique identifier of the requesting user to verify existence for.</param>
+    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateIdentifier(Guid uuid)
     {
         var verification = new EntityVerificationByUuid<User>(uuid);
@@ -208,6 +219,8 @@ internal sealed class ResetUserPasswordIdentifierValidator : AbstractValidator<C
     /// <summary>
     ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
+    /// <param name="uuid">The unique identifier of the requesting user to check active status for.</param>
+    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
     private bool ValidateUserActive(Guid uuid)
     {
         var verification = new UserEnabledVerification(uuid);
@@ -241,6 +254,8 @@ internal sealed class ResetUserPasswordKeyValidator : AbstractValidator<CommandR
     ///     Initializes a new instance of the <see cref="ResetUserPasswordKeyValidator" /> class with repository and
     ///     localization dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to verify the target user's existence and state during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -274,6 +289,8 @@ internal sealed class ResetUserPasswordKeyValidator : AbstractValidator<CommandR
     /// <summary>
     ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
+    /// <param name="key">The unique identifier (key) of the target user to verify existence for.</param>
+    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateUserUuid(Guid key)
     {
         var verification = new EntityVerificationByUuid<User>(key);
@@ -288,6 +305,8 @@ internal sealed class ResetUserPasswordKeyValidator : AbstractValidator<CommandR
     /// <summary>
     ///     Validates that the user with the specified key is currently active (enabled).
     /// </summary>
+    /// <param name="key">The unique identifier (key) of the target user to check active status for.</param>
+    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
     private bool ValidateUserActive(Guid key)
     {
         var verification = new UserEnabledVerification(key);

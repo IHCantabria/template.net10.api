@@ -2,9 +2,9 @@
   "name": "{PROJECT_NAME_LOWERCASE}",
   "private": true,
   "scripts": {
-    "build:dev": "dotnet build {PROJECT_NAME}/{PROJECT_NAME}.csproj /p:DeployOnBuild=true /p:PublishProfile=dev",
-    "build:pre": "dotnet build {PROJECT_NAME}/{PROJECT_NAME}.csproj /p:DeployOnBuild=true /p:PublishProfile=pre",
-    "build:prod": "dotnet build {PROJECT_NAME}/{PROJECT_NAME}.csproj /p:DeployOnBuild=true /p:PublishProfile=prod",
+    "build:dev": "dotnet build {PROJECT_NAMESPACE}/{PROJECT_NAMESPACE}.csproj /p:DeployOnBuild=true /p:PublishProfile=dev",
+    "build:pre": "dotnet build {PROJECT_NAMESPACE}/{PROJECT_NAMESPACE}.csproj /p:DeployOnBuild=true /p:PublishProfile=pre",
+    "build:prod": "dotnet build {PROJECT_NAMESPACE}/{PROJECT_NAMESPACE}.csproj /p:DeployOnBuild=true /p:PublishProfile=prod",
     "deploy-major": "npm version major -m v%s",
     "deploy-minor": "npm version minor -m v%s",
     "deploy-patch": "npm version patch -m v%s",

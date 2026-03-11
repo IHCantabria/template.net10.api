@@ -25,11 +25,16 @@ Read and follow this steps after clone template repo and  before doing anything 
    - [ ] `BusinessConstants`
    - [ ] `appsettings.json` files
    - [ ] Renamed `template.net10.api.csproj`
+   - [ ] `package.json`
    Ex: MyProject.Api
 
 2. Replace `{PROJECT_NAME}` with the project name value. 
    - [ ] `Properties/launchSettings.json`
-   - [ ] `package.json`
+   - [ ] `appsettings.json` files
+   Ex: My Project Api
+
+3. Replace `{PROJECT_REPOSITORY_NAME}` with the repository project name value. 
+   - [ ] `appsettings.json` files
    Ex: MyProject.Api
 
 3. Replace `{PROJECT_GUID}` with a new GUID. Visual Studio -> Tools -> Create GUID.
@@ -50,7 +55,7 @@ Read and follow this steps after clone template repo and  before doing anything 
 
 ## CUSTOMIZE PACKAGE.JSON FILE
 
-1. Replace `{PROJECT_NAME_LOWERCASE}` with the project name value using only lowercase. 
+1. Replace `{PROJECT_NAMESPACE_LOWERCASE}` with the project namespace value using only lowercase. 
    Ex: myproject.api
 2. Remove the unused envs compile scripts(build:"env") and/or add custom envs compile scripts( Development, Pre, Prod...)
 
@@ -74,13 +79,17 @@ Read and follow this steps after clone template repo and  before doing anything 
 
 ## COMPLETE DEPLOY REQUIREMENTS FILE
 
-1. Replace `{PROJECT_NAME}` with the project name value.
+1. Replace `{PROJECT_NAMESPACE}` with the project namespace value.
    Ex: MyProject.Api
-2. Replace `{SUBDOMAIN_API}` with the choosed dns subdomain value.
+2. Replace `{PROJECT_NAME}` with the project name value.
+   Ex: My Project Api
+3. Replace `{PROJECT_REPOSITORY_NAME}` with the repository project name value.
+   Ex: MyProject.Api
+4. Replace `{SUBDOMAIN_API}` with the choosed dns subdomain value.
    Ex: apimyapi
-3. Remove the unused envs config and/or add custom envs config( Development, Pre, Prod...)
-4. Add the Env variables needed for the Business/Infraestructure logic.
-5. Make the specific changes needed for your Business/Infraestructure logic.
+5. Remove the unused envs config and/or add custom envs config( Development, Pre, Prod...)
+6. Add the Env variables needed for the Business/Infraestructure logic.
+7. Make the specific changes needed for your Business/Infraestructure logic.
 
 ## CHECKS
 

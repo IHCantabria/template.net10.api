@@ -115,10 +115,12 @@ internal sealed class DisableUserIdentifierValidator : AbstractValidator<Command
     ///     Initializes a new instance of the <see cref="DisableUserIdentifierValidator" /> class with repository and
     ///     localization dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to verify user identity during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     <paramref name="repository" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     <paramref name="localizer" /> is <see langword="null" />.
     /// </exception>
     public DisableUserIdentifierValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -148,6 +150,8 @@ internal sealed class DisableUserIdentifierValidator : AbstractValidator<Command
     /// <summary>
     ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
+    /// <param name="uuid">The unique identifier of the user to verify existence for.</param>
+    /// <returns><see langword="true" /> if the user exists; otherwise, <see langword="false" />.</returns>
     private bool ValidateIdentifier(Guid uuid)
     {
         var verification = new EntityVerificationByUuid<User>(uuid);
@@ -162,6 +166,8 @@ internal sealed class DisableUserIdentifierValidator : AbstractValidator<Command
     /// <summary>
     ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
+    /// <param name="uuid">The unique identifier of the user to check active status for.</param>
+    /// <returns><see langword="true" /> if the user is active; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserActive(Guid uuid)
     {
         var verification = new UserEnabledVerification(uuid);
@@ -194,10 +200,12 @@ internal sealed class DisableUserUserValidator : AbstractValidator<CommandDisabl
     ///     Initializes a new instance of the <see cref="DisableUserUserValidator" /> class with repository and localization
     ///     dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to verify user existence and state during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     <paramref name="repository" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     <paramref name="localizer" /> is <see langword="null" />.
     /// </exception>
     public DisableUserUserValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -227,6 +235,8 @@ internal sealed class DisableUserUserValidator : AbstractValidator<CommandDisabl
     /// <summary>
     ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
+    /// <param name="userUuid">The unique identifier of the user to validate existence for.</param>
+    /// <returns><see langword="true" /> if the user exists; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserUuid(Guid userUuid)
     {
         var verification = new EntityVerificationByUuid<User>(userUuid);
@@ -241,6 +251,8 @@ internal sealed class DisableUserUserValidator : AbstractValidator<CommandDisabl
     /// <summary>
     ///     Validates that the user with the specified UUID is not already disabled.
     /// </summary>
+    /// <param name="userUuid">The unique identifier of the user to check disabled state for.</param>
+    /// <returns><see langword="true" /> if the user is not already disabled; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserDisabled(Guid userUuid)
     {
         var verification = new UserDisabledVerification(userUuid);

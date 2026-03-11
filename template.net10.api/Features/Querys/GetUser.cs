@@ -88,6 +88,8 @@ internal sealed class GetUserKeyValidator : AbstractValidator<QueryGetUser>
     /// <summary>
     ///     Initializes a new instance of the <see cref="GetUserKeyValidator"/> class with repository and localization dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to verify user existence during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -114,6 +116,8 @@ internal sealed class GetUserKeyValidator : AbstractValidator<QueryGetUser>
     /// <summary>
     ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
+    /// <param name="key">The unique identifier of the user to verify existence for.</param>
+    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateUserUuid(Guid key)
     {
         var verification = new EntityVerificationByUuid<User>(key);

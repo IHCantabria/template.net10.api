@@ -109,6 +109,8 @@ internal sealed class UpdateUserRoleValidator : AbstractValidator<CommandUpdateU
     ///     Initializes a new instance of the <see cref="UpdateUserRoleValidator" /> class with repository and localization
     ///     dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to query role data during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -134,6 +136,8 @@ internal sealed class UpdateUserRoleValidator : AbstractValidator<CommandUpdateU
     /// <summary>
     ///     Validates that the specified role identifier exists in the database.
     /// </summary>
+    /// <param name="roleId">The numeric identifier of the role to validate.</param>
+    /// <returns><see langword="true"/> if the role exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateRoleId(short roleId)
     {
         var verification = new EntityVerificationById<Role, short>(roleId);
@@ -166,6 +170,8 @@ internal sealed class UpdateUserEmailValidator : AbstractValidator<CommandUpdate
     ///     Initializes a new instance of the <see cref="UpdateUserEmailValidator" /> class with repository and localization
     ///     dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to query user data during email validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -198,6 +204,8 @@ internal sealed class UpdateUserEmailValidator : AbstractValidator<CommandUpdate
     /// <summary>
     ///     Validates that the provided email is not already registered by another user in the system.
     /// </summary>
+    /// <param name="email">The email address to validate for uniqueness.</param>
+    /// <returns><see langword="true"/> if the email is not used by another user; otherwise, <see langword="false"/>.</returns>
     private bool ValidateEmail(string email)
     {
         var verification = new UserEmailVerification(email);
@@ -231,6 +239,8 @@ internal sealed class UpdateUserIdentifierValidator : AbstractValidator<CommandU
     ///     Initializes a new instance of the <see cref="UpdateUserIdentifierValidator" /> class with repository and
     ///     localization dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to verify user identity during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -264,6 +274,8 @@ internal sealed class UpdateUserIdentifierValidator : AbstractValidator<CommandU
     /// <summary>
     ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
+    /// <param name="uuid">The unique identifier of the user to verify existence for.</param>
+    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateIdentifier(Guid uuid)
     {
         var verification = new EntityVerificationByUuid<User>(uuid);
@@ -278,6 +290,8 @@ internal sealed class UpdateUserIdentifierValidator : AbstractValidator<CommandU
     /// <summary>
     ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
+    /// <param name="uuid">The unique identifier of the user to check active status for.</param>
+    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
     private bool ValidateUserActive(Guid uuid)
     {
         var verification = new UserEnabledVerification(uuid);
@@ -310,6 +324,8 @@ internal sealed class UpdateUserKeyValidator : AbstractValidator<CommandUpdateUs
     ///     Initializes a new instance of the <see cref="UpdateUserKeyValidator" /> class with repository and localization
     ///     dependencies.
     /// </summary>
+    /// <param name="repository">The read-only repository used to verify user existence during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="repository"/> is <see langword="null"/>.
     ///     -or-
@@ -336,6 +352,8 @@ internal sealed class UpdateUserKeyValidator : AbstractValidator<CommandUpdateUs
     /// <summary>
     ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
+    /// <param name="key">The unique identifier of the user to validate existence for.</param>
+    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateUserUuid(Guid key)
     {
         var verification = new EntityVerificationByUuid<User>(key);

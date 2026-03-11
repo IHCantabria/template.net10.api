@@ -167,6 +167,8 @@ internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser
     /// <summary>
     ///     Validates that the user associated with the specified email is currently active (enabled).
     /// </summary>
+    /// <param name="email">The email address of the user to check active status for.</param>
+    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
     private bool ValidateUserActive(string email)
     {
         var verification = new UserEnabledVerification(email);
@@ -181,6 +183,8 @@ internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser
     /// <summary>
     ///     Validates that a user account with the specified email exists in the system.
     /// </summary>
+    /// <param name="email">The email address to verify existence for.</param>
+    /// <returns><see langword="true"/> if a user with the given email exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateEmail(string email)
     {
         var verification = new UserEmailVerification(email);
@@ -195,6 +199,8 @@ internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser
     /// <summary>
     ///     Validates the user's password by retrieving credentials from the database and verifying against the provided password.
     /// </summary>
+    /// <param name="queryParams">The login query parameters containing the email and password to verify.</param>
+    /// <returns><see langword="true"/> if the provided password matches the stored credentials; otherwise, <see langword="false"/>.</returns>
     private bool ValidatePassword(QueryLoginUserParamsDto queryParams)
     {
         var specification = new UserReadByEmailSpecification(queryParams.Email);

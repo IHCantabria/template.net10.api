@@ -132,6 +132,9 @@ internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUse
     /// <summary>
     ///     Initializes a new instance of the <see cref="AccessUserUuidValidator"/> class with repositories and localization dependencies.
     /// </summary>
+    /// <param name="roleRepository">The read-only repository used to verify <see cref="Role"/> entities during validation.</param>
+    /// <param name="userRepository">The read-only repository used to verify <see cref="User"/> entities during validation.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="roleRepository"/> is <see langword="null"/>.
     ///     -or-
@@ -187,6 +190,8 @@ internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUse
     /// <summary>
     ///     Validates that the user identified by the UUID is currently active (enabled).
     /// </summary>
+    /// <param name="key">The unique identifier of the user to check active status for.</param>
+    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
     private bool ValidateTokenUserActive(Guid key)
     {
         var verification = new UserEnabledVerification(key);
@@ -201,6 +206,8 @@ internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUse
     /// <summary>
     ///     Validates that the specified role name exists in the system.
     /// </summary>
+    /// <param name="roleName">The name of the role to verify existence for.</param>
+    /// <returns><see langword="true"/> if the role exists; otherwise, <see langword="false"/>.</returns>
     private bool ValidateTokenUserRole(string roleName)
     {
         var verification = new EntityVerificationByNameKey<Role>(roleName);
