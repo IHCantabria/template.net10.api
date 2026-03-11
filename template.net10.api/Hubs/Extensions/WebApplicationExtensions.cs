@@ -3,14 +3,14 @@
 namespace template.net10.api.Hubs.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for <see cref="WebApplication"/> to configure SignalR hub endpoint mappings.
 /// </summary>
 internal static class WebApplicationExtensions
 {
     extension(WebApplication app)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Maps all SignalR hub endpoints to the application pipeline with stateful reconnect support.
         /// </summary>
         internal void ConfigureHubs()
         {

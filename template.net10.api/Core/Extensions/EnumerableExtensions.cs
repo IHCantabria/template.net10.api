@@ -4,7 +4,7 @@ using LanguageExt;
 namespace template.net10.api.Core.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for <see cref="IEnumerable{T}"/> to find minimum and maximum elements and values.
 /// </summary>
 [SuppressMessage(
     "ReSharper",
@@ -17,8 +17,13 @@ namespace template.net10.api.Core.Extensions;
 internal static class EnumerableExtensions
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Finds the minimum value produced by applying a valuation function to each element in the enumerator.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the enumerator.</typeparam>
+    /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+    /// <param name="enumerator">The enumerator to traverse.</param>
+    /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+    /// <returns>The minimum value found in the sequence.</returns>
     private static TR FindMinValue<T, TR>(IEnumerator<T> enumerator, Func<T, TR> valuingFoo)
         where TR : IComparable
     {
@@ -36,8 +41,14 @@ internal static class EnumerableExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Finds the element whose valuation function produces the specified minimum value.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the enumerator.</typeparam>
+    /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+    /// <param name="enumerator">The enumerator to traverse (will be reset).</param>
+    /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+    /// <param name="minValue">The minimum value to match against.</param>
+    /// <returns>The first element whose valuation equals <paramref name="minValue"/>.</returns>
     private static T FindMinElement<T, TR>(IEnumerator<T> enumerator, Func<T, TR> valuingFoo, TR minValue)
         where TR : IComparable
     {
@@ -53,8 +64,13 @@ internal static class EnumerableExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Finds the maximum value produced by applying a valuation function to each element in the enumerator.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the enumerator.</typeparam>
+    /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+    /// <param name="enumerator">The enumerator to traverse.</param>
+    /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+    /// <returns>The maximum value found in the sequence.</returns>
     private static TR FindMaxValue<T, TR>(IEnumerator<T> enumerator, Func<T, TR> valuingFoo)
         where TR : IComparable
     {
@@ -72,8 +88,14 @@ internal static class EnumerableExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Finds the element whose valuation function produces the specified maximum value.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the enumerator.</typeparam>
+    /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+    /// <param name="enumerator">The enumerator to traverse (will be reset).</param>
+    /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+    /// <param name="maxValue">The maximum value to match against.</param>
+    /// <returns>The first element whose valuation equals <paramref name="maxValue"/>.</returns>
     private static T FindMaxElement<T, TR>(IEnumerator<T> enumerator, Func<T, TR> valuingFoo, TR maxValue)
         where TR : IComparable
     {
@@ -89,8 +111,13 @@ internal static class EnumerableExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Finds all elements whose valuation function produces the maximum value in the sequence.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the enumerator.</typeparam>
+    /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+    /// <param name="enumerator">The enumerator to traverse.</param>
+    /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+    /// <returns>A list of all elements sharing the maximum value.</returns>
     private static List<T> FindMaxElements<T, TR>(IEnumerator<T> enumerator,
         Func<T, TR> valuingFoo)
         where TR : IComparable
@@ -103,8 +130,14 @@ internal static class EnumerableExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Finds all elements whose valuation function matches the specified maximum value.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the enumerator.</typeparam>
+    /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+    /// <param name="enumerator">The enumerator to traverse (will be reset).</param>
+    /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+    /// <param name="maxValue">The maximum value to match against.</param>
+    /// <returns>A list of all elements whose valuation equals <paramref name="maxValue"/>.</returns>
     private static List<T> FindMaxElements<T, TR>(IEnumerator<T> enumerator, Func<T, TR> valuingFoo, TR maxValue)
         where TR : IComparable
     {
@@ -122,8 +155,13 @@ internal static class EnumerableExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Collects all maximum values from the enumerator by comparing each element's valuation.
     /// </summary>
+    /// <typeparam name="T">The type of elements in the enumerator.</typeparam>
+    /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+    /// <param name="enumerator">The enumerator to traverse.</param>
+    /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+    /// <returns>A list of all values that share the maximum rank.</returns>
     private static List<TR> FindMaxValues<T, TR>(IEnumerator<T> enumerator, Func<T, TR> valuingFoo)
         where TR : IComparable
     {
@@ -152,8 +190,11 @@ internal static class EnumerableExtensions
     extension<T>(IEnumerable<T> container)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Returns all elements from the collection that share the maximum value as determined by the valuation function.
         /// </summary>
+        /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+        /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+        /// <returns>A <see cref="LanguageExt.Try{A}"/> containing the elements with the maximum value.</returns>
         /// <exception cref="InvalidOperationException">The collection was modified after the enumerator was created.</exception>
         /// <exception cref="ArgumentException">Container is empty!</exception>
         internal Try<IEnumerable<T>> MaxElements<TR>(Func<T, TR> valuingFoo)
@@ -173,8 +214,11 @@ internal static class EnumerableExtensions
     extension<T>(IEnumerable<T> container)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Returns the single element from the collection that has the maximum value as determined by the valuation function.
         /// </summary>
+        /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+        /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+        /// <returns>A <see cref="LanguageExt.Try{A}"/> containing the element with the maximum value.</returns>
         /// <exception cref="InvalidOperationException">The collection was modified after the enumerator was created.</exception>
         /// <exception cref="NotSupportedException">The enumerator does not support being reset.</exception>
         internal Try<T> MaxElement<TR>(Func<T, TR> valuingFoo)
@@ -197,8 +241,11 @@ internal static class EnumerableExtensions
     extension<T>(IEnumerable<T> container)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Returns the single element from the collection that has the minimum value as determined by the valuation function.
         /// </summary>
+        /// <typeparam name="TR">The comparable type returned by the valuation function.</typeparam>
+        /// <param name="valuingFoo">The function that extracts a comparable value from each element.</param>
+        /// <returns>A <see cref="LanguageExt.Try{A}"/> containing the element with the minimum value.</returns>
         /// <exception cref="InvalidOperationException">The collection was modified after the enumerator was created.</exception>
         /// <exception cref="NotSupportedException">The enumerator does not support being reset.</exception>
         internal Try<T> MinElement<TR>(Func<T, TR> valuingFoo)

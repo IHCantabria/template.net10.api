@@ -21,7 +21,7 @@ internal sealed class GenericDbRepositoryWriteContext<TDbContext, TEntity>(
     where TDbContext : DbContext where TEntity : class, IEntity
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The tracked <see cref="DbSet{TEntity}"/> for <typeparamref name="TEntity"/> obtained from the write context.
     /// </summary>
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
@@ -292,8 +292,12 @@ internal sealed class GenericDbRepositoryWriteContext<TDbContext, TEntity>(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Builds an <see cref="IQueryable{T}"/> that executes a stored procedure on <typeparamref name="TEntity"/>.
+    ///     Called on the write context's tracked <see cref="DbSet{TEntity}"/>.
     /// </summary>
+    /// <param name="procedureName">The name of the stored procedure to execute.</param>
+    /// <param name="parameters">Parameters passed to the stored procedure.</param>
+    /// <returns>An <see cref="IQueryable{T}"/> over the procedure result set.</returns>
     private IQueryable<TEntity> PrepareProcedureQueryable(string procedureName, params object[] parameters)
     {
         return Context.Set<TEntity>().FromSql($"{procedureName} {parameters}");
@@ -309,7 +313,8 @@ internal sealed class GenericDbRepositoryReadContext<TDbContext, TEntity>(
     where TDbContext : DbContext where TEntity : class, IEntity
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The factory used to create short-lived, read-only <typeparamref name="TDbContext"/> instances
+    ///     for stateless read operations.
     /// </summary>
     private readonly IDbContextFactory<TDbContext> _dbContextFactory =
         dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
@@ -533,8 +538,10 @@ internal sealed class GenericDbRepositoryReadContext<TDbContext, TEntity>(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates and returns a short-lived <typeparamref name="TDbContext"/> instance from the factory.
+    ///     The caller is responsible for disposing it.
     /// </summary>
+    /// <returns>A new <typeparamref name="TDbContext"/> instance.</returns>
     [MustDisposeResource]
     private TDbContext CreateDbContext()
     {
@@ -542,8 +549,12 @@ internal sealed class GenericDbRepositoryReadContext<TDbContext, TEntity>(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Builds an <see cref="IQueryable{T}"/> that executes a stored procedure on a freshly created context.
+    ///     Used by the read-only (stateless) context path.
     /// </summary>
+    /// <param name="procedureName">The name of the stored procedure to execute.</param>
+    /// <param name="parameters">Parameters passed to the stored procedure.</param>
+    /// <returns>An <see cref="IQueryable{T}"/> over the procedure result set.</returns>
     private IQueryable<TEntity> PrepareProcedureQueryable(string procedureName, params object[] parameters)
     {
         using var context = CreateDbContext();

@@ -1,18 +1,22 @@
 ﻿namespace template.net10.api.Settings.Middlewares;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Middleware that appends security-related HTTP response headers (CSP, X-Content-Type-Options,
+///     X-Frame-Options, Referrer-Policy, Permissions-Policy) to every response to harden the API
+///     against common browser-based attacks.
 /// </summary>
 internal sealed class SecurityHeadersMiddleware(RequestDelegate next)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The next middleware delegate in the request pipeline.
     /// </summary>
     private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers a response-starting callback that sets all security headers, then forwards the request.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>A <see cref="Task"/> that completes when the request pipeline finishes.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="context" /> is <see langword="null" />.</exception>
     /// <exception cref="Exception">A delegate callback throws an exception.</exception>
     public Task InvokeAsync(HttpContext context)
@@ -30,8 +34,9 @@ internal sealed class SecurityHeadersMiddleware(RequestDelegate next)
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Sets all security response headers on the current <paramref name="context"/> response.
     /// </summary>
+    /// <param name="context">The current HTTP context whose response headers are to be set.</param>
     private static void SetSecurityHeaders(HttpContext context)
     {
         // Content-Security-Policy Header
@@ -55,8 +60,10 @@ internal sealed class SecurityHeadersMiddleware(RequestDelegate next)
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Builds the <c>Content-Security-Policy</c> header value restricting script, style, image,
+    ///     font, and connection sources to trusted origins only.
     /// </summary>
+    /// <returns>The CSP directive string.</returns>
     private static string BuildCsp()
     {
         return string.Join(' ',

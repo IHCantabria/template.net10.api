@@ -5,13 +5,16 @@ using HotChocolate.Resolvers;
 namespace template.net10.api.Core.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for <see cref="IResolverContext" /> to extract GraphQL field selection information.
 /// </summary>
 internal static class ResolverContextExtensions
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Recursively visits a GraphQL field selection node and populates the selected fields tree.
     /// </summary>
+    /// <param name="fieldNode">The GraphQL field node to visit.</param>
+    /// <param name="tree">The dictionary tree mapping parent paths to their selected field names.</param>
+    /// <param name="parentPath">The dot-separated path of the parent field in the selection hierarchy.</param>
     private static void VisitSelection(FieldNode fieldNode, Dictionary<string, HashSet<string>> tree, string parentPath)
     {
         var currentPath = string.IsNullOrEmpty(parentPath)
@@ -35,8 +38,9 @@ internal static class ResolverContextExtensions
     extension(IResolverContext context)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Builds a hierarchical tree of selected GraphQL fields from the current resolver context.
         /// </summary>
+        /// <returns>A dictionary mapping dot-separated field paths to their selected leaf field names.</returns>
         [SuppressMessage(
             "ReSharper",
             "ExceptionNotDocumentedOptional",

@@ -151,21 +151,18 @@
     <value>La petición está bien formada, pero uno de los valores no es correcto. Cámbielo antes de volver a intentarlo.</value>
   </data>
   <data name="BE-R-E-429" xml:space="preserve">
-    <value>Está sobrepasando el límite de peticiones que puede gestionar la API. Reduzca el ritmo de peticiones y esperé unos minutos antes de continuar.</value>
+    <value>Está sobrepasando el límite de peticiones que puede gestionar la API. Reduzca el ritmo de peticiones y espere unos minutos antes de continuar.</value>
   </data>
   <data name="BE-R-E-500" xml:space="preserve">
-    <value>Se ha producido un error en el servidor, esperé unos minutos. Si el error persiste, contacte con IH-IT.</value>
+    <value>Se ha producido un error en el servidor, espere unos minutos. Si el error persiste, contacte con IH-IT.</value>
   </data>
   <data name="BE-R-E-501" xml:space="preserve">
     <value>Estamos trabajando en ello.</value>
   </data>
-  <data name="BE-R-EV-001" xml:space="preserve">
-    <value>La petición presenta varios errores de validación, resuélvalos antes de volver a intentarlo.</value>
-  </data>
-  <data name="BE-R-EV-002" xml:space="preserve">
+  <data name="BE-R-V-001" xml:space="preserve">
     <value>El fichero JSON de la petición está malformado, revíselo antes de volver a intentarlo.</value>
   </data>
-  <data name="BE-R-EV-003" xml:space="preserve">
+  <data name="BE-R-V-002" xml:space="preserve">
     <value>El fichero JSON de la petición está bien formado, pero no cumple el contrato expuesto por la API. Revise el contrato y el JSON antes de volver a intentarlo.</value>
   </data>
   <data name="BE-BROKEN-ARROW" xml:space="preserve">
@@ -179,5 +176,86 @@
   </data>
   <data name="BE-R-E-004" xml:space="preserve">
     <value>El acceso requiere un token de acceso</value>
+  </data>
+  <data name="BE-R-V-CU-001" xml:space="preserve">
+    <value>Los campos contraseña y confirmación de contraseña deben coincidir.</value>
+  </data>
+  <data name="BE-R-V-CU-002" xml:space="preserve">
+    <value>La dirección de correo electrónico proporcionada no es válida.</value>
+  </data>
+  <data name="BE-R-V-CU-003" xml:space="preserve">
+    <value>La dirección de correo electrónico proporcionada ya está en uso.</value>
+  </data>
+  <data name="BE-R-V-CU-004" xml:space="preserve">
+    <value>El rol especificado no existe.</value>
+  </data>
+  <data name="BE-R-V-I-001" xml:space="preserve">
+    <value>No se encontró el usuario asociado al token.</value>
+  </data>
+  <data name="BE-R-V-I-002" xml:space="preserve">
+    <value>El usuario asociado al token está deshabilitado.</value>
+  </data>
+  <data name="BE-R-V-DEU-001" xml:space="preserve">
+    <value>No se encontró el usuario especificado.</value>
+  </data>
+  <data name="BE-R-V-DIU-001" xml:space="preserve">
+    <value>El usuario ya está deshabilitado.</value>
+  </data>
+  <data name="BE-R-V-DIU-002" xml:space="preserve">
+    <value>No se encontró el usuario especificado.</value>
+  </data>
+  <data name="BE-R-V-EU-001" xml:space="preserve">
+    <value>No se encontró el usuario especificado.</value>
+  </data>
+  <data name="BE-R-V-EU-002" xml:space="preserve">
+    <value>El usuario ya está habilitado.</value>
+  </data>
+  <data name="BE-R-V-RUP-001" xml:space="preserve">
+    <value>Los campos contraseña y confirmación de contraseña deben coincidir.</value>
+  </data>
+  <data name="BE-R-V-RUP-002" xml:space="preserve">
+    <value>El usuario especificado está deshabilitado.</value>
+  </data>
+  <data name="BE-R-V-RUP-003" xml:space="preserve">
+    <value>No se encontró el usuario especificado.</value>
+  </data>
+  <data name="BE-R-V-UU-001" xml:space="preserve">
+    <value>El rol especificado no existe.</value>
+  </data>
+  <data name="BE-R-V-UU-002" xml:space="preserve">
+    <value>La dirección de correo electrónico proporcionada ya está en uso.</value>
+  </data>
+  <data name="BE-R-V-UU-003" xml:space="preserve">
+    <value>La dirección de correo electrónico proporcionada no es válida.</value>
+  </data>
+  <data name="BE-R-V-UU-004" xml:space="preserve">
+    <value>No se encontró el usuario especificado.</value>
+  </data>
+  <data name="BE-R-V-AU-001" xml:space="preserve">
+    <value>Falta el identificador del usuario.</value>
+  </data>
+  <data name="BE-R-V-AU-002" xml:space="preserve">
+    <value>El identificador del usuario no puede estar vacío.</value>
+  </data>
+  <data name="BE-R-V-AU-003" xml:space="preserve">
+    <value>El usuario especificado está deshabilitado.</value>
+  </data>
+  <data name="BE-R-V-AU-004" xml:space="preserve">
+    <value>El rol especificado no es válido para esta operación.</value>
+  </data>
+  <data name="BE-R-V-GU-001" xml:space="preserve">
+    <value>No se encontró el usuario especificado.</value>
+  </data>
+  <data name="BE-R-V-LU-001" xml:space="preserve">
+    <value>La dirección de correo electrónico proporcionada no es válida.</value>
+  </data>
+  <data name="BE-R-V-LU-002" xml:space="preserve">
+    <value>No se encontró ningún usuario con la dirección de correo electrónico proporcionada.</value>
+  </data>
+  <data name="BE-R-V-LU-003" xml:space="preserve">
+    <value>El usuario especificado está deshabilitado.</value>
+  </data>
+  <data name="BE-R-V-LU-004" xml:space="preserve">
+    <value>La contraseña proporcionada es incorrecta.</value>
   </data>
 </root>

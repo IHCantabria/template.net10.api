@@ -6,7 +6,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Core.Geometries.Contracts;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the input contract for creating an extent (bounding box) defined by geographic WGS84 coordinates.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -16,32 +16,32 @@ public sealed partial record CreateExtentResource : IPublicApiContract,
     IEqualityOperators<CreateExtentResource, CreateExtentResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Minimum longitude boundary of the extent in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal LonMin { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Maximum longitude boundary of the extent in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal LonMax { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Minimum latitude boundary of the extent in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal LatMin { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Maximum latitude boundary of the extent in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal LatMax { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an extent (bounding box) defined by geographic WGS84 coordinates. Used as a read response contract.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -50,32 +50,32 @@ public sealed partial record CreateExtentResource : IPublicApiContract,
 public sealed record ExtentResource : IPublicApiContract, IEqualityOperators<ExtentResource, ExtentResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Minimum longitude boundary of the extent in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal LonMin { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Maximum longitude boundary of the extent in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal LonMax { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Minimum latitude boundary of the extent in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal LatMin { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Maximum latitude boundary of the extent in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal LatMax { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the input contract for creating a geographic point in WGS84 coordinates.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -85,20 +85,20 @@ public sealed partial record CreatePointResource : IPublicApiContract,
     IEqualityOperators<CreatePointResource, CreatePointResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Longitude of the point in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal Lon { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Latitude of the point in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public required decimal Lat { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a geographic point in WGS84 coordinates. Used as a read response contract.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -107,19 +107,19 @@ public sealed partial record CreatePointResource : IPublicApiContract,
 public sealed record PointResource : IPublicApiContract, IEqualityOperators<PointResource, PointResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Unique identifier of the point.
     /// </summary>
     [JsonRequired]
     public required Guid Uuid { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Longitude of the point in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public decimal? Lon { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Latitude of the point in WGS84 coordinates.
     /// </summary>
     [JsonRequired]
     public decimal? Lat { get; init; }

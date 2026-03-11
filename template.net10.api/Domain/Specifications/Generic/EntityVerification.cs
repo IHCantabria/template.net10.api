@@ -5,14 +5,17 @@ using template.net10.api.Persistence.Models.Interfaces;
 namespace template.net10.api.Domain.Specifications.Generic;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether an entity with the given primary key exists.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithId{TKey}" />.</typeparam>
+/// <typeparam name="TKey">The type of the entity's primary key.</typeparam>
 internal sealed class EntityVerificationById<TEntity, TKey> : VerificationBase<TEntity>
     where TEntity : class, IEntityWithId<TKey> where TKey : struct
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by the specified entity identifier.
     /// </summary>
+    /// <param name="id">The primary key value to verify existence for.</param>
     internal EntityVerificationById(TKey id)
     {
         AddFilter(e => e.Id.Equals(id));
@@ -20,8 +23,10 @@ internal sealed class EntityVerificationById<TEntity, TKey> : VerificationBase<T
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether entities with the given primary keys exist.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithId{TKey}" />.</typeparam>
+/// <typeparam name="TKey">The type of the entity's primary key.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -31,8 +36,12 @@ internal sealed class EntitiesVerificationByIds<TEntity, TKey> : VerificationBas
     where TEntity : class, IEntityWithId<TKey> where TKey : struct
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance, optionally filtering by the specified collection of entity identifiers.
     /// </summary>
+    /// <param name="entityIds">
+    ///     An optional collection of primary key values. When <see langword="null" />, no filter is
+    ///     applied.
+    /// </param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -48,8 +57,9 @@ internal sealed class EntitiesVerificationByIds<TEntity, TKey> : VerificationBas
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether an entity with the given DataHub identifier exists.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithDatahubId" />.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -59,8 +69,9 @@ internal sealed class EntityVerificationByDatahubId<TEntity> : VerificationBase<
     where TEntity : class, IEntityWithDatahubId
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by the specified DataHub identifier.
     /// </summary>
+    /// <param name="id">The DataHub identifier to verify existence for.</param>
     internal EntityVerificationByDatahubId(short id)
     {
         AddFilter(e => e.DatahubId == id);
@@ -68,8 +79,9 @@ internal sealed class EntityVerificationByDatahubId<TEntity> : VerificationBase<
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether entities with the given DataHub identifiers exist.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithDatahubId" />.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -79,8 +91,12 @@ internal sealed class EntitiesVerificationByDatahubIds<TEntity> : VerificationBa
     where TEntity : class, IEntityWithDatahubId
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance, optionally filtering by the specified collection of DataHub identifiers.
     /// </summary>
+    /// <param name="entityIds">
+    ///     An optional collection of DataHub identifiers. When <see langword="null" />, no filter is
+    ///     applied.
+    /// </param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -96,14 +112,16 @@ internal sealed class EntitiesVerificationByDatahubIds<TEntity> : VerificationBa
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether an entity with the given UUID exists.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithUuid" />.</typeparam>
 internal sealed class EntityVerificationByUuid<TEntity> : VerificationBase<TEntity>
     where TEntity : class, IEntityWithUuid
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by the specified UUID.
     /// </summary>
+    /// <param name="uuid">The UUID to verify existence for.</param>
     internal EntityVerificationByUuid(Guid uuid)
     {
         AddFilter(e => e.Uuid == uuid);
@@ -111,8 +129,9 @@ internal sealed class EntityVerificationByUuid<TEntity> : VerificationBase<TEnti
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether entities with the given UUIDs exist.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithUuid" />.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -122,8 +141,9 @@ internal sealed class EntitiesVerificationByUuids<TEntity> : VerificationBase<TE
     where TEntity : class, IEntityWithUuid
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance, optionally filtering by the specified collection of UUIDs.
     /// </summary>
+    /// <param name="entityUuids">An optional collection of UUID strings. When <see langword="null" />, no filter is applied.</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -139,14 +159,16 @@ internal sealed class EntitiesVerificationByUuids<TEntity> : VerificationBase<TE
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether an entity with the given name key exists.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithNameKey" />.</typeparam>
 internal sealed class EntityVerificationByNameKey<TEntity> : VerificationBase<TEntity>
     where TEntity : class, IEntityWithNameKey
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by the specified name key.
     /// </summary>
+    /// <param name="name">The name key to verify existence for.</param>
     internal EntityVerificationByNameKey(string name)
     {
         AddFilter(e => e.Name == name);
@@ -154,8 +176,9 @@ internal sealed class EntityVerificationByNameKey<TEntity> : VerificationBase<TE
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether entities with the given name keys exist.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithNameKey" />.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -165,8 +188,9 @@ internal sealed class EntitiesVerificationByNameKeys<TEntity> : VerificationBase
     where TEntity : class, IEntityWithNameKey
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance, optionally filtering by the specified collection of name keys.
     /// </summary>
+    /// <param name="entityNames">An optional collection of name keys. When <see langword="null" />, no filter is applied.</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -182,8 +206,9 @@ internal sealed class EntitiesVerificationByNameKeys<TEntity> : VerificationBase
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether an entity with the given name exists.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithName" />.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -193,8 +218,9 @@ internal sealed class EntityVerificationByName<TEntity> : VerificationBase<TEnti
     where TEntity : class, IEntityWithName
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by the specified entity name.
     /// </summary>
+    /// <param name="name">The name to verify existence for.</param>
     internal EntityVerificationByName(string name)
     {
         AddFilter(e => e.Name == name);
@@ -202,8 +228,9 @@ internal sealed class EntityVerificationByName<TEntity> : VerificationBase<TEnti
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether entities with the given names exist.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithNameKey" />.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -213,8 +240,9 @@ internal sealed class EntitiesVerificationByNames<TEntity> : VerificationBase<TE
     where TEntity : class, IEntityWithNameKey
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance, optionally filtering by the specified collection of entity names.
     /// </summary>
+    /// <param name="entityNames">An optional collection of entity names. When <see langword="null" />, no filter is applied.</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",

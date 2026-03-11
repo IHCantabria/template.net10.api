@@ -8,7 +8,8 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Settings.PipelineConfigurators;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Pipeline configurator that registers the API documentation and GraphQL IDE middleware:
+///     Swagger UI, ReDoc, and Banana Cake Pop. Load order: 2.
 /// </summary>
 [UsedImplicitly]
 internal sealed class UiConfigurator : IPipelineConfigurator
@@ -29,8 +30,9 @@ internal sealed class UiConfigurator : IPipelineConfigurator
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers Swagger JSON endpoint and Swagger UI middleware using values from <see cref="SwaggerOptions" />.
     /// </summary>
+    /// <param name="app">The web application to configure.</param>
     private static void UseSwagger(WebApplication app)
     {
         //Get swagger configuration from service with strongly typed options object.
@@ -49,8 +51,9 @@ internal sealed class UiConfigurator : IPipelineConfigurator
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers the ReDoc documentation UI middleware using values from <see cref="ReDocOptions" />.
     /// </summary>
+    /// <param name="app">The web application to configure.</param>
     private static void UseReDoc(WebApplication app)
     {
         //Get ReDoc configuration from service with strongly typed options object.
@@ -66,8 +69,9 @@ internal sealed class UiConfigurator : IPipelineConfigurator
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Maps the GraphQL endpoint and activates the Banana Cake Pop IDE tool for interactive query exploration.
     /// </summary>
+    /// <param name="app">The endpoint route builder to map the GraphQL route on.</param>
     private static void UseBananaCakePop(IEndpointRouteBuilder app)
     {
         // Enable middleware to serve the GraphQL IDE.

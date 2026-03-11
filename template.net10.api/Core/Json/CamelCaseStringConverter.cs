@@ -5,13 +5,17 @@ using System.Text.Json.Serialization;
 namespace template.net10.api.Core.Json;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     JSON converter that transforms string values to camelCase during serialization and deserialization.
 /// </summary>
 internal sealed class CamelCaseStringConverter : JsonConverter<string>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Reads a JSON string token and returns its value converted to camelCase.
     /// </summary>
+    /// <param name="reader">The UTF-8 JSON reader to read from.</param>
+    /// <param name="typeToConvert">The type to convert.</param>
+    /// <param name="options">The serializer options.</param>
+    /// <returns>The camelCase string value, or <see langword="null"/> for a JSON null token.</returns>
     /// <exception cref="JsonException">Expected JSON string</exception>
     /// <exception cref="InvalidOperationException">
     ///     The JSON token value isn't a string (that is, not a <see cref="System.Text.Json.JsonTokenType.String" />,
@@ -30,8 +34,11 @@ internal sealed class CamelCaseStringConverter : JsonConverter<string>
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Writes a string value converted to camelCase into the JSON output.
     /// </summary>
+    /// <param name="writer">The UTF-8 JSON writer to write to.</param>
+    /// <param name="value">The string value to write in camelCase.</param>
+    /// <param name="options">The serializer options.</param>
     /// <exception cref="InvalidOperationException">
     ///     Validation is enabled, and the operation would result in writing invalid
     ///     JSON.
@@ -49,8 +56,10 @@ internal sealed class CamelCaseStringConverter : JsonConverter<string>
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Converts a string to camelCase by lowering its first character.
     /// </summary>
+    /// <param name="str">The string to convert.</param>
+    /// <returns>The camelCase string, or <see langword="null"/> if the input is null.</returns>
     [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase",
         Justification = "Lowercase normalization is required to implement camelCase naming rules.")]
     private static string? ToCamelCase(string? str)

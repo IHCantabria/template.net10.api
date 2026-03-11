@@ -7,7 +7,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Contracts;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the response resource containing access token data.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -17,32 +17,32 @@ public sealed record AccessTokenResource : IPublicApiContract,
     IEqualityOperators<AccessTokenResource, AccessTokenResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the JWT access token string.
     /// </summary>
     [JsonRequired]
     public required string AccessToken { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the type of the access token (e.g., Bearer).
     /// </summary>
     [JsonRequired]
     public required string AccessTokenType { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the refresh token string used to renew the access token.
     /// </summary>
     [JsonRequired]
     public required string RefreshToken { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the type of the refresh token.
     /// </summary>
     [JsonRequired]
     public required string RefreshTokenType { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the response resource containing identity token data.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -52,20 +52,20 @@ public sealed record IdTokenResource : IPublicApiContract,
     IEqualityOperators<IdTokenResource, IdTokenResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the identity token string.
     /// </summary>
     [JsonRequired]
     public required string IdToken { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the type of the identity token.
     /// </summary>
     [JsonRequired]
     public required string IdTokenType { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the response resource containing detailed user information.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -74,57 +74,57 @@ public sealed record IdTokenResource : IPublicApiContract,
 public sealed record UserResource : IPublicApiContract, IEqualityOperators<UserResource, UserResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the user.
     /// </summary>
     [JsonRequired]
     public required Guid Uuid { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the username of the user.
     /// </summary>
     [JsonRequired]
     public required string Username { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the email address of the user.
     /// </summary>
     [JsonRequired]
     [EmailAddress]
     public required string Email { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets a value indicating whether the user account is disabled.
     /// </summary>
     [JsonRequired]
     public required bool IsDisabled { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the identifier of the role assigned to the user.
     /// </summary>
     [JsonRequired]
     public short? RoleId { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the display name of the user's role.
     /// </summary>
     [JsonRequired]
     public string? RoleName { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the first name of the user.
     /// </summary>
     [JsonRequired]
     public string? FirstName { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the last name of the user.
     /// </summary>
     [JsonRequired]
     public string? LastName { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the response resource returned after creating a new user.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -134,50 +134,50 @@ public sealed record UserCreatedResource : IPublicApiContract,
     IEqualityOperators<UserCreatedResource, UserCreatedResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the newly created user.
     /// </summary>
     [JsonRequired]
     public required Guid Uuid { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the username of the created user.
     /// </summary>
     [JsonRequired]
     public required string Username { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the email address of the created user.
     /// </summary>
     [JsonRequired]
     public required string Email { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets a value indicating whether the created user account is disabled.
     /// </summary>
     [JsonRequired]
     public required bool IsDisabled { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the role identifier of the created user.
     /// </summary>
     [JsonRequired]
     public short? RoleId { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the first name of the created user.
     /// </summary>
     [JsonRequired]
     public string? FirstName { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the last name of the created user.
     /// </summary>
     [JsonRequired]
     public string? LastName { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the response resource returned after a user password reset.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -187,26 +187,26 @@ public sealed record UserResetedPasswordResource : IPublicApiContract,
     IEqualityOperators<UserResetedPasswordResource, UserResetedPasswordResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the user whose password was reset.
     /// </summary>
     [JsonRequired]
     public required Guid Uuid { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the new password value after the reset.
     /// </summary>
     [JsonRequired]
     public required string Password { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the email address of the user whose password was reset.
     /// </summary>
     [JsonRequired]
     public required string Email { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the response resource indicating the current state of a user account.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -216,19 +216,19 @@ public sealed record UserStateResource : IPublicApiContract,
     IEqualityOperators<UserStateResource, UserStateResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the user.
     /// </summary>
     [JsonRequired]
     public required Guid Uuid { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the username of the user.
     /// </summary>
     [JsonRequired]
     public required string Username { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets a value indicating whether the user account is disabled.
     /// </summary>
     [JsonRequired]
     public required bool IsDisabled { get; init; }

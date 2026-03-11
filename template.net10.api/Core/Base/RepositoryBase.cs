@@ -5,19 +5,25 @@ using template.net10.api.Logger;
 namespace template.net10.api.Core.Base;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Base class for repositories that require a database context for stateful data access operations.
 /// </summary>
 internal class StatefulRepositoryBase : RepositoryBase
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The Entity Framework database context used for data access operations.
     /// </summary>
     internal readonly DbContext Context;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="StatefulRepositoryBase"/> class.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <param name="context">The Entity Framework database context.</param>
+    /// <param name="logger">The logger instance for diagnostic output.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="context"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="logger"/> is <see langword="null"/>.
+    /// </exception>
     protected StatefulRepositoryBase(DbContext context, ILogger<StatefulRepositoryBase> logger) :
         base(logger)
     {
@@ -26,21 +32,22 @@ internal class StatefulRepositoryBase : RepositoryBase
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Base class for repositories that operate without a database context for stateless operations.
 /// </summary>
 internal class StatelessRepositoryBase : RepositoryBase
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="StatelessRepositoryBase"/> class.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <param name="logger">The logger instance for diagnostic output.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="logger"/> is <see langword="null"/>.</exception>
     protected StatelessRepositoryBase(ILogger<StatelessRepositoryBase> logger) : base(logger)
     {
     }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Abstract base class for all repository implementations, providing common logging infrastructure.
 /// </summary>
 [SuppressMessage(
     "ReSharper",
@@ -49,14 +56,15 @@ internal class StatelessRepositoryBase : RepositoryBase
 internal class RepositoryBase
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The logger instance used for diagnostic output in repository operations.
     /// </summary>
     internal readonly ILogger Logger;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="RepositoryBase"/> class.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <param name="logger">The logger instance for diagnostic output.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="logger"/> is <see langword="null"/>.</exception>
     protected RepositoryBase(ILogger<RepositoryBase> logger)
     {
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));

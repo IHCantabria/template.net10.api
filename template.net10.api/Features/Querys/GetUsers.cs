@@ -12,7 +12,7 @@ using template.net10.api.Persistence.Repositories.Interfaces;
 namespace template.net10.api.Features.Querys;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR query request to retrieve all users from the system.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -28,21 +28,23 @@ public sealed record QueryGetUsers : IRequest<LanguageExt.Common.Result<IEnumera
     IEqualityOperators<QueryGetUsers, QueryGetUsers, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="QueryGetUsers"/> request by retrieving all users from the database.
 /// </summary>
 internal sealed class QueryGetUsersHandler(
     IGenericDbRepositoryReadContext<AppDbContext, User> repository)
     : IRequestHandler<QueryGetUsers, LanguageExt.Common.Result<IEnumerable<UserDto>>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Read-only repository for querying <see cref="User"/> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the query by retrieving all users with a read specification and returning their projected DTOs.
     /// </summary>
+    /// <param name="request">The MediatR query request to retrieve all users.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultFaultedInvalidOperationException">
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method

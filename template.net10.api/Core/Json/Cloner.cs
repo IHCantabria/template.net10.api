@@ -7,7 +7,7 @@ using template.net10.api.Core.Extensions;
 namespace template.net10.api.Core.Json;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides deep cloning capabilities for objects using JSON serialization and deserialization.
 /// </summary>
 [SuppressMessage(
     "ReSharper",
@@ -20,13 +20,16 @@ namespace template.net10.api.Core.Json;
 internal static class Cloner
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Default JSON serializer options configured with core application settings.
     /// </summary>
     private static readonly JsonSerializerOptions Options = new JsonSerializerOptions().AddCoreOptions();
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a deep clone of the specified object by serializing and deserializing it as JSON.
     /// </summary>
+    /// <typeparam name="T">The type of the object to clone.</typeparam>
+    /// <param name="obj">The object to deep clone.</param>
+    /// <returns>A <see cref="LanguageExt.Try{T}"/> containing the cloned object or an exception.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -47,16 +50,22 @@ internal static class Cloner
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Serializes an object to its JSON string representation.
     /// </summary>
+    /// <typeparam name="T">The type of the object to serialize.</typeparam>
+    /// <param name="obj">The object to serialize.</param>
+    /// <returns>A <see cref="LanguageExt.Try{T}"/> containing the JSON string or an exception.</returns>
     private static Try<string> Serialize<T>(T obj)
     {
         return () => JsonSerializer.Serialize(obj, Options);
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Deserializes a JSON string back into an object of the specified type.
     /// </summary>
+    /// <typeparam name="T">The type to deserialize the JSON string into.</typeparam>
+    /// <param name="stringObj">The JSON string to deserialize.</param>
+    /// <returns>A <see cref="LanguageExt.Try{T}"/> containing the deserialized object or an exception.</returns>
     private static Try<T> Deserialize<T>(string stringObj)
     {
         return () =>

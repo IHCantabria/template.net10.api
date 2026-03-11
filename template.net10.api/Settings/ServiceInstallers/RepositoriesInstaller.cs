@@ -6,7 +6,9 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers the generic database repository abstractions
+///     (<see cref="IGenericDbRepositoryWriteContext{T,TKey}" />, <see cref="IGenericDbRepositoryReadContext{T,TKey}" />,
+///     <see cref="IUnitOfWork{T}" />) as scoped services. Load order: 10.
 /// </summary>
 [UsedImplicitly]
 internal sealed class RepositoriesInstaller : IServiceInstaller

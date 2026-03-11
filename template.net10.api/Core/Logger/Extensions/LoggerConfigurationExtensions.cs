@@ -23,13 +23,16 @@ using Path = System.IO.Path;
 namespace template.net10.api.Core.Logger.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for <see cref="LoggerConfiguration" /> to configure enrichment, minimum levels, and
+///     sinks.
 /// </summary>
 internal static class LoggerConfigurationExtensions
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Checks whether the OpenTelemetry log endpoint is reachable by sending a minimal HTTP request.
     /// </summary>
+    /// <param name="config">The OpenTelemetry options containing the log endpoint configuration.</param>
+    /// <returns>A <see cref="LanguageExt.Try{T}" /> indicating whether the endpoint responded successfully.</returns>
     private static Try<bool> IsLogOpenTelemetryAvailable(OpenTelemetryOptions config)
     {
         return () =>
@@ -53,8 +56,10 @@ internal static class LoggerConfigurationExtensions
     extension(LoggerConfiguration lc)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Configures log enrichment with activity tracing, request identifiers, thread info, client IP, correlation ID, and
+        ///     exception details.
         /// </summary>
+        /// <returns>The enriched <see cref="LoggerConfiguration" />.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Given depth must be positive.</exception>
         [SuppressMessage(
             "ReSharper",
@@ -80,8 +85,9 @@ internal static class LoggerConfigurationExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Configures minimum log level overrides for Microsoft, System, Npgsql, and ASP.NET Core namespaces.
         /// </summary>
+        /// <returns>The <see cref="LoggerConfiguration" /> with minimum level overrides applied.</returns>
         [SuppressMessage(
             "ReSharper",
             "ExceptionNotDocumentedOptional",
@@ -104,9 +110,13 @@ internal static class LoggerConfigurationExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Configures log sinks based on OpenTelemetry settings, falling back to local file sink if OpenTelemetry is inactive.
         /// </summary>
-        /// <exception cref="InvalidConfigurationException">Condition.</exception>
+        /// <param name="builderConfiguration">The application configuration manager.</param>
+        /// <param name="envName">The current environment name.</param>
+        /// <param name="version">The application version.</param>
+        /// <returns>The <see cref="LoggerConfiguration" /> with sinks configured.</returns>
+        /// <exception cref="InvalidConfigurationException">Thrown when the OpenTelemetry log endpoint is unreachable or the OpenTelemetry/API configuration section in the appsettings file is missing or invalid.</exception>
         internal LoggerConfiguration ConfigureSinks(ConfigurationManager builderConfiguration, string envName,
             string version)
         {
@@ -139,8 +149,10 @@ internal static class LoggerConfigurationExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Configures an OpenTelemetry sink with service resource attributes, protocol, and endpoint settings.
         /// </summary>
+        /// <param name="config">The OpenTelemetry configuration containing endpoint, API, environment, and version details.</param>
+        /// <returns>The <see cref="LoggerConfiguration" /> with the OpenTelemetry sink configured.</returns>
         private LoggerConfiguration ConfigureSinkTelemetry(OpenTelemetryConfig config)
         {
             return lc.WriteTo.Async(s => s.OpenTelemetry(x =>
@@ -182,8 +194,9 @@ internal static class LoggerConfigurationExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Configures a local file sink that writes logs in compact JSON format with daily rolling.
         /// </summary>
+        /// <returns>The <see cref="LoggerConfiguration" /> with a local file sink configured.</returns>
         [SuppressMessage(
             "ReSharper",
             "ExceptionNotDocumentedOptional",
@@ -203,27 +216,27 @@ internal static class LoggerConfigurationExtensions
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Configuration record that aggregates OpenTelemetry, API options, environment name, and version for sink setup.
 /// </summary>
 internal sealed record OpenTelemetryConfig : IEqualityOperators<OpenTelemetryConfig, OpenTelemetryConfig, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the current deployment environment name (e.g., dev, test, prod).
     /// </summary>
     public required string EnvName { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the application version string.
     /// </summary>
     public required string Version { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the OpenTelemetry endpoint and authentication options.
     /// </summary>
     public required OpenTelemetryOptions OpenTelemetryOptions { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the API configuration options including service address.
     /// </summary>
     public required ApiOptions ApiOptions { get; init; }
 }

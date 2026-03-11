@@ -21,7 +21,7 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Features.Querys;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR query request to authenticate a user by email and password and generate an identity token.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -37,7 +37,7 @@ public sealed record QueryLoginUser(QueryLoginUserParamsDto QueryParams)
     : IRequest<LanguageExt.Common.Result<IdTokenDto>>, IEqualityOperators<QueryLoginUser, QueryLoginUser, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="QueryLoginUser"/> request by authenticating the user and generating an identity token (JWT).
 /// </summary>
 internal sealed class QueryLoginUserHandler(
     IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -46,25 +46,27 @@ internal sealed class QueryLoginUserHandler(
     : IRequestHandler<QueryLoginUser, LanguageExt.Common.Result<IdTokenDto>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Application configuration options used for token generation.
     /// </summary>
     private readonly AppOptions _appConfig = appConfig.Value ?? throw new ArgumentNullException(nameof(appConfig));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     JWT configuration options including signing key, issuer, and audience.
     /// </summary>
     private readonly JwtOptions _jwtConfig = jwtConfig.Value ?? throw new ArgumentNullException(nameof(jwtConfig));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Read-only repository for querying <see cref="User"/> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the login request by authenticating the user via email and returning a signed identity token.
     /// </summary>
+    /// <param name="request">The MediatR query request containing the user credentials for login.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultFaultedInvalidOperationException">
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
@@ -87,30 +89,39 @@ internal sealed class QueryLoginUserHandler(
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that verifies user credentials (email, active status, and password) during login.
 /// </summary>
 [UsedImplicitly]
 internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Password configuration options including the pepper used for credential verification.
     /// </summary>
     private readonly PasswordOptions _config;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Read-only repository for querying <see cref="User"/> entities during validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="LoginUserEmailValidator"/> class with email, password, and active status validation rules.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="config" /> is <see langword="null" />.</exception>
+    /// <param name="repository">The read-only repository used to query user data during validation.</param>
+    /// <param name="config">The password configuration options containing the pepper for credential verification.</param>
+    /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository" /> is <see langword="null" />.
+    ///     -or-
+    ///     <paramref name="config" /> is <see langword="null" />.
+    ///     -or-
+    ///     <paramref name="localizer" /> is <see langword="null" />.
+    /// </exception>
     public LoginUserEmailValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository, IOptions<PasswordOptions> config,
         IStringLocalizer<ResourceMain> localizer)
@@ -154,7 +165,7 @@ internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the user associated with the specified email is currently active (enabled).
     /// </summary>
     private bool ValidateUserActive(string email)
     {
@@ -168,7 +179,7 @@ internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user account with the specified email exists in the system.
     /// </summary>
     private bool ValidateEmail(string email)
     {
@@ -182,7 +193,7 @@ internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates the user's password by retrieving credentials from the database and verifying against the provided password.
     /// </summary>
     private bool ValidatePassword(QueryLoginUserParamsDto queryParams)
     {

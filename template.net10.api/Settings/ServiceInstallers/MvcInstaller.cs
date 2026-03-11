@@ -7,7 +7,8 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that configures global MVC options: disables async-suffix action name stripping
+///     and sets <see cref="CultureInfo.InvariantCulture" /> as the default thread culture. Load order: 6.
 /// </summary>
 [UsedImplicitly]
 internal sealed class MvcInstaller : IServiceInstaller

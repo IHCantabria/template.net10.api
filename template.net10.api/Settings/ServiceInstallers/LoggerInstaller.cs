@@ -12,13 +12,15 @@ using Path = System.IO.Path;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that configures Serilog as the application logger, clears default ASP.NET Core
+///     logging providers, sets up HTTP request/response property logging, and reads the version
+///     from <c>package.json</c> to stamp log output. Load order: 1.
 /// </summary>
 [UsedImplicitly]
 internal sealed class LoggerInstaller : IServiceInstaller
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     JSON deserializer options used when reading the <c>package.json</c> file.
     /// </summary>
     private static readonly JsonSerializerOptions Options = new JsonSerializerOptions().AddCoreOptions();
 
@@ -27,7 +29,7 @@ internal sealed class LoggerInstaller : IServiceInstaller
 
     /// <inheritdoc cref="IServiceInstaller.InstallServiceAsync" />
     /// <exception cref="ArgumentNullException"><paramref name="builder" /> is <see langword="null" />.</exception>
-    /// <exception cref="InvalidConfigurationException">Condition.</exception>
+    /// <exception cref="InvalidConfigurationException">Thrown when the OpenTelemetry log endpoint is unreachable or the Serilog/OpenTelemetry configuration is missing or invalid.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Given depth must be positive.</exception>
     /// <exception cref="InvalidOperationException">When the logger is already created</exception>
     public async Task InstallServiceAsync(WebApplicationBuilder builder)
@@ -53,8 +55,11 @@ internal sealed class LoggerInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Reads the <c>version</c> field from the project's <c>package.json</c> file in the
+    ///     current working directory. Returns an empty string if the file does not exist or
+    ///     the property is absent.
     /// </summary>
+    /// <returns>The version string, or <see cref="string.Empty"/> if unavailable.</returns>
     private static async Task<string> ReadPackageJsonVersionAsync()
     {
         var ct = CancellationToken.None;

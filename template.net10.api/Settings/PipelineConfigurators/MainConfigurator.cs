@@ -12,7 +12,9 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Settings.PipelineConfigurators;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Primary pipeline configurator that registers the core ASP.NET Core middleware stack:
+///     exception handling, logging, security headers, CORS, authentication, authorization,
+///     routing, and response pipeline. Load order: 1.
 /// </summary>
 [UsedImplicitly]
 internal sealed class MainConfigurator : IPipelineConfigurator

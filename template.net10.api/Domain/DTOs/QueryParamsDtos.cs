@@ -6,7 +6,7 @@ using template.net10.api.Domain.Interfaces;
 namespace template.net10.api.Domain.DTOs;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Parameters for querying a single user by unique identifier.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -16,13 +16,13 @@ public sealed record QueryGetUserParamsDto : IDto,
     IEqualityOperators<QueryGetUserParamsDto, QueryGetUserParamsDto, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier (UUID) of the user to retrieve.
     /// </summary>
     public required Guid Key { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Parameters for authenticating a user via email and password.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -32,18 +32,18 @@ public sealed record QueryLoginUserParamsDto : IDto,
     IEqualityOperators<QueryLoginUserParamsDto, QueryLoginUserParamsDto, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the email address used for authentication.
     /// </summary>
     public required string Email { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the plain-text password used for authentication.
     /// </summary>
     public required string Password { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Parameters for retrieving the currently authenticated user's access information.
 /// </summary>
 [SuppressMessage(
     "Design",

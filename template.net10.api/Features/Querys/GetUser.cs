@@ -18,7 +18,7 @@ using template.net10.api.Persistence.Repositories.Interfaces;
 namespace template.net10.api.Features.Querys;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR query request to retrieve a single user by key.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -34,22 +34,24 @@ public sealed record QueryGetUser(QueryGetUserParamsDto QueryParams)
     : IRequest<LanguageExt.Common.Result<UserDto>>, IEqualityOperators<QueryGetUser, QueryGetUser, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="QueryGetUser"/> request by retrieving a single user from the database by key.
 /// </summary>
 internal sealed class QueryGetUserHandler(
     IGenericDbRepositoryReadContext<AppDbContext, User> repository)
     : IRequestHandler<QueryGetUser, LanguageExt.Common.Result<UserDto>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Read-only repository for querying <see cref="User"/> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the query by retrieving a user matching the specified key and returning a projected DTO.
     /// </summary>
+    /// <param name="request">The MediatR query request containing the key of the user to retrieve.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultFaultedInvalidOperationException">
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
@@ -67,26 +69,30 @@ internal sealed class QueryGetUserHandler(
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the requested user key (UUID) exists in the system.
 /// </summary>
 [UsedImplicitly]
 internal sealed class GetUserKeyValidator : AbstractValidator<QueryGetUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Read-only repository for verifying <see cref="User"/> entities during validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="GetUserKeyValidator"/> class with repository and localization dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public GetUserKeyValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -106,7 +112,7 @@ internal sealed class GetUserKeyValidator : AbstractValidator<QueryGetUser>
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
     private bool ValidateUserUuid(Guid key)
     {

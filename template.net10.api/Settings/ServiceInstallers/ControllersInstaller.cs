@@ -14,7 +14,9 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers MVC controllers with content-negotiation,
+///     a custom invalid-model-state response factory, the <see cref="ActionHidingConvention" />,
+///     and JSON serialization options (snake_case, enum strings). Load order: 12.
 /// </summary>
 [UsedImplicitly]
 internal sealed class ControllersInstaller : IServiceInstaller
@@ -50,8 +52,12 @@ internal sealed class ControllersInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures <see cref="MvcOptions" /> to respect the browser Accept header, return 406
+    ///     on unacceptable content types, and apply the <see cref="ActionHidingConvention" /> for
+    ///     the current environment.
     /// </summary>
+    /// <param name="options">The MVC options to configure.</param>
+    /// <param name="builder">The web application builder used to read the current environment name.</param>
     private static void ConfigureControllers(MvcOptions options, WebApplicationBuilder builder)
     {
         options.RespectBrowserAcceptHeader = true;
@@ -60,8 +66,10 @@ internal sealed class ControllersInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures JSON serialization to use snake_case property names, a custom
+    ///     <see cref="NamingPolicyConverter" />, and <see cref="JsonStringEnumConverter" />.
     /// </summary>
+    /// <param name="options">The <see cref="JsonOptions" /> to configure.</param>
     private static void ConfigureJsonOptions(JsonOptions options)
     {
         options.JsonSerializerOptions.AddCoreOptions();

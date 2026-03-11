@@ -6,7 +6,7 @@ using template.net10.api.Logger;
 namespace template.net10.api.Core.Base;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Base class for all service implementations, providing common logging infrastructure and scoped lifetime registration.
 /// </summary>
 [ServiceLifetime(ServiceLifetime.Scoped)]
 [SuppressMessage(
@@ -16,14 +16,15 @@ namespace template.net10.api.Core.Base;
 internal class ServiceBase : IServiceImplementation
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The logger instance used for diagnostic output in service operations.
     /// </summary>
     internal readonly ILogger Logger;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="ServiceBase"/> class.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <param name="logger">The logger instance for diagnostic output.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="logger"/> is <see langword="null"/>.</exception>
     protected ServiceBase(ILogger<ServiceBase> logger)
     {
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));

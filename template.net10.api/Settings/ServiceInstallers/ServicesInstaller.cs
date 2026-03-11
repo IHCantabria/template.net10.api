@@ -9,7 +9,10 @@ using ZLinq.Linq;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that auto-discovers and registers all <see cref="IServiceImplementation" /> types
+///     from the application assembly, mapping each concrete class to its matching interface using
+///     the convention <c>I{ClassName}</c>. The DI lifetime is controlled by
+///     <see cref="ServiceLifetimeAttribute" />, defaulting to <see cref="ServiceLifetime.Scoped" />. Load order: 11.
 /// </summary>
 [UsedImplicitly]
 internal sealed class ServicesInstaller : IServiceInstaller
@@ -35,8 +38,10 @@ internal sealed class ServicesInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Reflects over the application assembly to find all non-abstract, non-interface types
+    ///     that implement <see cref="IServiceImplementation" />.
     /// </summary>
+    /// <returns>An enumerable of concrete service implementation types.</returns>
     private static ValueEnumerable<ArrayWhere<Type>, Type> GetExportedServiceTypes()
     {
         return typeof(Program).Assembly
@@ -45,16 +50,24 @@ internal sealed class ServicesInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Finds the interface type that follows the <c>I{ClassName}</c> naming convention
+    ///     among the interfaces implemented by <paramref name="serviceType" />.
     /// </summary>
+    /// <param name="serviceType">The concrete service type to inspect.</param>
+    /// <returns>The matching interface type, or <see langword="null" /> if none found.</returns>
     private static Type? GetInterfaceType(Type serviceType)
     {
         return serviceType.GetInterfaces().SingleOrDefault(i => i.Name == $"I{serviceType.Name}");
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers <paramref name="serviceType" /> against <paramref name="interfaceType" /> in the
+    ///     DI container with the lifetime declared by <see cref="ServiceLifetimeAttribute" />,
+    ///     defaulting to <see cref="ServiceLifetime.Scoped" /> when no attribute is present.
     /// </summary>
+    /// <param name="services">The application service collection to register into.</param>
+    /// <param name="serviceType">The concrete implementation type.</param>
+    /// <param name="interfaceType">The service interface type to register against.</param>
     private static void RegisterService(IServiceCollection services, Type serviceType, Type interfaceType)
     {
         var serviceLifetimeAttribute =

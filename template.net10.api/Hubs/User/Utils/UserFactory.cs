@@ -5,13 +5,16 @@ using template.net10.api.Localize.Resources;
 namespace template.net10.api.Hubs.User.Utils;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides factory methods to generate SignalR hub event metadata for user-related events.
 /// </summary>
 internal static class HubUserEvents
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Builds the collection of all user hub event descriptors for API documentation.
     /// </summary>
+    /// <param name="localizer">The string localizer for resolving event description texts.</param>
+    /// <param name="fullUrl">The full URL path of the SignalR hub endpoint.</param>
+    /// <returns>A collection of <see cref="HubEventResource"/> describing all available user hub events.</returns>
     internal static IEnumerable<HubEventResource> GetEvents(IStringLocalizer<ResourceMain> localizer, string fullUrl)
     {
         return

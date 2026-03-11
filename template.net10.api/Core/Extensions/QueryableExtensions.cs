@@ -9,13 +9,19 @@ using template.net10.api.Persistence.Models.Interfaces;
 namespace template.net10.api.Core.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for <see cref="IQueryable{T}" /> to apply specifications, projections, filters, and
+///     query strategies.
 /// </summary>
 internal static class QueryableExtensions
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Recursively rebuilds a <see cref="MemberInitExpression" /> to include only the fields present in the selected
+    ///     fields tree.
     /// </summary>
+    /// <param name="source">The source expression to filter.</param>
+    /// <param name="selectedFieldsTree">A dictionary mapping parent paths to their selected field names.</param>
+    /// <param name="path">The current dot-separated path in the expression tree.</param>
+    /// <returns>A new expression containing only the selected member bindings.</returns>
     private static Expression BuildMemberInit(Expression source, Dictionary<string, HashSet<string>> selectedFieldsTree,
         string path = "")
     {
@@ -43,8 +49,13 @@ internal static class QueryableExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Builds a coalesced Select expression for a collection property, applying field selection to each element.
     /// </summary>
+    /// <param name="source">The source collection expression.</param>
+    /// <param name="elementType">The element type of the collection.</param>
+    /// <param name="selectedFieldsTree">A dictionary mapping parent paths to their selected field names.</param>
+    /// <param name="path">The current dot-separated path in the expression tree.</param>
+    /// <returns>A <see cref="BinaryExpression" /> that selects filtered fields from the collection or returns a default value.</returns>
     private static BinaryExpression BuildCollectionInit(
         Expression source,
         Type elementType,
@@ -66,16 +77,25 @@ internal static class QueryableExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Determines whether a property name is selected at the given path in the field selection tree.
     /// </summary>
+    /// <param name="path">The dot-separated parent path.</param>
+    /// <param name="propName">The property name to check.</param>
+    /// <param name="tree">The selected fields tree.</param>
+    /// <returns><see langword="true" /> if the property is selected; otherwise, <see langword="false" />.</returns>
     private static bool IsSelected(string path, string propName, Dictionary<string, HashSet<string>> tree)
     {
         return tree.TryGetValue(path, out var props) && props.Contains(propName);
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Determines whether the specified type is a simple/primitive type (including common value types and strings).
     /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <returns>
+    ///     <see langword="true" /> if the type is a primitive, enum, string, decimal, DateTime, DateTimeOffset, Guid, or
+    ///     TimeSpan; otherwise, <see langword="false" />.
+    /// </returns>
     private static bool IsSimpleType(Type type)
     {
         type = Nullable.GetUnderlyingType(type) ?? type;
@@ -90,8 +110,14 @@ internal static class QueryableExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Determines whether the specified type implements <see cref="IEnumerable{T}" /> and extracts the element type.
     /// </summary>
+    /// <param name="type">The type to check.</param>
+    /// <param name="elementType">
+    ///     When this method returns, contains the generic element type if the type is a collection;
+    ///     otherwise, <see langword="null" />.
+    /// </param>
+    /// <returns><see langword="true" /> if the type is a generic collection; otherwise, <see langword="false" />.</returns>
     private static bool IsCollectionType(Type type, [NotNullWhen(true)] out Type? elementType)
     {
         var enumerableType = type.GetInterfaces()
@@ -110,8 +136,11 @@ internal static class QueryableExtensions
     extension<TEntity>(IQueryable<TEntity> queryable) where TEntity : class, IEntity
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Applies a collection of filter expressions to the queryable using AND logic via LinqKit's
+        ///     <see cref="PredicateBuilder" />.
         /// </summary>
+        /// <param name="filters">The filter expressions to apply.</param>
+        /// <returns>The filtered <see cref="IQueryable{T}" />.</returns>
         private IQueryable<TEntity> ApplyFilters(IEnumerable<Expression<Func<TEntity, bool>>> filters)
         {
             var predicate = PredicateBuilder.New<TEntity>();
@@ -126,8 +155,10 @@ internal static class QueryableExtensions
     extension<TEntity>(IQueryable<TEntity> queryable)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Applies a collection of include functions to the queryable for eager loading of related entities.
         /// </summary>
+        /// <param name="includes">The include functions to apply.</param>
+        /// <returns>The <see cref="IQueryable{T}" /> with includes applied.</returns>
         private IQueryable<TEntity> ApplyIncludes(IEnumerable<Func<IQueryable<TEntity>, IQueryable<TEntity>>> includes)
         {
             return includes.Aggregate(queryable, static (current, include) => include(current));
@@ -137,8 +168,11 @@ internal static class QueryableExtensions
     extension<TEntity>(IQueryable<TEntity> queryable) where TEntity : class, IEntity
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Applies a collection of ordering expressions to the queryable, using OrderBy for the first and ThenBy for
+        ///     subsequent ones.
         /// </summary>
+        /// <param name="orderBys">The ordering expressions with their direction (ascending/descending).</param>
+        /// <returns>The ordered <see cref="IQueryable{T}" />.</returns>
         private IQueryable<TEntity> ApplyOrderBys(
             IEnumerable<Tuple<Expression<Func<TEntity, object>>, OrderByType>> orderBys)
         {
@@ -147,8 +181,12 @@ internal static class QueryableExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Applies an OrderBy or ThenBy clause depending on whether this is the first ordering expression in the chain.
         /// </summary>
+        /// <param name="expression">The property expression to order by.</param>
+        /// <param name="orderType">The ordering direction (ascending or descending).</param>
+        /// <param name="isFirstIteration">Whether this is the first ordering clause being applied.</param>
+        /// <returns>The ordered <see cref="IQueryable{T}" />.</returns>
         private IQueryable<TEntity> SmartOrderBy(Expression<Func<TEntity, object>> expression, OrderByType orderType,
             bool isFirstIteration)
         {
@@ -164,24 +202,30 @@ internal static class QueryableExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Applies a GroupBy expression to the queryable and flattens the result using SelectMany.
         /// </summary>
+        /// <param name="groupBy">The grouping expression.</param>
+        /// <returns>The grouped and flattened <see cref="IQueryable{T}" />.</returns>
         private IQueryable<TEntity> ApplyGroupBy(Expression<Func<TEntity, object>> groupBy)
         {
             return queryable.GroupBy(groupBy).SelectMany(static x => x);
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Limits the queryable to the specified number of rows using Take.
         /// </summary>
+        /// <param name="takeRows">The maximum number of rows to return.</param>
+        /// <returns>The <see cref="IQueryable{T}" /> limited to <paramref name="takeRows" /> elements.</returns>
         private IQueryable<TEntity> ApplyTakeRows(int takeRows)
         {
             return queryable.Take(takeRows);
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Applies the specified query splitting strategy (split or single query) to the queryable.
         /// </summary>
+        /// <param name="querySplitStrategy">The <see cref="QuerySplittingBehavior" /> to apply.</param>
+        /// <returns>The <see cref="IQueryable{T}" /> with the query split strategy applied.</returns>
         private IQueryable<TEntity> ApplyQuerySplitStrategy(QuerySplittingBehavior querySplitStrategy)
         {
             return querySplitStrategy switch
@@ -192,8 +236,11 @@ internal static class QueryableExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Applies the specified change tracking strategy (tracking, no-tracking, or no-tracking with identity resolution) to
+        ///     the queryable.
         /// </summary>
+        /// <param name="queryTrackStrategy">The <see cref="QueryTrackingBehavior" /> to apply.</param>
+        /// <returns>The <see cref="IQueryable{T}" /> with the tracking strategy applied.</returns>
         private IQueryable<TEntity> ApplyQueryTrackStrategy(QueryTrackingBehavior queryTrackStrategy)
         {
             return queryTrackStrategy switch
@@ -209,8 +256,11 @@ internal static class QueryableExtensions
     extension<TEntity>(IQueryable<TEntity> query) where TEntity : class, IEntity
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Applies a verification's filters to the queryable. Returns the original query if verification is null or has no
+        ///     filters.
         /// </summary>
+        /// <param name="verification">The verification containing the filter expressions, or <see langword="null" />.</param>
+        /// <returns>The filtered <see cref="IQueryable{T}" />.</returns>
         internal IQueryable<TEntity> ApplyVerification(IVerification<TEntity>? verification)
         {
             // Do not apply anything if specification is null
@@ -222,8 +272,11 @@ internal static class QueryableExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Applies all specification criteria (filters, includes, group by, order by, take, split strategy, and tracking) to
+        ///     the queryable.
         /// </summary>
+        /// <param name="specification">The specification containing all query criteria, or <see langword="null" />.</param>
+        /// <returns>The fully configured <see cref="IQueryable{T}" />.</returns>
         internal IQueryable<TEntity> ApplySpecification(ISpecification<TEntity>? specification)
         {
             // Do not apply anything if specification is null
@@ -243,8 +296,11 @@ internal static class QueryableExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Projects the queryable using the specified projection expression to transform entities into DTOs.
         /// </summary>
+        /// <typeparam name="TDto">The DTO type to project to.</typeparam>
+        /// <param name="projection">The projection defining the select expression.</param>
+        /// <returns>An <see cref="IQueryable{T}" /> of projected DTOs.</returns>
         [SuppressMessage(
             "ReSharper",
             "ExceptionNotDocumentedOptional",
@@ -256,8 +312,13 @@ internal static class QueryableExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Projects the queryable using the specified projection expression, filtering projected fields based on the GraphQL
+        ///     resolver context.
         /// </summary>
+        /// <typeparam name="TDto">The DTO type to project to.</typeparam>
+        /// <param name="projection">The projection defining the select expression.</param>
+        /// <param name="context">The GraphQL resolver context used to determine which fields were requested.</param>
+        /// <returns>An <see cref="IQueryable{T}" /> of projected DTOs containing only the requested fields.</returns>
         [SuppressMessage(
             "ReSharper",
             "ExceptionNotDocumentedOptional",

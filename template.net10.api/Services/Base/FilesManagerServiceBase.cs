@@ -9,7 +9,9 @@ using Path = System.IO.Path;
 namespace template.net10.api.Services.Base;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Base service for managing temporary files and directories on the local file system.
+///     Provides helpers for creating, referencing, and cleaning up temporary storage paths
+///     based on <see cref="FileStorageOptions" /> configuration.
 /// </summary>
 [ServiceLifetime(ServiceLifetime.Transient)]
 [SuppressMessage(
@@ -25,13 +27,16 @@ internal class FilesManagerServiceBase(IOptions<FileStorageOptions> config, ILog
     : ServiceBase(logger)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     File storage configuration containing root paths used for temporary file operations.
     /// </summary>
     private FileStorageOptions Config { get; } = config.Value ?? throw new ArgumentNullException(nameof(config));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a new unique temporary directory under the configured root temp path.
     /// </summary>
+    /// <returns>
+    ///     A <see cref="LanguageExt.Try{A}" /> wrapping the full path of the newly created temporary directory.
+    /// </returns>
     /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive).</exception>
     /// <exception cref="UnauthorizedAccessException">The caller does not have the required permission.</exception>
     /// <exception cref="PathTooLongException">The specified path, file name, or both exceed the system-defined maximum length.</exception>
@@ -51,8 +56,11 @@ internal class FilesManagerServiceBase(IOptions<FileStorageOptions> config, ILog
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Generates a unique temporary file path inside the given <paramref name="tempDirectory" /> without creating the
+    ///     file.
     /// </summary>
+    /// <param name="tempDirectory">The directory in which the temporary file path will be defined.</param>
+    /// <returns>A <see cref="LanguageExt.Try{A}" /> wrapping the generated file path.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -64,8 +72,13 @@ internal class FilesManagerServiceBase(IOptions<FileStorageOptions> config, ILog
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Deletes the specified directory and all its contents if it exists; no-op if it does not.
     /// </summary>
+    /// <param name="filepDirectory">The full path of the directory to delete.</param>
+    /// <returns>
+    ///     A <see cref="LanguageExt.Try{A}" /> wrapping <see langword="true" /> when deletion succeeds or the directory
+    ///     does not exist.
+    /// </returns>
     /// <exception cref="UnauthorizedAccessException">The caller does not have the required permission.</exception>
     /// <exception cref="PathTooLongException">The specified path, file name, or both exceed the system-defined maximum length.</exception>
     [SuppressMessage(

@@ -5,15 +5,19 @@ using Microsoft.AspNetCore.Authorization;
 namespace template.net10.api.Core.Authorization;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles authorization requirements based on claims present in the user's principal.
 /// </summary>
 internal sealed class ClaimRequirementHandler : AuthorizationHandler<ClaimRequirements>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Evaluates the authorization context against the specified claim requirements.
     /// </summary>
+    /// <param name="context">The authorization handler context containing the user principal.</param>
+    /// <param name="requirement">The claim requirements to evaluate against the principal.</param>
+    /// <returns>A completed <see cref="Task"/>.</returns>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="context" /> is <see langword="null" />.
+    ///     -or-
     ///     <paramref name="requirement" /> is <see langword="null" />.
     /// </exception>
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ClaimRequirements requirement)
@@ -26,8 +30,11 @@ internal sealed class ClaimRequirementHandler : AuthorizationHandler<ClaimRequir
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Determines whether the claims principal satisfies all or any of the required claims based on the claim logic.
     /// </summary>
+    /// <param name="principal">The claims principal to evaluate.</param>
+    /// <param name="requirements">The claim requirements to check.</param>
+    /// <returns><see langword="true"/> if the principal satisfies the requirements; otherwise, <see langword="false"/>.</returns>
     private static bool HasRequiredClaims(ClaimsPrincipal principal, ClaimRequirements requirements)
     {
         return requirements.ClaimLogic switch
@@ -41,8 +48,11 @@ internal sealed class ClaimRequirementHandler : AuthorizationHandler<ClaimRequir
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Checks whether the collection of claims contains a claim matching the specified type and value.
     /// </summary>
+    /// <param name="claims">The collection of claims to search.</param>
+    /// <param name="requirement">The individual claim requirement to match.</param>
+    /// <returns><see langword="true"/> if a matching claim is found; otherwise, <see langword="false"/>.</returns>
     private static bool HasRequiredClaim(IEnumerable<Claim> claims, ClaimRequirement requirement)
     {
         return claims.Any(c =>
@@ -52,7 +62,7 @@ internal sealed class ClaimRequirementHandler : AuthorizationHandler<ClaimRequir
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a set of claim requirements with a logical operator for authorization evaluation.
 /// </summary>
 internal sealed record ClaimRequirements(
     IEnumerable<ClaimRequirement> ClaimRequirementsCollection,
@@ -60,45 +70,45 @@ internal sealed record ClaimRequirements(
     : IAuthorizationRequirement, IEqualityOperators<ClaimRequirements, ClaimRequirements, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the collection of individual claim requirements to evaluate.
     /// </summary>
     public IEnumerable<ClaimRequirement> ClaimRequirementsCollection { get; } = ClaimRequirementsCollection;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the logical operator used to evaluate the claim requirements (All or Any).
     /// </summary>
     public ClaimLogic ClaimLogic { get; } = ClaimLogic;
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a single claim requirement with a type and expected value.
 /// </summary>
 internal sealed record ClaimRequirement(string ClaimType, string ClaimValue)
     : IEqualityOperators<ClaimRequirement, ClaimRequirement, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the claim type to match against.
     /// </summary>
     public string ClaimType { get; } = ClaimType;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the expected claim value to match against.
     /// </summary>
     public string ClaimValue { get; } = ClaimValue;
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Defines the logical operator for combining multiple claim requirements.
 /// </summary>
 internal enum ClaimLogic
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     All claim requirements must be satisfied.
     /// </summary>
     All = 0,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     At least one claim requirement must be satisfied.
     /// </summary>
     Any = 1
 }

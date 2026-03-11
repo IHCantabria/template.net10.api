@@ -5,7 +5,7 @@ using Serilog.Events;
 namespace template.net10.api.Core.Logger.Enrichers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Serilog enricher that adds the current managed thread ID to log events.
 /// </summary>
 internal sealed class ThreadIdEnricher : ILogEventEnricher
 {
@@ -16,10 +16,13 @@ internal sealed class ThreadIdEnricher : ILogEventEnricher
     private LogEventProperty? _lastValue;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Enriches the log event with the current managed thread ID as <c>request.thread.id</c>.
     /// </summary>
+    /// <param name="logEvent">The log event to enrich.</param>
+    /// <param name="propertyFactory">The factory used to create log event properties.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="logEvent" /> is <see langword="null" />.
+    ///     -or-
     ///     <paramref name="propertyFactory" /> is <see langword="null" />.
     /// </exception>
     [SuppressMessage(

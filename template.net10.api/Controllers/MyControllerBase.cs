@@ -8,7 +8,7 @@ using template.net10.api.Logger;
 namespace template.net10.api.Controllers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Abstract base controller providing shared dependencies and common functionality for all API controllers.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -21,24 +21,33 @@ namespace template.net10.api.Controllers;
 public abstract class MyControllerBase : ControllerBase
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for resolving translated resource strings.
     /// </summary>
     internal readonly IStringLocalizer<ResourceMain> Localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Logger instance for recording diagnostic information.
     /// </summary>
     internal readonly ILogger Logger;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     MediatR mediator instance for dispatching commands and queries.
     /// </summary>
     internal readonly IMediator Mediator;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="MyControllerBase"/> class with the required dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <param name="mediator">The MediatR mediator for dispatching requests.</param>
+    /// <param name="localizer">The string localizer for resource translations.</param>
+    /// <param name="logger">The logger instance for diagnostic output.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="mediator"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="logger"/> is <see langword="null"/>.
+    /// </exception>
     protected MyControllerBase(IMediator mediator, IStringLocalizer<ResourceMain> localizer,
         ILogger<MyControllerBase> logger)
     {

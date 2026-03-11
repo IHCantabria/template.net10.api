@@ -5,13 +5,14 @@ using System.Net.Sockets;
 namespace template.net10.api.Core.Logger;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides utility methods to retrieve host network information.
 /// </summary>
 internal static class HostInfo
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the first non-loopback IP address of the current host, preferring IPv4 over IPv6.
     /// </summary>
+    /// <returns>The IP address string, or <c>"unknown"</c> if no suitable address is found.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumented",

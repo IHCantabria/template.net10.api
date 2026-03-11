@@ -3,7 +3,7 @@
 namespace template.net10.api.Core.Interfaces;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Defines the contract for a stored procedure call, including its name and parameters.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -12,12 +12,12 @@ namespace template.net10.api.Core.Interfaces;
 internal interface IProcedureCall
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the name of the stored procedure to execute.
     /// </summary>
     string ProcedureName { get; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the collection of parameters to pass to the stored procedure.
     /// </summary>
     IEnumerable<object> Parameters { get; }
 }

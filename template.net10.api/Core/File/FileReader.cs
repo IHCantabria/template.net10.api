@@ -3,7 +3,7 @@
 namespace template.net10.api.Core.File;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides utility methods for reading and converting uploaded files to byte arrays.
 /// </summary>
 [SuppressMessage(
     "ReSharper",
@@ -16,8 +16,12 @@ namespace template.net10.api.Core.File;
 internal static class FileReader
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Asynchronously converts an <see cref="IFormFile" /> to a byte array using a buffered read strategy.
     /// </summary>
+    /// <param name="file">The uploaded file to convert.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <param name="bufferSize">The size of the read buffer in bytes. Defaults to 65536.</param>
+    /// <returns>A <see cref="LanguageExt.Common.Result{A}" /> containing the file contents as a byte array.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumented",
@@ -53,8 +57,11 @@ internal static class FileReader
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Synchronously converts an <see cref="IFormFile" /> to a byte array using a buffered read strategy.
     /// </summary>
+    /// <param name="file">The uploaded file to convert.</param>
+    /// <param name="bufferSize">The size of the read buffer in bytes. Defaults to 65536.</param>
+    /// <returns>A <see cref="LanguageExt.Common.Result{A}" /> containing the file contents as a byte array.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumented",

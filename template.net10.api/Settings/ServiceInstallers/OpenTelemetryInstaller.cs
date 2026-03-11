@@ -15,7 +15,9 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that configures OpenTelemetry for metrics and distributed tracing,
+///     enriching resources with service metadata, environment, host, OS, and process information.
+///     Each telemetry pipeline is conditionally enabled via <see cref="OpenTelemetryOptions" />. Load order: 4.
 /// </summary>
 [UsedImplicitly]
 internal sealed class OpenTelemetryInstaller : IServiceInstaller
@@ -84,8 +86,12 @@ internal sealed class OpenTelemetryInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures the OpenTelemetry metrics pipeline with ASP.NET Core, HTTP client,
+    ///     and runtime instrumentation, exporting via OTLP/HTTP Protobuf.
+    ///     Logs and returns early when metrics are disabled in <paramref name="options" />.
     /// </summary>
+    /// <param name="builder">The <see cref="MeterProviderBuilder" /> to configure.</param>
+    /// <param name="options">The resolved OpenTelemetry options controlling meter behavior and export endpoint.</param>
     private static void ConfigureMetrics(MeterProviderBuilder builder, OpenTelemetryOptions options)
     {
         if (!options.IsMetricActive)
@@ -109,8 +115,13 @@ internal sealed class OpenTelemetryInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures the OpenTelemetry distributed tracing pipeline with ASP.NET Core
+    ///     and HTTP client instrumentation, an environment-appropriate sampler, and OTLP exporter.
+    ///     Logs and returns early when tracing is disabled in <paramref name="options" />.
     /// </summary>
+    /// <param name="builder">The <see cref="TracerProviderBuilder" /> to configure.</param>
+    /// <param name="options">The resolved OpenTelemetry options controlling trace behavior and export endpoint.</param>
+    /// <param name="environment">The host environment used to select the trace sampler.</param>
     private static void ConfigureTracing(TracerProviderBuilder builder, OpenTelemetryOptions options,
         IHostEnvironment environment)
     {
@@ -129,8 +140,10 @@ internal sealed class OpenTelemetryInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the OpenTelemetry metrics endpoint URL is present in <paramref name="config" />.
+    ///     Throws an <see cref="InvalidConfigurationException" /> when the URL is missing or invalid.
     /// </summary>
+    /// <param name="config">The resolved OpenTelemetry options to validate.</param>
     private static void IsMetricOpenTelemetryAvailable(OpenTelemetryOptions config)
     {
         if (!config.IsValidMetricUri())
@@ -139,8 +152,11 @@ internal sealed class OpenTelemetryInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Sets <see cref="AlwaysOnSampler" /> for Development, Local, and Test environments
+    ///     so that all traces are recorded without sampling loss during development.
     /// </summary>
+    /// <param name="builder">The tracer provider builder to configure.</param>
+    /// <param name="environment">The host environment that determines whether always-on sampling is applied.</param>
     private static void ConfigureTraceSampler(TracerProviderBuilder builder, IHostEnvironment environment)
     {
         if (environment.EnvironmentName is Envs.Development or Envs.Local or Envs.Test)
@@ -148,8 +164,11 @@ internal sealed class OpenTelemetryInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Adds ASP.NET Core and HTTP client instrumentation to the tracer provider
+    ///     and registers the OTLP exporter via <see cref="ConfigureOtlpExporter" />.
     /// </summary>
+    /// <param name="builder">The tracer provider builder to configure.</param>
+    /// <param name="options">The OpenTelemetry options supplying the trace endpoint configuration.</param>
     private static void ConfigureTraceExporter(TracerProviderBuilder builder, OpenTelemetryOptions options)
     {
         builder
@@ -159,8 +178,11 @@ internal sealed class OpenTelemetryInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Applies trace OTLP exporter settings: endpoint URL, HTTP Protobuf protocol, and
+    ///     an optional API-key header when <see cref="OpenTelemetryOptions.UseTraceHeaderApiKey" /> returns true.
     /// </summary>
+    /// <param name="otlpOptions">The OTLP exporter options to configure.</param>
+    /// <param name="options">The OpenTelemetry options providing endpoint and API-key values.</param>
     private static void ConfigureOtlpExporter(OtlpExporterOptions otlpOptions, OpenTelemetryOptions options)
     {
         if (options.TraceEndpointUrl is not null)
@@ -173,8 +195,10 @@ internal sealed class OpenTelemetryInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the OpenTelemetry trace endpoint URL is present in <paramref name="config" />.
+    ///     Throws an <see cref="InvalidConfigurationException" /> when the URL is missing or invalid.
     /// </summary>
+    /// <param name="config">The resolved OpenTelemetry options to validate.</param>
     private static void IsTraceOpenTelemetryAvailable(OpenTelemetryOptions config)
     {
         if (!config.IsValidTraceUri())

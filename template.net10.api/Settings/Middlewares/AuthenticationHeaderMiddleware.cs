@@ -1,18 +1,23 @@
 ﻿namespace template.net10.api.Settings.Middlewares;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Middleware that enriches 401 and 403 responses with a well-formed <c>WWW-Authenticate</c> Bearer header,
+///     using the error and description stored in <c>HttpContext.Items</c> by the JWT bearer events.
 /// </summary>
 internal sealed class AuthenticationHeaderMiddleware(RequestDelegate next)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The next middleware delegate in the request pipeline.
     /// </summary>
     private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Processes the HTTP request by registering a response-starting callback that appends a
+    ///     <c>WWW-Authenticate</c> Bearer header on 401 and 403 responses, then delegates execution
+    ///     to the next middleware in the pipeline.
     /// </summary>
+    /// <param name="context">The HTTP context for the current request.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous middleware operation.</returns>
     /// <exception cref="Exception">A delegate callback throws an exception.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="context" /> is <see langword="null" />.</exception>
     public Task InvokeAsync(HttpContext context)
@@ -43,8 +48,10 @@ internal sealed class AuthenticationHeaderMiddleware(RequestDelegate next)
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Removes any existing <c>WWW-Authenticate</c> header and sets a Bearer error header
+    ///     with the error code and description for a 401 Unauthorized response.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
     private static void SetUnauthorizedHeader(HttpContext context)
     {
         var err = context.Items.TryGetValue("BearerError", out var e) ? e as string : "invalid_token";
@@ -60,8 +67,10 @@ internal sealed class AuthenticationHeaderMiddleware(RequestDelegate next)
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Removes any existing <c>WWW-Authenticate</c> header and sets a Bearer <c>insufficient_scope</c> header
+    ///     for a 403 Forbidden response.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
     private static void SetForbiddenHeader(HttpContext context)
     {
         var desc = context.Items.TryGetValue("BearerErrorDescription", out var d)

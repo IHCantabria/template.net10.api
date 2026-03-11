@@ -7,8 +7,10 @@ using template.net10.api.Persistence.Models.Interfaces;
 namespace template.net10.api.Domain.Specifications.Generic;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Specification that retrieves a single entity by its primary key identifier.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithId{TKey}" />.</typeparam>
+/// <typeparam name="TKey">The type of the entity's primary key.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -19,8 +21,14 @@ internal sealed class EntityByIdSpecification<TEntity, TKey> : SpecificationBase
     where TKey : struct
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="EntityByIdSpecification{TEntity, TKey}" /> class filtering by the
+    ///     specified entity identifier.
     /// </summary>
+    /// <param name="entityId">The primary key value to filter by.</param>
+    /// <param name="trackData">
+    ///     When <see langword="true" />, entities are tracked by the context; otherwise no-tracking is
+    ///     used.
+    /// </param>
     internal EntityByIdSpecification(TKey entityId, bool trackData = false)
     {
         AddFilter(e => e.Id.Equals(entityId));
@@ -31,8 +39,10 @@ internal sealed class EntityByIdSpecification<TEntity, TKey> : SpecificationBase
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Specification that retrieves multiple entities by a collection of primary key identifiers.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithId{TKey}" />.</typeparam>
+/// <typeparam name="TKey">The type of the entity's primary key.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -43,8 +53,17 @@ internal sealed class EntitiesByIdsSpecification<TEntity, TKey> : SpecificationB
     where TKey : struct
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="EntitiesByIdsSpecification{TEntity, TKey}" /> class, optionally
+    ///     filtering by the specified identifiers.
     /// </summary>
+    /// <param name="entityIds">
+    ///     An optional collection of primary key values to filter by. When <see langword="null" />, no ID
+    ///     filter is applied.
+    /// </param>
+    /// <param name="trackData">
+    ///     When <see langword="true" />, entities are tracked by the context; otherwise no-tracking is
+    ///     used.
+    /// </param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",

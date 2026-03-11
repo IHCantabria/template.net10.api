@@ -3,7 +3,7 @@
 namespace template.net10.api.Core.Interfaces;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Marker interface for public API contract types exposed to external consumers.
 /// </summary>
 [PublicApiContract]
 internal interface IPublicApiContract;

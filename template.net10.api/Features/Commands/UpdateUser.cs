@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Net;
 using System.Numerics;
 using FluentValidation;
@@ -20,7 +19,7 @@ using template.net10.api.Persistence.Repositories.Interfaces;
 namespace template.net10.api.Features.Commands;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR command request to update an existing user in the system.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -36,27 +35,30 @@ public sealed record CommandUpdateUser(CommandUpdateUserParamsDto CommandParams)
     : IRequest<LanguageExt.Common.Result<User>>, IEqualityOperators<CommandUpdateUser, CommandUpdateUser, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="CommandUpdateUser" /> command by updating an existing user and persisting changes to the
+///     database.
 /// </summary>
 internal sealed class CommandUpdateUserHandler(
     IGenericDbRepositoryWriteContext<AppDbContext, User> repository,
     IUnitOfWork<AppDbContext> unitOfWork) : IRequestHandler<CommandUpdateUser, LanguageExt.Common.Result<User>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for write operations on <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryWriteContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Unit of work for committing database transactions.
     /// </summary>
     private readonly IUnitOfWork<AppDbContext> _unitOfWork =
         unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the update user command by retrieving the user, applying changes, and saving to the database.
     /// </summary>
+    /// <param name="request">The MediatR command containing the parameters for updating an existing user.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -88,25 +90,30 @@ internal sealed class CommandUpdateUserHandler(
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the specified role exists when updating a user.
 /// </summary>
 [UsedImplicitly]
 internal sealed class UpdateUserRoleValidator : AbstractValidator<CommandUpdateUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="Role" /> entities used during role validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, Role> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="UpdateUserRoleValidator" /> class with repository and localization
+    ///     dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public UpdateUserRoleValidator(
         IGenericDbRepositoryReadContext<AppDbContext, Role> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -125,7 +132,7 @@ internal sealed class UpdateUserRoleValidator : AbstractValidator<CommandUpdateU
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the specified role identifier exists in the database.
     /// </summary>
     private bool ValidateRoleId(short roleId)
     {
@@ -140,25 +147,30 @@ internal sealed class UpdateUserRoleValidator : AbstractValidator<CommandUpdateU
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the email is valid and not already in use when updating a user.
 /// </summary>
 [UsedImplicitly]
 internal sealed class UpdateUserEmailValidator : AbstractValidator<CommandUpdateUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during email validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="UpdateUserEmailValidator" /> class with repository and localization
+    ///     dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public UpdateUserEmailValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -184,7 +196,7 @@ internal sealed class UpdateUserEmailValidator : AbstractValidator<CommandUpdate
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the provided email is not already registered by another user in the system.
     /// </summary>
     private bool ValidateEmail(string email)
     {
@@ -199,25 +211,31 @@ internal sealed class UpdateUserEmailValidator : AbstractValidator<CommandUpdate
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that verifies the requesting user's identity token is valid and the user is active when
+///     updating a user.
 /// </summary>
 [UsedImplicitly]
 internal sealed class UpdateUserIdentifierValidator : AbstractValidator<CommandUpdateUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during identity validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="UpdateUserIdentifierValidator" /> class with repository and
+    ///     localization dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public UpdateUserIdentifierValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -229,24 +247,22 @@ internal sealed class UpdateUserIdentifierValidator : AbstractValidator<CommandU
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateIdentifier)
             .OverridePropertyName("access_token")
-            .WithMessage(_localizer["TokenValidatoUserExistMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserExistCode"])
-            .WithErrorCode(StatusCodes.Status403Forbidden.ToString(CultureInfo.InvariantCulture))
+            .WithMessage(_localizer["TokenValidatorUserExistMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserExistCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
 
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateUserActive)
             .OverridePropertyName("access_token")
-            .WithMessage(_localizer["TokenValidatoUserDisabledMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserDisabledCode"])
-            .WithErrorCode(StatusCodes.Status403Forbidden.ToString(CultureInfo.InvariantCulture))
+            .WithMessage(_localizer["TokenValidatorUserDisabledMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserDisabledCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
     private bool ValidateIdentifier(Guid uuid)
     {
@@ -260,7 +276,7 @@ internal sealed class UpdateUserIdentifierValidator : AbstractValidator<CommandU
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
     private bool ValidateUserActive(Guid uuid)
     {
@@ -275,25 +291,30 @@ internal sealed class UpdateUserIdentifierValidator : AbstractValidator<CommandU
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the target user key (UUID) exists in the system when updating a user.
 /// </summary>
 [UsedImplicitly]
 internal sealed class UpdateUserKeyValidator : AbstractValidator<CommandUpdateUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during key validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="UpdateUserKeyValidator" /> class with repository and localization
+    ///     dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public UpdateUserKeyValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -313,7 +334,7 @@ internal sealed class UpdateUserKeyValidator : AbstractValidator<CommandUpdateUs
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
     private bool ValidateUserUuid(Guid key)
     {

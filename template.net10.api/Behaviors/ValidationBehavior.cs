@@ -9,8 +9,10 @@ using template.net10.api.Localize.Resources;
 namespace template.net10.api.Behaviors;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     MediatR pipeline behavior that validates incoming requests using FluentValidation before forwarding them to the next handler.
 /// </summary>
+/// <typeparam name="TRequest">The type of the request to validate.</typeparam>
+/// <typeparam name="TResponse">The type of the response wrapped in a <c>Result</c>.</typeparam>
 [UsedImplicitly]
 internal sealed class ValidationBehavior<TRequest, TResponse>(
     IEnumerable<IValidator<TRequest>> validators,
@@ -19,20 +21,24 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
     where TRequest : notnull
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     String localizer for producing localized validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer =
         localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Collection of FluentValidation validators registered for <typeparamref name="TRequest"/>.
     /// </summary>
     private readonly IEnumerable<IValidator<TRequest>> _validators =
         validators ?? throw new ArgumentNullException(nameof(validators));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles an incoming request by running validation before delegating to the next handler.
     /// </summary>
+    /// <param name="request">The incoming MediatR request.</param>
+    /// <param name="next">The delegate for the next handler in the pipeline.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation.</param>
+    /// <returns>A <c>Result</c> containing either the successful response or a <see cref="ValidationException"/>.</returns>
     public Task<LanguageExt.Common.Result<TResponse>> Handle(TRequest request,
         RequestHandlerDelegate<LanguageExt.Common.Result<TResponse>> next,
         CancellationToken cancellationToken)
@@ -41,8 +47,12 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates the request and either returns a faulted result with validation errors or delegates to the next handler.
     /// </summary>
+    /// <param name="request">The request to validate.</param>
+    /// <param name="next">The delegate for the next handler in the pipeline.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation.</param>
+    /// <returns>A <c>Result</c> containing either the response or a <see cref="ValidationException"/>.</returns>
     private async Task<LanguageExt.Common.Result<TResponse>> BehaviorLogicAsync(TRequest request,
         RequestHandlerDelegate<LanguageExt.Common.Result<TResponse>> next,
         CancellationToken cancellationToken = default)
@@ -54,8 +64,11 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Runs all registered validators against the request and collects any validation failures.
     /// </summary>
+    /// <param name="request">The request to validate.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation.</param>
+    /// <returns>A collection of <see cref="ValidationFailure"/> instances from all validators.</returns>
     private async Task<ICollection<ValidationFailure>> ValidateRequestAsync(TRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -65,8 +78,12 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Executes all registered validators in parallel and returns their results.
     /// </summary>
+    /// <param name="request">The request to validate.</param>
+    /// <param name="cts">A linked cancellation token source for coordinating parallel validator execution.</param>
+    /// <returns>The collection of <see cref="ValidationResult"/> produced by each validator.</returns>
+    /// <exception cref="ValidationException">Thrown when one or more validators fail to complete.</exception>
     private async Task<IEnumerable<ValidationResult>> ValidateValidatorsAsync(TRequest request,
         CancellationTokenSource cts)
     {
@@ -83,8 +100,10 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Aggregates and flattens all <see cref="ValidationFailure"/> instances from multiple validation results, filtering out nulls and duplicates.
     /// </summary>
+    /// <param name="results">The validation results to aggregate.</param>
+    /// <returns>A distinct sequence of non-null <see cref="ValidationFailure"/> instances.</returns>
     private static IEnumerable<ValidationFailure> AggregateValidationResults(IEnumerable<ValidationResult> results)
     {
         return results

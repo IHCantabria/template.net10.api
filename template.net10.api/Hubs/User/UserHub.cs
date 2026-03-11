@@ -11,7 +11,7 @@ using template.net10.api.Localize.Resources;
 namespace template.net10.api.Hubs.User;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     SignalR hub that handles real-time user event notifications, requiring user read authorization.
 /// </summary>
 [SuppressMessage("ReSharper", "AsyncApostle.AsyncMethodNamingHighlighting",
     Justification =
@@ -29,15 +29,15 @@ namespace template.net10.api.Hubs.User;
 public sealed class UserHub(IStringLocalizer<ResourceMain> localizer) : Hub<IUserHub>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
-    ///     ADD DOCUMENTATION
+    ///     String localizer for producing localized hub notification messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer =
         localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Called when a new client connects to the hub. Sends a connection online notification to the caller.
     /// </summary>
+    /// <returns>A task representing the asynchronous connection handling operation.</returns>
     public override async Task OnConnectedAsync()
     {
         await Clients.Caller.ConnectionOnline(new HubInfoMessageResource
@@ -50,8 +50,9 @@ public sealed class UserHub(IStringLocalizer<ResourceMain> localizer) : Hub<IUse
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Client-invokable method to check the current connection status. Returns the status to the caller.
     /// </summary>
+    /// <returns>A task representing the asynchronous status check operation.</returns>
     public Task CheckConnectionStatus()
     {
         return Clients.Caller.ConnectionStatus(new HubInfoMessageResource

@@ -7,13 +7,14 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers a named CORS policy from configuration, allowing the
+///     configured origins, GET/POST/PUT/DELETE/OPTIONS methods, any header, and credentials. Load order: 15.
 /// </summary>
 [UsedImplicitly]
 internal sealed class CorsInstaller : IServiceInstaller
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The set of HTTP methods allowed by the registered CORS policy.
     /// </summary>
     private static readonly string[] AllowedMethods = ["GET", "POST", "PUT", "DELETE", "OPTIONS"];
 
@@ -37,8 +38,12 @@ internal sealed class CorsInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers the CORS policy from <paramref name="apiOptions"/> with the configured origins,
+    ///     <see cref="AllowedMethods"/>, any header, exposed ETags, and credentials support.
+    ///     Does nothing if <paramref name="apiOptions"/> is <see langword="null"/>.
     /// </summary>
+    /// <param name="builder">The web application builder to register the policy on.</param>
+    /// <param name="apiOptions">The resolved CORS options, or <see langword="null"/> if configuration is missing.</param>
     private static void AddCors(WebApplicationBuilder builder, CorsOptions? apiOptions)
     {
         if (apiOptions is null) return;

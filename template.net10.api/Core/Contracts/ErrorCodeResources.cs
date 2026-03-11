@@ -6,7 +6,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Core.Contracts;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an error code resource containing a key-description pair for API error responses.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -16,13 +16,13 @@ public sealed partial record ErrorCodeResource : IPublicApiContract,
     IEqualityOperators<ErrorCodeResource, ErrorCodeResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique key that identifies this error code.
     /// </summary>
     [JsonRequired]
     public required string Key { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the human-readable description of this error code.
     /// </summary>
     [JsonRequired]
     public required string Description { get; init; }

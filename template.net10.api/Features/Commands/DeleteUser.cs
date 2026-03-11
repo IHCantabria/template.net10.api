@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Net;
 using System.Numerics;
 using FluentValidation;
@@ -19,7 +18,7 @@ using template.net10.api.Persistence.Repositories.Interfaces;
 namespace template.net10.api.Features.Commands;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR command request to delete an existing user from the system.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -35,27 +34,29 @@ public sealed record CommandDeleteUser(CommandDeleteUserParamsDto CommandParams)
     : IRequest<LanguageExt.Common.Result<User>>, IEqualityOperators<CommandDeleteUser, CommandDeleteUser, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="CommandDeleteUser" /> command by deleting a user from the database.
 /// </summary>
 internal sealed class CommandDeleteUserHandler(
     IGenericDbRepositoryWriteContext<AppDbContext, User> repository,
     IUnitOfWork<AppDbContext> unitOfWork) : IRequestHandler<CommandDeleteUser, LanguageExt.Common.Result<User>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for write operations on <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryWriteContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Unit of work for committing database transactions.
     /// </summary>
     private readonly IUnitOfWork<AppDbContext> _unitOfWork =
         unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the delete user command by locating the user by key and removing it from the database.
     /// </summary>
+    /// <param name="request">The MediatR command containing the key of the user to delete.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultFaultedInvalidOperationException">
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
@@ -78,7 +79,7 @@ internal sealed class CommandDeleteUserHandler(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Deletes the specified user entity from the repository and commits the transaction.
     /// </summary>
     private async Task<LanguageExt.Common.Result<User>> DeleteUserAsync(User user,
         CancellationToken cancellationToken)
@@ -95,25 +96,31 @@ internal sealed class CommandDeleteUserHandler(
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that verifies the requesting user's identity token is valid and the user is active when
+///     deleting a user.
 /// </summary>
 [UsedImplicitly]
 internal sealed class DeleteUserHandlerIdentifierValidator : AbstractValidator<CommandDeleteUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during identity validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="DeleteUserHandlerIdentifierValidator" /> class with repository and
+    ///     localization dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public DeleteUserHandlerIdentifierValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -124,24 +131,23 @@ internal sealed class DeleteUserHandlerIdentifierValidator : AbstractValidator<C
 
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateIdentifier)
-            .WithMessage(_localizer["TokenValidatoUserExistMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserExistCode"])
-            .WithErrorCode(StatusCodes.Status403Forbidden.ToString(CultureInfo.InvariantCulture))
+            .OverridePropertyName("access_token")
+            .WithMessage(_localizer["TokenValidatorUserExistMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserExistCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
 
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateUserActive)
             .OverridePropertyName("access_token")
-            .WithMessage(_localizer["TokenValidatoUserDisabledMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserDisabledCode"])
-            .WithErrorCode(StatusCodes.Status403Forbidden.ToString(CultureInfo.InvariantCulture))
+            .WithMessage(_localizer["TokenValidatorUserDisabledMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserDisabledCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
     private bool ValidateIdentifier(Guid uuid)
     {
@@ -155,7 +161,7 @@ internal sealed class DeleteUserHandlerIdentifierValidator : AbstractValidator<C
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
     private bool ValidateUserActive(Guid uuid)
     {
@@ -170,25 +176,30 @@ internal sealed class DeleteUserHandlerIdentifierValidator : AbstractValidator<C
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the target user exists before deletion.
 /// </summary>
 [UsedImplicitly]
 internal sealed class DeleteUserUserValidator : AbstractValidator<CommandDeleteUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during user validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="DeleteUserUserValidator" /> class with repository and localization
+    ///     dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public DeleteUserUserValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -208,7 +219,7 @@ internal sealed class DeleteUserUserValidator : AbstractValidator<CommandDeleteU
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
     private bool ValidateUserUuid(Guid userUuid)
     {

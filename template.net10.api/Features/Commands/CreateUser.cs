@@ -21,7 +21,7 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Features.Commands;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR command request to create a new user in the system.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -37,7 +37,7 @@ public sealed record CommandCreateUser(CommandCreateUserParamsDto CommandParams)
     : IRequest<LanguageExt.Common.Result<User>>, IEqualityOperators<CommandCreateUser, CommandCreateUser, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="CommandCreateUser" /> command by creating a new user and persisting it to the database.
 /// </summary>
 [UsedImplicitly]
 internal sealed class CommandCreateUserHandler(
@@ -46,25 +46,27 @@ internal sealed class CommandCreateUserHandler(
     IUnitOfWork<AppDbContext> unitOfWork) : IRequestHandler<CommandCreateUser, LanguageExt.Common.Result<User>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Password configuration options used for hashing and salting.
     /// </summary>
     private readonly PasswordOptions _config = config.Value ?? throw new ArgumentNullException(nameof(config));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for write operations on <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryWriteContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Unit of work for committing database transactions.
     /// </summary>
     private readonly IUnitOfWork<AppDbContext> _unitOfWork =
         unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the create user command by building the user entity, inserting it into the repository, and saving changes.
     /// </summary>
+    /// <param name="request">The MediatR command containing the parameters for creating a new user.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultFaultedInvalidOperationException">
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
@@ -92,7 +94,7 @@ internal sealed class CommandCreateUserHandler(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a new user DTO from the command parameters using the configured password pepper.
     /// </summary>
     private LanguageExt.Common.Result<CreateUserDto> CreateUser(CommandCreateUser request)
     {
@@ -101,15 +103,15 @@ internal sealed class CommandCreateUserHandler(
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the password and confirmation password match when creating a user.
 /// </summary>
 [UsedImplicitly]
 internal sealed class CreateUserPasswordValidator : AbstractValidator<CommandCreateUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="CreateUserPasswordValidator" /> class with localization support.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="localizer"/> is <see langword="null"/>.</exception>
     public CreateUserPasswordValidator(IStringLocalizer<ResourceMain> localizer)
     {
         var localizerService = localizer ?? throw new ArgumentNullException(nameof(localizer));
@@ -123,25 +125,30 @@ internal sealed class CreateUserPasswordValidator : AbstractValidator<CommandCre
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the email is valid and not already in use when creating a user.
 /// </summary>
 [UsedImplicitly]
 internal sealed class CreateUserEmailValidator : AbstractValidator<CommandCreateUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during email validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="CreateUserEmailValidator" /> class with repository and localization
+    ///     dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public CreateUserEmailValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -165,7 +172,7 @@ internal sealed class CreateUserEmailValidator : AbstractValidator<CommandCreate
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the provided email is not already registered in the system.
     /// </summary>
     private bool ValidateEmail(string email)
     {
@@ -180,25 +187,30 @@ internal sealed class CreateUserEmailValidator : AbstractValidator<CommandCreate
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the specified role exists when creating a user.
 /// </summary>
 [UsedImplicitly]
 internal sealed class CreateUserRoleValidator : AbstractValidator<CommandCreateUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="Role" /> entities used during role validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, Role> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="CreateUserRoleValidator" /> class with repository and localization
+    ///     dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public CreateUserRoleValidator(
         IGenericDbRepositoryReadContext<AppDbContext, Role> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -217,7 +229,7 @@ internal sealed class CreateUserRoleValidator : AbstractValidator<CommandCreateU
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the specified role identifier exists in the database.
     /// </summary>
     private bool ValidateRoleId(short roleId)
     {
@@ -232,25 +244,30 @@ internal sealed class CreateUserRoleValidator : AbstractValidator<CommandCreateU
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that verifies the requesting user's identity token is valid and the user is active.
 /// </summary>
 [UsedImplicitly]
 internal sealed class CreateUserIdentifierValidator : AbstractValidator<CommandCreateUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during identity validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="CreateUserIdentifierValidator" /> class with repository and
+    ///     localization dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public CreateUserIdentifierValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -262,22 +279,22 @@ internal sealed class CreateUserIdentifierValidator : AbstractValidator<CommandC
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateIdentifier)
             .OverridePropertyName("access_token")
-            .WithMessage(_localizer["TokenValidatoUserExistMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserExistCode"])
+            .WithMessage(_localizer["TokenValidatorUserExistMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserExistCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
 
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateUserActive)
             .OverridePropertyName("access_token")
-            .WithMessage(_localizer["TokenValidatoUserDisabledMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserDisabledCode"])
+            .WithMessage(_localizer["TokenValidatorUserDisabledMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserDisabledCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
     private bool ValidateIdentifier(Guid uuid)
     {
@@ -291,7 +308,7 @@ internal sealed class CreateUserIdentifierValidator : AbstractValidator<CommandC
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
     private bool ValidateUserActive(Guid uuid)
     {

@@ -15,7 +15,7 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Features.Querys;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR query request to check the database connection status and API health.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -31,7 +31,8 @@ public sealed record QueryCheckStatus : IRequest<LanguageExt.Common.Result<InfoD
     IEqualityOperators<QueryCheckStatus, QueryCheckStatus, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="QueryCheckStatus" /> request by verifying database connectivity and returning API status
+///     information.
 /// </summary>
 internal sealed class QueryCheckStatusHandler(
     IGenericDbRepositoryReadContext<AppDbContext, CurrentVersion> repository,
@@ -40,26 +41,28 @@ internal sealed class QueryCheckStatusHandler(
     : IRequestHandler<QueryCheckStatus, LanguageExt.Common.Result<InfoDto>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Logger instance for recording database status check operations.
     /// </summary>
     private readonly ILogger _logger =
         logger ?? throw new ArgumentNullException(nameof(logger));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Project configuration options containing version information.
     /// </summary>
     private readonly ProjectOptions _options =
         options.Value ?? throw new ArgumentNullException(nameof(options));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Read-only repository for verifying database connectivity via the <see cref="CurrentVersion" /> entity.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, CurrentVersion> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the status check by verifying database connectivity and returning API health information.
     /// </summary>
+    /// <param name="request">The MediatR query request to check the database status.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultFaultedInvalidOperationException">
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
@@ -73,14 +76,14 @@ internal sealed class QueryCheckStatusHandler(
             return result.IsSuccess
                 ? new InfoDto
                 {
-                    Status = StatusCodes.Status200OK,
-                    Info = "API is running fine.",
+                    StatusCode = StatusCodes.Status200OK,
+                    StatusInfo = "API is running fine.",
                     Version = _options.Version
                 }
                 : new InfoDto
                 {
-                    Status = StatusCodes.Status500InternalServerError,
-                    Info = result.ExtractException().Message,
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    StatusInfo = result.ExtractException().Message,
                     Version = _options.Version
                 };
         }
@@ -89,8 +92,8 @@ internal sealed class QueryCheckStatusHandler(
             _logger.LogStatusDbFail(ex);
             return new InfoDto
             {
-                Status = StatusCodes.Status500InternalServerError,
-                Info = ex.Message,
+                StatusCode = StatusCodes.Status500InternalServerError,
+                StatusInfo = ex.Message,
                 Version = _options.Version
             };
         }

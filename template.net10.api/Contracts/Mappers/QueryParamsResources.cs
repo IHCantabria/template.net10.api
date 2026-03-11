@@ -5,7 +5,7 @@ namespace template.net10.api.Contracts;
 public sealed partial record QueryGetUserParamsResource
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Implicitly converts a <see cref="QueryGetUserParamsResource"/> to a <see cref="QueryGetUserParamsDto"/>.
     /// </summary>
     public static implicit operator QueryGetUserParamsDto(QueryGetUserParamsResource resource)
     {
@@ -17,7 +17,7 @@ public sealed partial record QueryGetUserParamsResource
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Converts the specified <see cref="QueryGetUserParamsResource"/> to a <see cref="QueryGetUserParamsDto"/>.
     /// </summary>
     public static QueryGetUserParamsDto ToQueryGetUserParamsDto(
         QueryGetUserParamsResource resource)
@@ -29,7 +29,7 @@ public sealed partial record QueryGetUserParamsResource
 public sealed partial record QueryLoginUserParamsResource
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Implicitly converts a <see cref="QueryLoginUserParamsResource"/> to a <see cref="QueryLoginUserParamsDto"/>.
     /// </summary>
     public static implicit operator QueryLoginUserParamsDto(QueryLoginUserParamsResource resource)
     {
@@ -42,7 +42,7 @@ public sealed partial record QueryLoginUserParamsResource
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Converts the specified <see cref="QueryLoginUserParamsResource"/> to a <see cref="QueryLoginUserParamsDto"/>.
     /// </summary>
     public static QueryLoginUserParamsDto ToQueryLoginUserParamsDto(
         QueryLoginUserParamsResource resource)

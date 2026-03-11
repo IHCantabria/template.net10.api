@@ -8,7 +8,8 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers all strongly-typed <see cref="IOptions{T}" /> services
+///     and their source-generated validators for core, UI, and security configuration sections. Load order: 3.
 /// </summary>
 [UsedImplicitly]
 internal sealed class SettingsInstaller : IServiceInstaller
@@ -32,8 +33,12 @@ internal sealed class SettingsInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers core application options: <see cref="ApiOptions" />, <see cref="AppOptions" />,
+    ///     <see cref="CorsOptions" />, <see cref="ProjectOptions" />, and <see cref="OpenTelemetryOptions" />.
+    ///     Also loads the additional <c>package.json</c> configuration file.
     /// </summary>
+    /// <param name="builder">The web application builder.</param>
+    /// <param name="config">The configuration manager used to bind sections.</param>
     private static void InstallCoreOptionsServices(WebApplicationBuilder builder, ConfigurationManager config)
     {
         //Install Options services
@@ -54,8 +59,10 @@ internal sealed class SettingsInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers documentation UI options: <see cref="ReDocOptions" /> and <see cref="SwaggerOptions" />.
     /// </summary>
+    /// <param name="builder">The web application builder.</param>
+    /// <param name="config">The configuration manager used to bind sections.</param>
     private static void InstallUiOptionsServices(WebApplicationBuilder builder, ConfigurationManager config)
     {
         builder.Services.Configure<ReDocOptions>(config.GetSection(ReDocOptions.ReDoc));
@@ -66,8 +73,11 @@ internal sealed class SettingsInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers security-related options: <see cref="SwaggerSecurityOptions" />, <see cref="JwtOptions" />,
+    ///     and <see cref="PasswordOptions" />, as well as their source-generated validators.
     /// </summary>
+    /// <param name="builder">The web application builder.</param>
+    /// <param name="config">The configuration manager used to bind sections.</param>
     private static void InstallSecurityOptionsServices(WebApplicationBuilder builder, ConfigurationManager config)
     {
         builder.Services.Configure<SwaggerSecurityOptions>(config.GetSection(SwaggerSecurityOptions.SwaggerSecurity));

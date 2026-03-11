@@ -10,7 +10,8 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Settings.PipelineConfigurators;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Pipeline configurator that enables ETag-based HTTP caching using the Delta library.
+///     Applied only when a database connection string is configured. Load order: 4.
 /// </summary>
 [UsedImplicitly]
 internal sealed class EtagConfigurator : IPipelineConfigurator

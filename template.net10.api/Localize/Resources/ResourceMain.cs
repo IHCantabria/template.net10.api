@@ -3,7 +3,7 @@
 namespace template.net10.api.Localize.Resources;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Marker class used as the primary resource type for application localization via <c>IStringLocalizer&lt;ResourceMain&gt;</c>.
 /// </summary>
 [SuppressMessage(
     "Major Code Smell",

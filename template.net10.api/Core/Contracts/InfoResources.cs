@@ -6,7 +6,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Core.Contracts;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an application information resource containing version, description, and status details.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -15,20 +15,20 @@ namespace template.net10.api.Core.Contracts;
 public sealed record InfoResource : IPublicApiContract, IEqualityOperators<InfoResource, InfoResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the application version string.
     /// </summary>
     [JsonRequired]
     public required string Version { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets a human-readable label describing the application's current operational status (e.g., "Healthy", "Degraded").
     /// </summary>
     [JsonRequired]
-    public required string Info { get; init; }
+    public required string StatusInfo { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the HTTP status code indicating the application's current state.
     /// </summary>
     [JsonRequired]
-    public required short Status { get; init; }
+    public required short StatusCode { get; init; }
 }

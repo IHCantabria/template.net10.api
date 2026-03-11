@@ -5,7 +5,8 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers SignalR with JSON protocol (camelCase serialization) and
+///     enables detailed error messages in non-production environments. Load order: 25.
 /// </summary>
 [UsedImplicitly]
 internal sealed class SignalRInstaller : IServiceInstaller

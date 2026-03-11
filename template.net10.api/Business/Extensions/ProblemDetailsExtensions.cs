@@ -8,15 +8,19 @@ using template.net10.api.Localize.Resources;
 namespace template.net10.api.Business.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for <see cref="ProblemDetails" /> to enrich error responses with validation details.
 /// </summary>
 internal static class ProblemDetailsExtensions
 {
     extension(ProblemDetails problemDetails)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Populates the <see cref="ProblemDetails" /> instance with validation error information extracted from a
+        ///     <see cref="ValidationException" />. For a single error, sets the detail, value, pointer, and code directly.
+        ///     For multiple errors, sets a generic title and attaches the full error collection.
         /// </summary>
+        /// <param name="localizer">The string localizer used to resolve localized fallback messages.</param>
+        /// <param name="vex">The validation exception containing the errors to populate into the problem details.</param>
         [SuppressMessage(
             "ReSharper",
             "ExceptionNotDocumentedOptional",

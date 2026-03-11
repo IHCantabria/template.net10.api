@@ -5,7 +5,7 @@ using template.net10.api.Core.Extensions;
 namespace template.net10.api.Core.Parallel;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides utility methods for executing dependent and independent tasks in parallel with cancellation support.
 /// </summary>
 [SuppressMessage(
     "ReSharper",
@@ -14,8 +14,10 @@ namespace template.net10.api.Core.Parallel;
 internal static class ParallelUtils
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Executes a collection of dependent tasks in parallel, cancelling remaining tasks if any faults.
     /// </summary>
+    /// <param name="tasks">The tasks to execute.</param>
+    /// <param name="cts">The cancellation token source used to cancel remaining tasks on failure.</param>
     internal static Task ExecuteDependentInParallelAsync(IEnumerable<Task> tasks,
         CancellationTokenSource cts)
     {
@@ -23,8 +25,12 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Executes a collection of dependent tasks in parallel, returning their results, and cancelling remaining tasks if any faults.
     /// </summary>
+    /// <typeparam name="T">The return type of each task.</typeparam>
+    /// <param name="tasks">The tasks to execute.</param>
+    /// <param name="cts">The cancellation token source used to cancel remaining tasks on failure.</param>
+    /// <returns>The collected results from completed tasks.</returns>
     internal static Task<IEnumerable<T>> ExecuteDependentInParallelAsync<T>(IEnumerable<Task<T>> tasks,
         CancellationTokenSource cts)
     {
@@ -32,8 +38,12 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Executes a collection of dependent Result-wrapped tasks in parallel, cancelling remaining tasks if any faults or returns a faulted result.
     /// </summary>
+    /// <typeparam name="T">The success type of the Result.</typeparam>
+    /// <param name="tasks">The Result-wrapped tasks to execute.</param>
+    /// <param name="cts">The cancellation token source used to cancel remaining tasks on failure.</param>
+    /// <returns>A Result containing the collected results or the first encountered exception.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -53,8 +63,10 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles dependent task completion by awaiting tasks one-by-one and cancelling all on first fault.
     /// </summary>
+    /// <param name="tasks">The tasks to monitor.</param>
+    /// <param name="cts">The cancellation token source.</param>
     private static async Task HandleTaskDependentCompletionAsync(IEnumerable<Task> tasks,
         CancellationTokenSource cts)
     {
@@ -75,8 +87,12 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles dependent task completion with typed results, cancelling all remaining tasks on first fault.
     /// </summary>
+    /// <typeparam name="T">The return type of each task.</typeparam>
+    /// <param name="tasks">The tasks to monitor.</param>
+    /// <param name="cts">The cancellation token source.</param>
+    /// <returns>The collected results from completed tasks.</returns>
     private static async Task<IEnumerable<T>> HandleTaskDependentCompletionAsync<T>(IEnumerable<Task<T>> tasks,
         CancellationTokenSource cts)
     {
@@ -107,8 +123,12 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles dependent Result-wrapped task completion, cancelling all remaining tasks if any task faults or returns a faulted Result.
     /// </summary>
+    /// <typeparam name="T">The success type of the Result.</typeparam>
+    /// <param name="tasks">The Result-wrapped tasks to monitor.</param>
+    /// <param name="cts">The cancellation token source.</param>
+    /// <returns>A Result containing the collected results or the first encountered exception.</returns>
     private static async Task<LanguageExt.Common.Result<IEnumerable<T>>> HandleTaskDependentCompletionAsync<T>(
         IEnumerable<Task<LanguageExt.Common.Result<T>>> tasks,
         CancellationTokenSource cts)
@@ -142,16 +162,20 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Executes a collection of independent tasks in parallel, allowing all tasks to complete regardless of individual faults.
     /// </summary>
+    /// <param name="tasks">The tasks to execute.</param>
     internal static Task ExecuteIndependentInParallelAsync(IEnumerable<Task> tasks)
     {
         return HandleTaskIndependentCompletionAsync(tasks);
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Executes a collection of independent Result-wrapped tasks in parallel, collecting all individual results regardless of faults.
     /// </summary>
+    /// <typeparam name="T">The success type of the Result.</typeparam>
+    /// <param name="tasks">The Result-wrapped tasks to execute.</param>
+    /// <returns>A collection of Result values, one per completed task.</returns>
     internal static Task<IEnumerable<LanguageExt.Common.Result<T>>> ExecuteIndependentInParallelAsync<T>(
         IEnumerable<Task<LanguageExt.Common.Result<T>>> tasks)
     {
@@ -159,8 +183,9 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles independent task completion by awaiting all tasks regardless of faults.
     /// </summary>
+    /// <param name="tasks">The tasks to monitor.</param>
     private static async Task HandleTaskIndependentCompletionAsync(IEnumerable<Task> tasks)
     {
         var tasksList = tasks.ToList();
@@ -175,8 +200,11 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles independent Result-wrapped task completion by awaiting all tasks and collecting their results.
     /// </summary>
+    /// <typeparam name="T">The success type of the Result.</typeparam>
+    /// <param name="tasks">The Result-wrapped tasks to monitor.</param>
+    /// <returns>A collection of Result values, one per completed task.</returns>
     private static async Task<IEnumerable<LanguageExt.Common.Result<T>>> HandleTaskIndependentCompletionAsync<T>(
         IEnumerable<Task<LanguageExt.Common.Result<T>>> tasks)
     {

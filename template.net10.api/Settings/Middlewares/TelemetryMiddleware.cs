@@ -3,18 +3,22 @@
 namespace template.net10.api.Settings.Middlewares;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Middleware that enriches the current OpenTelemetry <see cref="Activity"/> with thread-level tags
+///     (<c>request.thread.id</c>, <c>request.thread.name</c>) for tracing and diagnostics.
 /// </summary>
 internal sealed class TelemetryMiddleware(RequestDelegate next)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The next middleware delegate in the request pipeline.
     /// </summary>
     private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Tags the current <see cref="Activity"/> with the managed thread ID and name, then
+    ///     forwards the request to the next middleware in the pipeline.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>A <see cref="Task"/> that completes when the pipeline finishes.</returns>
     /// <exception cref="InvalidOperationException">
     ///     A set operation was requested, but the <see langword="Name" /> property has
     ///     already been set.

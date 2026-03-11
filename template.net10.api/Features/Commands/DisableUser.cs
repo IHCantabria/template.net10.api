@@ -20,7 +20,7 @@ using template.net10.api.Persistence.Repositories.Interfaces;
 namespace template.net10.api.Features.Commands;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR command request to disable an existing user in the system.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -37,27 +37,29 @@ public sealed record CommandDisableUser(CommandDisableUserParamsDto CommandParam
         IEqualityOperators<CommandDisableUser, CommandDisableUser, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="CommandDisableUser" /> command by disabling a user and persisting changes to the database.
 /// </summary>
 internal sealed class CommandDisableUserHandler(
     IGenericDbRepositoryWriteContext<AppDbContext, User> repository,
     IUnitOfWork<AppDbContext> unitOfWork) : IRequestHandler<CommandDisableUser, LanguageExt.Common.Result<User>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for write operations on <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryWriteContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Unit of work for committing database transactions.
     /// </summary>
     private readonly IUnitOfWork<AppDbContext> _unitOfWork =
         unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the disable user command by retrieving the user, marking it as disabled, and saving changes.
     /// </summary>
+    /// <param name="request">The MediatR command containing the key of the user to disable.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -93,25 +95,31 @@ internal sealed class CommandDisableUserHandler(
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that verifies the requesting user's identity token is valid and the user is active when
+///     disabling a user.
 /// </summary>
 [UsedImplicitly]
 internal sealed class DisableUserIdentifierValidator : AbstractValidator<CommandDisableUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during identity validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="DisableUserIdentifierValidator" /> class with repository and
+    ///     localization dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public DisableUserIdentifierValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -122,24 +130,23 @@ internal sealed class DisableUserIdentifierValidator : AbstractValidator<Command
 
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateIdentifier)
-            .WithMessage(_localizer["TokenValidatoUserExistMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserExistCode"])
-            .WithErrorCode(StatusCodes.Status403Forbidden.ToString(CultureInfo.InvariantCulture))
+            .OverridePropertyName("access_token")
+            .WithMessage(_localizer["TokenValidatorUserExistMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserExistCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
 
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateUserActive)
             .OverridePropertyName("access_token")
-            .WithMessage(_localizer["TokenValidatoUserDisabledMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserDisabledCode"])
-            .WithErrorCode(StatusCodes.Status403Forbidden.ToString(CultureInfo.InvariantCulture))
+            .WithMessage(_localizer["TokenValidatorUserDisabledMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserDisabledCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
     private bool ValidateIdentifier(Guid uuid)
     {
@@ -153,7 +160,7 @@ internal sealed class DisableUserIdentifierValidator : AbstractValidator<Command
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
     private bool ValidateUserActive(Guid uuid)
     {
@@ -168,25 +175,30 @@ internal sealed class DisableUserIdentifierValidator : AbstractValidator<Command
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the target user exists and is not already disabled.
 /// </summary>
 [UsedImplicitly]
 internal sealed class DisableUserUserValidator : AbstractValidator<CommandDisableUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during user validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="DisableUserUserValidator" /> class with repository and localization
+    ///     dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public DisableUserUserValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -213,7 +225,7 @@ internal sealed class DisableUserUserValidator : AbstractValidator<CommandDisabl
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
     private bool ValidateUserUuid(Guid userUuid)
     {
@@ -227,7 +239,7 @@ internal sealed class DisableUserUserValidator : AbstractValidator<CommandDisabl
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the user with the specified UUID is not already disabled.
     /// </summary>
     private bool ValidateUserDisabled(Guid userUuid)
     {

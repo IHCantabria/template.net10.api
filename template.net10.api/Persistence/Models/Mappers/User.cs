@@ -8,8 +8,11 @@ namespace template.net10.api.Persistence.Models;
 internal partial class User
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Implicitly converts a <see cref="User" /> entity to a <see cref="UserCreatedResource" /> response contract,
+    ///     mapping all relevant fields.
     /// </summary>
+    /// <param name="entity">The source <see cref="User" /> entity.</param>
+    /// <returns>A <see cref="UserCreatedResource" /> populated from the entity.</returns>
     public static implicit operator UserCreatedResource(User entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
@@ -26,8 +29,11 @@ internal partial class User
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Explicitly maps a <see cref="User" /> entity to a <see cref="UserCreatedResource" /> by invoking the implicit
+    ///     operator.
     /// </summary>
+    /// <param name="entity">The source <see cref="User" /> entity.</param>
+    /// <returns>A <see cref="UserCreatedResource" /> populated from the entity.</returns>
     public static UserCreatedResource ToUserCreatedResource(
         User entity)
     {
@@ -35,8 +41,11 @@ internal partial class User
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Implicitly converts a <see cref="User" /> entity to a <see cref="UserResetedPasswordDto" />.
+    ///     The <c>Password</c> field is intentionally left empty as it is only available before hashing.
     /// </summary>
+    /// <param name="entity">The source <see cref="User" /> entity.</param>
+    /// <returns>A <see cref="UserResetedPasswordDto" /> with UUID and email populated.</returns>
     public static implicit operator UserResetedPasswordDto(User entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
@@ -49,8 +58,11 @@ internal partial class User
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Explicitly maps a <see cref="User" /> entity to a <see cref="UserResetedPasswordDto" /> by invoking the implicit
+    ///     operator.
     /// </summary>
+    /// <param name="entity">The source <see cref="User" /> entity.</param>
+    /// <returns>A <see cref="UserResetedPasswordDto" /> populated from the entity.</returns>
     public static UserResetedPasswordDto ToUserResetedPasswordDto(
         User entity)
     {
@@ -58,8 +70,11 @@ internal partial class User
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Implicitly converts a <see cref="User" /> entity to a <see cref="UserStateResource" />,
+    ///     mapping username, disabled flag, and UUID.
     /// </summary>
+    /// <param name="entity">The source <see cref="User" /> entity.</param>
+    /// <returns>A <see cref="UserStateResource" /> populated from the entity.</returns>
     public static implicit operator UserStateResource(User entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
@@ -72,8 +87,11 @@ internal partial class User
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Explicitly maps a <see cref="User" /> entity to a <see cref="UserStateResource" /> by invoking the implicit
+    ///     operator.
     /// </summary>
+    /// <param name="entity">The source <see cref="User" /> entity.</param>
+    /// <returns>A <see cref="UserStateResource" /> populated from the entity.</returns>
     public static UserStateResource ToUserStateResource(
         User entity)
     {
@@ -82,12 +100,14 @@ internal partial class User
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Contains EF Core query projections from <see cref="User" /> to various DTO types,
+///     used by the generic repository to produce efficient server-side projections.
 /// </summary>
 internal static class UserProjections
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Projection from <see cref="User" /> to <see cref="UserIdTokenDto" />,
+    ///     used when building identity tokens (includes UUID, email, names, role, and username).
     /// </summary>
     internal static IProjection<User, UserIdTokenDto> UserIdTokenProjection =>
         new Projection<User, UserIdTokenDto>(static p => new UserIdTokenDto
@@ -101,7 +121,8 @@ internal static class UserProjections
         });
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Projection from <see cref="User" /> to <see cref="UserAccessTokenDto" />,
+    ///     used when building JWT access tokens (includes UUID, names, role, username, role claims, and user claims).
     /// </summary>
     [SuppressMessage(
         "ReSharper",
@@ -124,7 +145,8 @@ internal static class UserProjections
         });
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Projection from <see cref="User" /> to <see cref="UserCredentialsDto" />,
+    ///     used during login to retrieve the stored password hash and salt for verification.
     /// </summary>
     internal static IProjection<User, UserCredentialsDto> UserCredentialsProjection =>
         new Projection<User, UserCredentialsDto>(static p => new UserCredentialsDto
@@ -134,7 +156,8 @@ internal static class UserProjections
         });
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Projection from <see cref="User" /> to <see cref="UserDto" />,
+    ///     used to retrieve full user information for API responses.
     /// </summary>
     internal static IProjection<User, UserDto> UserProjection =>
         new Projection<User, UserDto>(static p => new UserDto

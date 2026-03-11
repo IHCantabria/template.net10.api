@@ -23,7 +23,7 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Features.Commands;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR command request to reset a user's password.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -40,7 +40,8 @@ public sealed record CommandResetUserPassword(CommandResetUserPasswordParamsDto 
         IEqualityOperators<CommandResetUserPassword, CommandResetUserPassword, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="CommandResetUserPassword" /> command by resetting a user's password and persisting the
+///     change.
 /// </summary>
 internal sealed class CommandResetUserPasswordHandler(
     IGenericDbRepositoryWriteContext<AppDbContext, User> repository,
@@ -49,25 +50,27 @@ internal sealed class CommandResetUserPasswordHandler(
     : IRequestHandler<CommandResetUserPassword, LanguageExt.Common.Result<UserResetedPasswordDto>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Password configuration options used for hashing and salting.
     /// </summary>
     private readonly PasswordOptions _config = config.Value ?? throw new ArgumentNullException(nameof(config));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for write operations on <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryWriteContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Unit of work for committing database transactions.
     /// </summary>
     private readonly IUnitOfWork<AppDbContext> _unitOfWork =
         unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the reset password command by retrieving the user, updating the password, and saving changes.
     /// </summary>
+    /// <param name="request">The MediatR command containing the key and new password for the user.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultFaultedInvalidOperationException">
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
@@ -97,7 +100,7 @@ internal sealed class CommandResetUserPasswordHandler(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Updates the user's password using the command parameters and configured pepper.
     /// </summary>
     private Try<User> UpdateUser(CommandResetUserPassword request, User user)
     {
@@ -113,22 +116,24 @@ internal sealed class CommandResetUserPasswordHandler(
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the password and confirmation password match when resetting a user's
+///     password.
 /// </summary>
 [UsedImplicitly]
 internal sealed class ResetUserPasswordPasswordValidator : AbstractValidator<CommandResetUserPassword>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="ResetUserPasswordPasswordValidator" /> class with localization
+    ///     support.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="localizer"/> is <see langword="null"/>.</exception>
     public ResetUserPasswordPasswordValidator(IStringLocalizer<ResourceMain> localizer)
     {
         var localizer1 = localizer ?? throw new ArgumentNullException(nameof(localizer));
 
         RuleFor(static x => x.CommandParams.Password).Equal(static x => x.CommandParams.ConfirmPassword)
             .OverridePropertyName("confirm_password")
-            .WithMessage(localizer1["ResetUserPasswordValidatorPasswordNotValidMasg"])
+            .WithMessage(localizer1["ResetUserPasswordValidatorPasswordNotValidMsg"])
             .WithErrorCode(localizer1["ResetUserPasswordValidatorPasswordNotValidCode"])
             .WithErrorCode(StatusCodes.Status400BadRequest.ToString(CultureInfo.InvariantCulture))
             .WithState(static _ => HttpStatusCode.BadRequest);
@@ -136,25 +141,31 @@ internal sealed class ResetUserPasswordPasswordValidator : AbstractValidator<Com
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that verifies the requesting user's identity token is valid and the user is active when
+///     resetting a password.
 /// </summary>
 [UsedImplicitly]
 internal sealed class ResetUserPasswordIdentifierValidator : AbstractValidator<CommandResetUserPassword>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during identity validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="ResetUserPasswordIdentifierValidator" /> class with repository and
+    ///     localization dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public ResetUserPasswordIdentifierValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -165,24 +176,23 @@ internal sealed class ResetUserPasswordIdentifierValidator : AbstractValidator<C
 
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateIdentifier)
-            .WithMessage(_localizer["TokenValidatoUserExistMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserExistCode"])
-            .WithErrorCode(StatusCodes.Status403Forbidden.ToString(CultureInfo.InvariantCulture))
+            .OverridePropertyName("access_token")
+            .WithMessage(_localizer["TokenValidatorUserExistMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserExistCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
 
         RuleFor(static x => x.CommandParams.Identity.UserUuid ?? Guid.Empty)
             .Must(ValidateUserActive)
             .OverridePropertyName("access_token")
-            .WithMessage(_localizer["TokenValidatoUserDisabledMsg"])
-            .WithErrorCode(_localizer["TokenValidatoUserDisabledCode"])
-            .WithErrorCode(StatusCodes.Status403Forbidden.ToString(CultureInfo.InvariantCulture))
+            .WithMessage(_localizer["TokenValidatorUserDisabledMsg"])
+            .WithErrorCode(_localizer["TokenValidatorUserDisabledCode"])
             .WithState(static _ => HttpStatusCode.Forbidden)
             .When(static x => x.CommandParams.Identity.UserUuid is not null);
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
     private bool ValidateIdentifier(Guid uuid)
     {
@@ -196,7 +206,7 @@ internal sealed class ResetUserPasswordIdentifierValidator : AbstractValidator<C
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
     private bool ValidateUserActive(Guid uuid)
     {
@@ -211,25 +221,31 @@ internal sealed class ResetUserPasswordIdentifierValidator : AbstractValidator<C
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that ensures the target user key (UUID) exists and the user is active when resetting a
+///     password.
 /// </summary>
 [UsedImplicitly]
 internal sealed class ResetUserPasswordKeyValidator : AbstractValidator<CommandResetUserPassword>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Repository for read operations on <see cref="User" /> entities used during key validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="ResetUserPasswordKeyValidator" /> class with repository and
+    ///     localization dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public ResetUserPasswordKeyValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
         IStringLocalizer<ResourceMain> localizer)
@@ -256,7 +272,7 @@ internal sealed class ResetUserPasswordKeyValidator : AbstractValidator<CommandR
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
     private bool ValidateUserUuid(Guid key)
     {
@@ -270,7 +286,7 @@ internal sealed class ResetUserPasswordKeyValidator : AbstractValidator<CommandR
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the user with the specified key is currently active (enabled).
     /// </summary>
     private bool ValidateUserActive(Guid key)
     {

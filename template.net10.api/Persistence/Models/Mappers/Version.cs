@@ -5,12 +5,13 @@ using template.net10.api.Domain.DTOs;
 namespace template.net10.api.Persistence.Models;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Contains EF Core query projections from <see cref="CurrentVersion"/> to version-related DTOs.
 /// </summary>
 internal static class CurrentVersionProjections
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Projection from <see cref="CurrentVersion"/> to <see cref="VersionDto"/>,
+    ///     navigating through the related <see cref="Version"/> to populate all version fields.
     /// </summary>
     internal static IProjection<CurrentVersion, VersionDto> VersionProjection =>
         new Projection<CurrentVersion, VersionDto>(static p => new VersionDto

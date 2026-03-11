@@ -8,7 +8,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Contracts;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the API contract for creating a new user.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -18,55 +18,55 @@ public sealed partial record CommandCreateUserParamsResource : IPublicApiContrac
     IEqualityOperators<CommandCreateUserParamsResource, CommandCreateUserParamsResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the username for the new user account.
     /// </summary>
     [JsonRequired]
     public required string Username { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the email address for the new user account.
     /// </summary>
     [JsonRequired]
     [EmailAddress]
     public required string Email { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets a value indicating whether the user account should be initially disabled.
     /// </summary>
     [JsonRequired]
     public required bool IsDisabled { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the password for the new user account.
     /// </summary>
     [JsonRequired]
     public required string Password { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the password confirmation, which must match the password.
     /// </summary>
     [JsonRequired]
     public required string ConfirmPassword { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the optional first name of the new user.
     /// </summary>
     public string? FirstName { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the optional last name of the new user.
     /// </summary>
     public string? LastName { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the role identifier assigned to the new user.
     /// </summary>
     [JsonRequired]
     public required short RoleId { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the API contract for updating an existing user.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -76,14 +76,14 @@ public sealed partial record CommandUpdateUserParamsResource : IPublicApiContrac
     IEqualityOperators<CommandUpdateUserParamsResource, CommandUpdateUserParamsResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the user to update.
     /// </summary>
     [Required]
     [FromRoute(Name = "user-key")]
     public required Guid Key { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the request body containing the updated user properties.
     /// </summary>
     [Required]
     [FromBody]
@@ -91,7 +91,7 @@ public sealed partial record CommandUpdateUserParamsResource : IPublicApiContrac
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the request body for updating user properties.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -101,38 +101,38 @@ public sealed record CommandUpdateUserParamsBodyResource : IPublicApiContract,
     IEqualityOperators<CommandUpdateUserParamsBodyResource, CommandUpdateUserParamsBodyResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the updated username, or null to leave unchanged.
     /// </summary>
     public string? Username { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets a value indicating whether the user account should be disabled.
     /// </summary>
     public bool IsDisabled { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the updated email address, or null to leave unchanged.
     /// </summary>
     public string? Email { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the updated role identifier, or null to leave unchanged.
     /// </summary>
     public short? RoleId { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the updated first name, or null to leave unchanged.
     /// </summary>
     public string? FirstName { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the updated last name, or null to leave unchanged.
     /// </summary>
     public string? LastName { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the API contract for resetting a user's password.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -142,14 +142,14 @@ public sealed partial record CommandResetUserPasswordParamsResource : IPublicApi
     IEqualityOperators<CommandResetUserPasswordParamsResource, CommandResetUserPasswordParamsResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the user whose password will be reset.
     /// </summary>
     [Required]
     [FromRoute(Name = "user-key")]
     public required Guid Key { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the request body containing the new password data.
     /// </summary>
     [Required]
     [FromBody]
@@ -157,7 +157,7 @@ public sealed partial record CommandResetUserPasswordParamsResource : IPublicApi
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the request body for resetting a user's password.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -167,20 +167,20 @@ public sealed record CommandResetUserPasswordParamsBodyResource : IPublicApiCont
     IEqualityOperators<CommandResetUserPasswordParamsBodyResource, CommandResetUserPasswordParamsBodyResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the new password for the user account.
     /// </summary>
     [JsonRequired]
     public required string Password { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the confirmation of the new password, which must match the password.
     /// </summary>
     [JsonRequired]
     public required string ConfirmPassword { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the API contract for disabling a user account.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -190,7 +190,7 @@ public sealed partial record CommandDisableUserParamsResource : IPublicApiContra
     IEqualityOperators<CommandDisableUserParamsResource, CommandDisableUserParamsResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the user to disable.
     /// </summary>
     [Required]
     [FromRoute(Name = "user-key")]
@@ -198,7 +198,7 @@ public sealed partial record CommandDisableUserParamsResource : IPublicApiContra
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the API contract for enabling a user account.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -208,7 +208,7 @@ public sealed partial record CommandEnableUserParamsResource : IPublicApiContrac
     IEqualityOperators<CommandEnableUserParamsResource, CommandEnableUserParamsResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the user to enable.
     /// </summary>
     [Required]
     [FromRoute(Name = "user-key")]
@@ -216,7 +216,7 @@ public sealed partial record CommandEnableUserParamsResource : IPublicApiContrac
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the API contract for deleting a user.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -226,7 +226,7 @@ public sealed partial record CommandDeleteUserParamsResource : IPublicApiContrac
     IEqualityOperators<CommandDeleteUserParamsResource, CommandDeleteUserParamsResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the user to delete.
     /// </summary>
     [Required]
     [FromRoute(Name = "user-key")]

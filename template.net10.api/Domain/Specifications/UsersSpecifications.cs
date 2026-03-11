@@ -7,13 +7,14 @@ using template.net10.api.Persistence.Models;
 namespace template.net10.api.Domain.Specifications;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether a user with the given email address exists.
 /// </summary>
 internal sealed class UserEmailVerification : VerificationBase<User>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by the specified email address.
     /// </summary>
+    /// <param name="email">The email address to verify.</param>
     internal UserEmailVerification(string email)
     {
         AddFilter(u => u.Email == email);
@@ -21,13 +22,14 @@ internal sealed class UserEmailVerification : VerificationBase<User>
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether a user identified by UUID is disabled.
 /// </summary>
 internal sealed class UserDisabledVerification : VerificationBase<User>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by UUID and disabled status.
     /// </summary>
+    /// <param name="key">The UUID of the user to verify.</param>
     internal UserDisabledVerification(Guid key)
     {
         AddFilter(u => u.Uuid == key);
@@ -36,13 +38,14 @@ internal sealed class UserDisabledVerification : VerificationBase<User>
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Verification specification that checks whether a user is enabled (not disabled).
 /// </summary>
 internal sealed class UserEnabledVerification : VerificationBase<User>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by UUID and enabled status.
     /// </summary>
+    /// <param name="key">The UUID of the user to verify.</param>
     internal UserEnabledVerification(Guid key)
     {
         AddFilter(u => u.Uuid == key);
@@ -50,8 +53,9 @@ internal sealed class UserEnabledVerification : VerificationBase<User>
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by email address and enabled status.
     /// </summary>
+    /// <param name="email">The email address of the user to verify.</param>
     internal UserEnabledVerification(string email)
     {
         AddFilter(u => u.Email == email);
@@ -60,13 +64,14 @@ internal sealed class UserEnabledVerification : VerificationBase<User>
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Read-only specification that retrieves a user by UUID, ordered by insert date descending.
 /// </summary>
 internal sealed class UserReadByKeySpecification : SpecificationBase<User>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by UUID with no-tracking and single-query behavior.
     /// </summary>
+    /// <param name="key">The UUID of the user to retrieve.</param>
     internal UserReadByKeySpecification(Guid key)
     {
         AddFilter(u => u.Uuid == key);
@@ -78,13 +83,14 @@ internal sealed class UserReadByKeySpecification : SpecificationBase<User>
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Tracked specification that retrieves a user by UUID for write operations, ordered by insert date descending.
 /// </summary>
 internal sealed class UserWriteByKeySpecification : SpecificationBase<User>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by UUID with full tracking and single-query behavior.
     /// </summary>
+    /// <param name="key">The UUID of the user to retrieve for modification.</param>
     internal UserWriteByKeySpecification(Guid key)
     {
         AddFilter(u => u.Uuid == key);
@@ -96,13 +102,14 @@ internal sealed class UserWriteByKeySpecification : SpecificationBase<User>
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Tracked specification that retrieves a user and its claims by UUID for delete operations.
 /// </summary>
 internal sealed class UserWriteDeleteByKeySpecification : SpecificationBase<User>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by UUID, including related claims, with full tracking.
     /// </summary>
+    /// <param name="key">The UUID of the user to retrieve for deletion.</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -120,13 +127,14 @@ internal sealed class UserWriteDeleteByKeySpecification : SpecificationBase<User
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Read-only specification that retrieves a user by email address, ordered by insert date descending.
 /// </summary>
 internal sealed class UserReadByEmailSpecification : SpecificationBase<User>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance filtering by email with no-tracking and single-query behavior.
     /// </summary>
+    /// <param name="email">The email address of the user to retrieve.</param>
     internal UserReadByEmailSpecification(string email)
     {
         AddFilter(u => u.Email == email);
@@ -138,12 +146,12 @@ internal sealed class UserReadByEmailSpecification : SpecificationBase<User>
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Read-only specification that retrieves all users, ordered by insert date descending.
 /// </summary>
 internal sealed class UsersReadSpecification : SpecificationBase<User>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance with no-tracking, single-query behavior and descending insert date order.
     /// </summary>
     internal UsersReadSpecification()
     {

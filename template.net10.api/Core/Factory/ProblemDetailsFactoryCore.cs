@@ -8,7 +8,7 @@ using template.net10.api.Localize.Resources;
 namespace template.net10.api.Core.Factory;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides factory methods for creating RFC 7807 <see cref="ProblemDetails" /> responses mapped to HTTP status codes.
 /// </summary>
 [SuppressMessage(
     "ReSharper",
@@ -18,8 +18,12 @@ namespace template.net10.api.Core.Factory;
 internal static class ProblemDetailsFactoryCore
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> instance appropriate for the specified HTTP status code.
     /// </summary>
+    /// <param name="httpStatusCode">The HTTP status code to map to a problem details response.</param>
+    /// <param name="ex">The exception that triggered the error.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> instance with the appropriate status, title, detail, and type.</returns>
     internal static ProblemDetails CreateProblemDetailsByHttpStatusCode(HttpStatusCode httpStatusCode, Exception ex,
         IStringLocalizer<ResourceMain> localizer)
     {
@@ -44,8 +48,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for a bad request caused by model state validation failures.
     /// </summary>
+    /// <param name="modelState">The model state dictionary containing validation errors.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with validation errors included as extensions.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -67,8 +74,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for a bad request caused by malformed JSON in the request body.
     /// </summary>
+    /// <param name="errors">The dictionary of validation errors keyed by field name.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> indicating the JSON payload is malformed.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -92,8 +102,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for a bad request caused by invalid JSON values that fail validation rules.
     /// </summary>
+    /// <param name="errors">The dictionary of validation errors keyed by field name.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> indicating the JSON payload has invalid field values.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -116,8 +129,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 400 Bad Request error.
     /// </summary>
+    /// <param name="exception">The exception that caused the bad request.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 400.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -138,8 +154,10 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an unsupported HTTP method or protocol version.
     /// </summary>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> indicating the HTTP method is not supported.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -160,8 +178,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 401 Unauthorized error.
     /// </summary>
+    /// <param name="exception">The exception that caused the unauthorized error.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 401.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -182,8 +203,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 401 Unauthorized error when the authentication token is
+    ///     missing.
     /// </summary>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 401 indicating a missing token.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -204,8 +228,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 401 Unauthorized error when authentication processing fails.
     /// </summary>
+    /// <param name="exception">The exception that caused the authentication failure.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 401 indicating an authentication process failure.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -226,8 +253,10 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 403 Forbidden error when access is denied.
     /// </summary>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 403 indicating forbidden access.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -247,8 +276,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 403 Forbidden error.
     /// </summary>
+    /// <param name="exception">The exception that caused the forbidden error.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 403.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -269,8 +301,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 404 Not Found error.
     /// </summary>
+    /// <param name="exception">The exception that caused the not found error.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 404.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -291,8 +326,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 405 Method Not Allowed error.
     /// </summary>
+    /// <param name="exception">The exception that caused the method not allowed error.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 405.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -313,8 +351,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 408 Request Timeout error.
     /// </summary>
+    /// <param name="exception">The exception that caused the request timeout.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 408.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -335,8 +376,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 409 Conflict error.
     /// </summary>
+    /// <param name="exception">The exception that caused the conflict.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 409.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -357,8 +401,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 410 Gone error.
     /// </summary>
+    /// <param name="exception">The exception indicating the resource is no longer available.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 410.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -379,8 +426,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 415 Unsupported Media Type error.
     /// </summary>
+    /// <param name="exception">The exception that caused the unsupported media type error.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 415.</returns>
     private static ProblemDetails CreateProblemDetailsUnsupportedMediaType(Exception exception,
         IStringLocalizer localizer)
     {
@@ -396,8 +446,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 422 Unprocessable Entity error.
     /// </summary>
+    /// <param name="exception">The exception indicating the entity could not be processed.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 422.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -418,8 +471,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 429 Too Many Requests error.
     /// </summary>
+    /// <param name="exception">The exception indicating rate limiting was triggered.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 429.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -440,8 +496,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 500 Internal Server Error.
     /// </summary>
+    /// <param name="exception">The exception that caused the internal server error.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 500.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -462,8 +521,11 @@ internal static class ProblemDetailsFactoryCore
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a <see cref="ProblemDetails" /> for an HTTP 501 Not Implemented error.
     /// </summary>
+    /// <param name="exception">The exception indicating the operation is not implemented.</param>
+    /// <param name="localizer">The string localizer for retrieving localized messages.</param>
+    /// <returns>A <see cref="ProblemDetails" /> with status 501.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -485,13 +547,18 @@ internal static class ProblemDetailsFactoryCore
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides utility methods used internally by <see cref="ProblemDetailsFactoryCore" />.
 /// </summary>
 file static class ProblemDetailsFactoryCoreUtils
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Determines whether the validation failure originates from the root JSON document (indicated by a "$" key).
     /// </summary>
+    /// <param name="keys">The collection of model state keys to inspect.</param>
+    /// <returns>
+    ///     <see langword="true" /> if the root "$" key is present, indicating a malformed JSON document; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",

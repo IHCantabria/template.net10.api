@@ -8,7 +8,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Contracts;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the API contract for retrieving a user by their unique identifier.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -18,7 +18,7 @@ public sealed partial record QueryGetUserParamsResource : IPublicApiContract,
     IEqualityOperators<QueryGetUserParamsResource, QueryGetUserParamsResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier of the user to retrieve.
     /// </summary>
     [Required]
     [FromRoute(Name = "user-key")]
@@ -26,7 +26,7 @@ public sealed partial record QueryGetUserParamsResource : IPublicApiContract,
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the API contract for authenticating a user via login.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -36,14 +36,14 @@ public sealed partial record QueryLoginUserParamsResource : IPublicApiContract,
     IEqualityOperators<QueryLoginUserParamsResource, QueryLoginUserParamsResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the email address used for authentication.
     /// </summary>
     [JsonRequired]
     [EmailAddress]
     public required string Email { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the password used for authentication.
     /// </summary>
     [JsonRequired]
     public required string Password { get; init; }

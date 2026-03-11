@@ -7,8 +7,9 @@ using template.net10.api.Persistence.Models.Interfaces;
 namespace template.net10.api.Domain.Specifications.Generic;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Specification that retrieves entities ordered ascending by their alias text.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that implements <see cref="IEntityWithAlias"/>.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedType.Global",
@@ -18,8 +19,9 @@ internal sealed class DtosOrderedByAliasSpecifications<TEntity> : SpecificationB
     where TEntity : class, IEntityWithAlias
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="DtosOrderedByAliasSpecifications{TEntity}"/> class with ascending alias order.
     /// </summary>
+    /// <param name="trackData">When <see langword="true"/>, entities are tracked by the context; otherwise no-tracking is used.</param>
     internal DtosOrderedByAliasSpecifications(bool trackData = false)
     {
         AddOrderBy(static e => e.AliasText, OrderByType.Asc);

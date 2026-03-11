@@ -12,7 +12,7 @@ using template.net10.api.Persistence.Models;
 namespace template.net10.api.Features.GraphQL;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR query request to retrieve users via GraphQL.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -28,20 +28,21 @@ public sealed record GraphQLQueryGetUsers(IResolverContext Context) : IRequest<I
     IEqualityOperators<GraphQLQueryGetUsers, GraphQLQueryGetUsers, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="GraphQLQueryGetUsers" /> request by querying users from the database context for GraphQL
+///     projections.
 /// </summary>
 [MustDisposeResource]
 internal sealed class GraphQLGetUsersHandlerQuery(IDbContextFactory<AppDbContext> context)
     : IRequestHandler<GraphQLQueryGetUsers, IQueryable<UserDto>>, IAsyncDisposable
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Database context instance used for querying user data.
     /// </summary>
     private readonly AppDbContext _context =
         context.CreateDbContext() ?? throw new ArgumentNullException(nameof(context));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Asynchronously disposes the database context.
     /// </summary>
     public ValueTask DisposeAsync()
     {
@@ -49,8 +50,10 @@ internal sealed class GraphQLGetUsersHandlerQuery(IDbContextFactory<AppDbContext
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the GraphQL users query by returning a projected, no-tracking queryable of user DTOs.
     /// </summary>
+    /// <param name="request">The MediatR GraphQL query request containing the resolver context for projections.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",

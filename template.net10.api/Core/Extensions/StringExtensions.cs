@@ -6,7 +6,8 @@ using System.Text.RegularExpressions;
 namespace template.net10.api.Core.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for string manipulation including cleaning, diacritic removal, and unwanted character
+///     stripping.
 /// </summary>
 [SuppressMessage(
     "ReSharper",
@@ -19,14 +20,22 @@ namespace template.net10.api.Core.Extensions;
 internal static partial class StringExtensions
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets a compiled regular expression that matches control characters, line/paragraph separators, zero-width
+    ///     characters, and symbol characters.
     /// </summary>
+    /// <returns>A <see cref="Regex" /> instance matching unwanted characters.</returns>
     [GeneratedRegex(@"[\p{C}\p{Zl}\p{Zp}\u200B-\u200D\uFEFF\p{So}]")]
     private static partial Regex UnwantedCharsRegex();
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Removes unwanted characters (control chars, zero-width chars, symbols) from the input string after trimming
+    ///     whitespace.
     /// </summary>
+    /// <param name="input">The string to clean.</param>
+    /// <returns>
+    ///     The cleaned string with unwanted characters removed, or <see cref="string.Empty" /> if the input is null or
+    ///     whitespace.
+    /// </returns>
     private static string RemoveUnwantedCharacters(string input)
     {
         if (string.IsNullOrWhiteSpace(input)) return string.Empty;
@@ -37,8 +46,10 @@ internal static partial class StringExtensions
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Removes diacritical marks (accents) from the specified text by decomposing and recomposing Unicode characters.
     /// </summary>
+    /// <param name="text">The text from which to remove diacritics.</param>
+    /// <returns>The text with all diacritical marks removed.</returns>
     /// <exception cref="ArgumentException">The current instance contains invalid Unicode characters.</exception>
     [SuppressMessage(
         "ReSharper",
@@ -58,8 +69,10 @@ internal static partial class StringExtensions
     extension(string input)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Cleans the string by removing unwanted characters and optionally removing additional specified characters.
         /// </summary>
+        /// <param name="additionalCharsToRemove">An optional array of additional characters to remove from the string.</param>
+        /// <returns>The cleaned string.</returns>
         [SuppressMessage(
             "ReSharper",
             "ExceptionNotDocumentedOptional",

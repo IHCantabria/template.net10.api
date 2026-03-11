@@ -4,22 +4,22 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Core.DTOs;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Data transfer object containing application information details.
 /// </summary>
 internal sealed partial record InfoDto : IDto, IEqualityOperators<InfoDto, InfoDto, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the application version string.
     /// </summary>
     internal required string Version { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets a human-readable label describing the application's current operational status (e.g., "Healthy", "Degraded").
     /// </summary>
-    internal required string Info { get; init; }
+    internal required string StatusInfo { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the HTTP status code indicating the application's current state.
     /// </summary>
-    internal required short Status { get; init; }
+    internal required short StatusCode { get; init; }
 }

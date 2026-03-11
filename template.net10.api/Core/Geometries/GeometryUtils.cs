@@ -6,7 +6,7 @@ using template.net10.api.Core.Geometries.DTOs;
 namespace template.net10.api.Core.Geometries;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides utility methods for creating and converting geometry objects to and from DTOs.
 /// </summary>
 [SuppressMessage(
     "ReSharper",
@@ -19,8 +19,10 @@ namespace template.net10.api.Core.Geometries;
 internal static class GeometryUtils
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a polygon geometry representing an extent (bounding box) from the given <see cref="CreateExtentDto" />.
     /// </summary>
+    /// <param name="extent">The extent DTO containing WGS84 coordinate boundaries.</param>
+    /// <returns>A <see cref="Try{A}" /> containing the resulting <see cref="Geometry" /> polygon with SRID 4326.</returns>
     /// <exception cref="ArgumentException">If the ring is not closed, or has too few points</exception>
     internal static Try<Geometry> CreateExtentFromExtentDto(CreateExtentDto extent)
     {
@@ -43,8 +45,10 @@ internal static class GeometryUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a point geometry from the given <see cref="CreatePointDto" />.
     /// </summary>
+    /// <param name="point">The point DTO containing WGS84 coordinates.</param>
+    /// <returns>A <see cref="Try{A}" /> containing the resulting <see cref="Geometry" /> point with SRID 4326.</returns>
     internal static Try<Geometry> CreatePointFromPointDto(CreatePointDto point)
     {
         return () =>
@@ -61,8 +65,11 @@ internal static class GeometryUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Extracts extent coordinate boundaries from a polygon <see cref="Geometry" /> and returns them as an
+    ///     <see cref="ExtentDto" />.
     /// </summary>
+    /// <param name="geometry">The source geometry, expected to be a valid polygon.</param>
+    /// <returns>A <see cref="Try{A}" /> containing the resulting <see cref="ExtentDto" />.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -96,8 +103,11 @@ internal static class GeometryUtils
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Extracts point coordinates from a point <see cref="Geometry" /> and returns them as a <see cref="PointDto" />.
     /// </summary>
+    /// <param name="geometry">The source geometry, expected to be a valid point.</param>
+    /// <param name="uuid">The unique identifier to assign to the resulting DTO.</param>
+    /// <returns>A <see cref="Try{A}" /> containing the resulting <see cref="PointDto" />.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",

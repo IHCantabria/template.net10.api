@@ -10,13 +10,14 @@ using template.net10.api.Core.Contracts;
 namespace template.net10.api.Settings.Filters;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Swashbuckle operation filter that appends common error response schemas (408, 500) to every
+///     operation in the OpenAPI document, ensuring consistent ProblemDetails documentation across all endpoints.
 /// </summary>
 [UsedImplicitly]
 internal sealed class DocumentationOperationFilter : IOperationFilter, IOrderedFilter
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initialises the filter and sets <see cref="Order"/> to 1 so it runs before security filters.
     /// </summary>
     public DocumentationOperationFilter()
     {
@@ -24,15 +25,17 @@ internal sealed class DocumentationOperationFilter : IOperationFilter, IOrderedF
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Appends 408 (Request Timeout) and 500 (Internal Server Error) response schemas with
+    ///     ProblemDetails content to the given <paramref name="operation"/>.
     /// </summary>
+    /// <param name="operation">The OpenAPI operation to enrich.</param>
+    /// <param name="context">Filter context providing access to the schema generator.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="operation" /> is <see langword="null" />.
     ///     <paramref name="context" /> is <see langword="null" />.
     /// </exception>
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        // Add common response types.
         ArgumentNullException.ThrowIfNull(operation);
         ArgumentNullException.ThrowIfNull(context);
         operation.Responses?.TryAdd(StatusCodes.Status408RequestTimeout.ToString(CultureInfo.InvariantCulture),
@@ -64,7 +67,8 @@ internal sealed class DocumentationOperationFilter : IOperationFilter, IOrderedF
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The relative execution order of this filter among all registered <see cref="IOrderedFilter"/> instances.
+    ///     Set to 1 so it runs before authorization filters.
     /// </summary>
     public int Order { get; }
 }

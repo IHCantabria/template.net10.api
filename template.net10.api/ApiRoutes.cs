@@ -1,161 +1,161 @@
 ﻿namespace template.net10.api;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Defines all API route constants used across controllers and hubs in the application.
 /// </summary>
 internal static class ApiRoutes
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Base path prefix for all SignalR hub endpoints.
     /// </summary>
     internal const string HubsAccess = "/hubs";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Route constants for the Identity controller handling authentication operations.
     /// </summary>
     internal static class IdentityController
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Base route segment identifying the identity controller.
         /// </summary>
         private const string ControllerIdentity = "identity";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route path for the identity controller.
         /// </summary>
         internal const string PathController = ControllerIdentity;
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for the user login endpoint.
         /// </summary>
         internal const string Login = "login";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for the access token verification endpoint.
         /// </summary>
         internal const string Access = "access";
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Route constants for the Users controller handling user management operations.
     /// </summary>
     internal static class UsersController
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Base route segment identifying the users controller.
         /// </summary>
         private const string ControllerIdentity = "users";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route path for the users controller.
         /// </summary>
         internal const string PathController = ControllerIdentity;
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for the create user endpoint (POST to controller root).
         /// </summary>
         internal const string CreateUser = "";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for updating a specific user, identified by the user key path parameter.
         /// </summary>
         internal const string UpdateUser = "{user-key}";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for disabling a specific user, identified by the user key path parameter.
         /// </summary>
         internal const string DisableUser = "{user-key}/disable";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for enabling a specific user, identified by the user key path parameter.
         /// </summary>
         internal const string EnableUser = "{user-key}/enable";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for resetting a specific user's password, identified by the user key path parameter.
         /// </summary>
         internal const string ResetUserPassword = "{user-key}/reset-password";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for deleting a specific user, identified by the user key path parameter.
         /// </summary>
         internal const string DeleteUser = "{user-key}";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for retrieving all users (GET to controller root).
         /// </summary>
         internal const string GetUsers = "";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for retrieving a specific user, identified by the user key path parameter.
         /// </summary>
         internal const string GetUser = "{user-key}";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for the user events endpoint used by SignalR hub subscriptions.
         /// </summary>
         internal const string Hubs = "events";
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Route constants for the Users SignalR hub providing real-time user event notifications.
     /// </summary>
     internal static class UsersHub
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Name segment identifying the users hub.
         /// </summary>
         private const string HubName = "users";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Full path for the users SignalR hub endpoint.
         /// </summary>
         internal const string PathHub = $"{HubsAccess}/{HubName}";
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Route constants for the Health Check controller.
     /// </summary>
     internal static class HealthController
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Base route segment for the health controller (mapped to API root).
         /// </summary>
         private const string ControllerIdentity = "";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route path for the health controller.
         /// </summary>
         internal const string PathController = ControllerIdentity;
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for the health check endpoint (GET to controller root).
         /// </summary>
         internal const string HealthCheck = "";
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Route constants for the System controller providing application metadata.
     /// </summary>
     internal static class SystemController
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Base route segment identifying the systems controller.
         /// </summary>
         private const string ControllerIdentity = "systems";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route path for the systems controller.
         /// </summary>
         internal const string PathController = ControllerIdentity;
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for retrieving the catalog of application error codes.
         /// </summary>
         internal const string GetErrorCodes = "error-codes";
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Route for retrieving the current application version.
         /// </summary>
         internal const string GetVersion = "version";
     }

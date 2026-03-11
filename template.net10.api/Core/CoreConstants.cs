@@ -1,22 +1,22 @@
 ﻿namespace template.net10.api.Core;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Contains core application constants used across the application.
 /// </summary>
 internal static class CoreConstants
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The file name for the package.json configuration file.
     /// </summary>
     internal const string PackageJsonFile = "package.json";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The prefix used for backend API error codes.
     /// </summary>
     internal const string ApiErrorCodesPrefix = "BE-";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets a unique identifier generated once per application instance.
     /// </summary>
     internal static Guid GuidInstance { get; } = Guid.NewGuid();
 }

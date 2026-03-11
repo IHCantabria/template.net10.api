@@ -7,7 +7,8 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers request timeout policies for the ASP.NET Core
+///     request timeout middleware, defining default, query, and command timeout durations. Load order: 22.
 /// </summary>
 [UsedImplicitly]
 internal sealed class RequestTimeoutInstaller : IServiceInstaller

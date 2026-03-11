@@ -7,17 +7,17 @@ using template.net10.api.Core.Logger.Sinks;
 namespace template.net10.api.Core.Logger;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Factory for creating and configuring Serilog logger instances at different application lifecycle stages.
 /// </summary>
 internal static class SerilogLoggersFactory
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Shared in-memory sink used to buffer log events until the real application logger is configured.
     /// </summary>
     private static readonly MemorySink MemorySink = new();
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates the initial bootstrap logger with enrichment, minimum levels, and a temporary memory sink.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">Given depth must be positive.</exception>
     [SuppressMessage(
@@ -35,10 +35,13 @@ internal static class SerilogLoggersFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates the real application logger with full configuration, sinks, and flushes buffered memory sink events.
     /// </summary>
+    /// <param name="builderConfiguration">The application configuration manager.</param>
+    /// <param name="envName">The current environment name.</param>
+    /// <param name="version">The application version.</param>
     /// <exception cref="ArgumentOutOfRangeException">Given depth must be positive.</exception>
-    /// <exception cref="InvalidConfigurationException">Condition.</exception>
+    /// <exception cref="InvalidConfigurationException">Thrown when a required Serilog sink or configuration section is missing or invalid in the provided <paramref name="builderConfiguration"/>.</exception>
     /// <exception cref="InvalidOperationException">When the logger is already created</exception>
     [SuppressMessage(
         "ReSharper",
@@ -59,7 +62,8 @@ internal static class SerilogLoggersFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a fallback logger with local file sink when the main logger configuration fails, and flushes buffered
+    ///     events.
     /// </summary>
     /// <exception cref="InvalidOperationException">When the logger is already created</exception>
     [SuppressMessage(

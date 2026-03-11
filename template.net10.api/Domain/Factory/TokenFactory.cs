@@ -16,13 +16,17 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Domain.Factory;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Factory responsible for generating JWT identity, access, and genie tokens.
 /// </summary>
 internal static class TokenFactory
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Generates an ID token DTO containing a signed JWT for the specified user.
     /// </summary>
+    /// <param name="user">The user data to include as claims in the ID token.</param>
+    /// <param name="jwtConfig">The JWT configuration options.</param>
+    /// <param name="appConfig">The application configuration options.</param>
+    /// <returns>An <see cref="IdTokenDto" /> containing the signed ID token string.</returns>
     internal static IdTokenDto GenerateIdTokenDto(UserIdTokenBaseDto user, JwtOptions jwtConfig, AppOptions appConfig)
     {
         return new IdTokenDto
@@ -32,8 +36,12 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Generates an access token DTO containing signed access and refresh JWT tokens for the specified user.
     /// </summary>
+    /// <param name="user">The user data to include as claims in the access token.</param>
+    /// <param name="jwtConfig">The JWT configuration options.</param>
+    /// <param name="appConfig">The application configuration options.</param>
+    /// <returns>A <see cref="Try{A}" /> containing an <see cref="AccessTokenDto" /> with both access and refresh tokens.</returns>
     internal static Try<AccessTokenDto> GenerateAccessTokenDto(UserAccessTokenBaseDto user, JwtOptions jwtConfig,
         AppOptions appConfig)
     {
@@ -45,8 +53,11 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Generates an access token DTO for the Genie (system) user using predefined claims.
     /// </summary>
+    /// <param name="jwtConfig">The JWT configuration options.</param>
+    /// <param name="appConfig">The application configuration options.</param>
+    /// <returns>A <see cref="Try{A}" /> containing an <see cref="AccessTokenDto" /> with the Genie access token.</returns>
     /// <exception cref="ResultFaultedInvalidOperationException">
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
@@ -80,8 +91,12 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Generates a signed JWT ID token string for the specified user.
     /// </summary>
+    /// <param name="user">The user data to embed as claims.</param>
+    /// <param name="jwtConfig">The JWT configuration options.</param>
+    /// <param name="appConfig">The application configuration options.</param>
+    /// <returns>A signed JWT token string.</returns>
     private static string GenerateIdToken(UserIdTokenBaseDto user, JwtOptions jwtConfig, AppOptions appConfig)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Secret));
@@ -95,8 +110,12 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Generates a signed JWT access token string for the specified user.
     /// </summary>
+    /// <param name="user">The user data to embed as claims.</param>
+    /// <param name="jwtConfig">The JWT configuration options.</param>
+    /// <param name="appConfig">The application configuration options.</param>
+    /// <returns>A signed JWT token string.</returns>
     private static string GenerateAccessToken(UserAccessTokenBaseDto user, JwtOptions jwtConfig, AppOptions appConfig)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Secret));
@@ -109,8 +128,10 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Builds the list of JWT claims for an ID token from the specified user data.
     /// </summary>
+    /// <param name="user">The user data to convert into claims.</param>
+    /// <returns>A list of <see cref="Claim" /> instances representing the user's ID token claims.</returns>
     [SuppressMessage(
         "ReSharper",
         "ReturnTypeCanBeEnumerable.Local",
@@ -133,8 +154,10 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Builds the list of JWT claims for an access token from the specified user data, including application privileges.
     /// </summary>
+    /// <param name="user">The user data to convert into claims.</param>
+    /// <returns>A list of <see cref="Claim" /> instances representing the user's access token claims.</returns>
     [SuppressMessage(
         "ReSharper",
         "ReturnTypeCanBeEnumerable.Local",
@@ -161,8 +184,11 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Generates a signed JWT access token string for the Genie (system) user.
     /// </summary>
+    /// <param name="jwtConfig">The JWT configuration options.</param>
+    /// <param name="appConfig">The application configuration options.</param>
+    /// <returns>A <see cref="Try{A}" /> containing the signed JWT token string.</returns>
     /// <exception cref="ArgumentNullException">if 'key' is null.</exception>
     /// <exception cref="ArgumentException">If 'expires' &lt;= 'notbefore'.</exception>
     /// <exception cref="EncoderFallbackException">
@@ -190,8 +216,9 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Generates the predefined set of JWT claims for the Genie (system) user.
     /// </summary>
+    /// <returns>A list of <see cref="Claim" /> instances representing the Genie identity.</returns>
     [SuppressMessage(
         "ReSharper",
         "ReturnTypeCanBeEnumerable.Local",
@@ -214,8 +241,10 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Converts a collection of privilege names into application-privilege claims.
     /// </summary>
+    /// <param name="privileges">The privilege names to include as claims.</param>
+    /// <returns>A list of <see cref="Claim" /> instances, one per privilege.</returns>
     [SuppressMessage(
         "ReSharper",
         "ReturnTypeCanBeEnumerable.Local",
@@ -231,8 +260,12 @@ internal static class TokenFactory
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Calculates the token expiration date. In non-production environments or when no lifetime is configured, returns the
+    ///     maximum allowed JWT date.
     /// </summary>
+    /// <param name="tokenLifetime">The optional token lifetime duration.</param>
+    /// <param name="env">The current application environment name.</param>
+    /// <returns>The UTC expiration <see cref="DateTime" /> for the token.</returns>
     private static DateTime GetExpirationDateTime(TimeSpan? tokenLifetime, string env)
     {
         var isDev = env is not Envs.Production;
@@ -246,8 +279,10 @@ internal static class TokenFactory
     extension(ICollection<Claim> claims)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Adds a claim to the collection only if the provided value is not <see langword="null" />.
         /// </summary>
+        /// <param name="claimType">The claim type identifier.</param>
+        /// <param name="value">The claim value. If <see langword="null" />, the claim is not added.</param>
         private void AddClaimIfNotNull(string claimType, string? value)
         {
             if (value is not null) claims.Add(new Claim(claimType, value));

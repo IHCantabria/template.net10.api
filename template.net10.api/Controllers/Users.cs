@@ -25,7 +25,7 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Controllers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     API controller managing user-related operations including CRUD, enable/disable, and password reset.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -42,13 +42,16 @@ public sealed class Users(
     : MyControllerBase(mediator, localizer, logger)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Route parameter key used for user location headers.
     /// </summary>
     private const string UserKey = "user-key";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a new user in the system.
     /// </summary>
+    /// <param name="commandParams">The user creation parameters.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the created user with a 201 Created response.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -91,8 +94,11 @@ public sealed class Users(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Updates an existing user in the system.
     /// </summary>
+    /// <param name="commandParams">The user update parameters.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the updated user state.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -135,8 +141,11 @@ public sealed class Users(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Deletes an existing user from the system.
     /// </summary>
+    /// <param name="commandParams">The user deletion parameters from the route.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the deleted user state.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -177,8 +186,11 @@ public sealed class Users(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Disables an existing user in the system.
     /// </summary>
+    /// <param name="commandParams">The user disable parameters from the route.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the disabled user state.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -220,8 +232,11 @@ public sealed class Users(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Enables a previously disabled user in the system.
     /// </summary>
+    /// <param name="commandParams">The user enable parameters from the route.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the enabled user state.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -263,8 +278,11 @@ public sealed class Users(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Resets the password for an existing user in the system.
     /// </summary>
+    /// <param name="commandParams">The password reset parameters.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the new user credentials.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -304,8 +322,10 @@ public sealed class Users(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Retrieves all users available in the system.
     /// </summary>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the collection of users.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -334,8 +354,11 @@ public sealed class Users(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Retrieves a specific user by their unique identifier.
     /// </summary>
+    /// <param name="queryParams">The query parameters containing the user key.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the user data.</returns>
     [HttpGet]
     [Authorize(Policy = PoliciesConstants.UserReadPolicy)]
     [RequestTimeout(RequestConstants.RequestQueryGenericPolicy)]
@@ -364,8 +387,10 @@ public sealed class Users(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Retrieves the list of available user hub events and their SignalR connection details.
     /// </summary>
+    /// <param name="config">The Swagger options containing the server URL configuration.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the collection of hub events.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="config" /> is <see langword="null" />.</exception>
     [HttpGet]
     [AllowAnonymous]

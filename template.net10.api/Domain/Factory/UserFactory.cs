@@ -8,13 +8,16 @@ using template.net10.api.Domain.Password;
 namespace template.net10.api.Domain.Factory;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Factory responsible for creating user-related domain objects.
 /// </summary>
 internal static class UserFactory
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates a new user DTO by hashing the provided password and generating a unique identifier.
     /// </summary>
+    /// <param name="payload">The command parameters containing the new user's details.</param>
+    /// <param name="pepper">The application-level secret pepper used during password hashing.</param>
+    /// <returns>A <see cref="Try{A}"/> containing the created <see cref="CreateUserDto"/> on success, or the hashing exception on failure.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method

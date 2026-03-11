@@ -1,84 +1,84 @@
 ﻿namespace template.net10.api.Core.Authorization;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Contains constants for token type identifiers.
 /// </summary>
 internal static class TokenTypesIdentityConstants
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The identifier for an ID token type.
     /// </summary>
     internal const string IdTokenType = "id_token";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The identifier for an access token type.
     /// </summary>
     internal const string AccessTokenType = "access_token";
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Contains default identity constants for the system genie user.
 /// </summary>
 internal static class GenieIdentityConstants
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The default username for the genie user.
     /// </summary>
     internal const string UserName = "genio";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The default first name for the genie user.
     /// </summary>
     internal const string FirsName = "will";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The default last name for the genie user.
     /// </summary>
     internal const string LastName = "smith";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The default email placeholder for the genie user.
     /// </summary>
     internal const string Email = "un_genio_no_necesita_email";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The default role name for the genie user.
     /// </summary>
     internal const string RoleName = "el_genio_de_la_lampara";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The default unique identifier for the genie user.
     /// </summary>
     internal const string Identifier = "no_hay_un_genio_tan_genial";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The default scope for the genie user.
     /// </summary>
     internal const string Scope = "un_espacio_chiquitin_para_vivir";
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Contains constants for core authorization claim types.
 /// </summary>
 internal static class ClaimCoreConstants
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The claim type name for user roles.
     /// </summary>
     internal const string RoleClaim = "role";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The claim type name for scopes.
     /// </summary>
     internal const string ScopeClaim = "scope";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The claim type name for token types.
     /// </summary>
     internal const string TokenTypeClaim = "token_type";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The claim type name for application privileges.
     /// </summary>
     internal const string ApplicationPrivilegesClaim = "application_privileges";
 }

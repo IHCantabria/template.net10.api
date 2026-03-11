@@ -5,7 +5,8 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that auto-registers all FluentValidation <see cref="AbstractValidator{T}" /> implementations
+///     found in the application assembly, including internal validators. Load order: 13.
 /// </summary>
 [UsedImplicitly]
 internal sealed class ValidatorsInstaller : IServiceInstaller

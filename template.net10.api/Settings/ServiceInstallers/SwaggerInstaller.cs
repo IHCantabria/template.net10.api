@@ -11,7 +11,9 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers and configures the Swashbuckle Swagger generator,
+///     including the OpenAPI document, JWT security scheme, custom operation/document filters,
+///     XML comments, and server URL. Load order: 17.
 /// </summary>
 // ReSharper disable once ConditionalAnnotation
 [UsedImplicitly]
@@ -47,8 +49,16 @@ internal sealed class SwaggerInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers <c>AddSwaggerGen</c> on the service collection, delegating full
+    ///     Swashbuckle configuration to <see cref="ConfigureSwaggerGen" />.
     /// </summary>
+    /// <param name="builder">The web application builder.</param>
+    /// <param name="swaggerOptions">Resolved Swagger UI and document options.</param>
+    /// <param name="swaggerSecurityOptions">
+    ///     Resolved JWT security scheme options, or <see langword="null" /> if not
+    ///     configured.
+    /// </param>
+    /// <param name="version">The API version string read from project configuration.</param>
     private static void AddSwaggerGen(WebApplicationBuilder builder, SwaggerOptions swaggerOptions,
         SwaggerSecurityOptions? swaggerSecurityOptions, string version)
     {
@@ -57,8 +67,13 @@ internal sealed class SwaggerInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Applies the full Swashbuckle <see cref="SwaggerGenOptions" /> configuration: adds the OpenAPI document,
+    ///     optional JWT security definition, custom filters, inline enum definitions, and XML documentation.
     /// </summary>
+    /// <param name="c">The Swashbuckle options builder to configure.</param>
+    /// <param name="swaggerOptions">Resolved Swagger options used for document metadata and endpoints.</param>
+    /// <param name="swaggerSecurityOptions">Optional JWT security scheme configuration.</param>
+    /// <param name="version">The API version string to embed in the document.</param>
     private static void ConfigureSwaggerGen(SwaggerGenOptions c, SwaggerOptions swaggerOptions,
         SwaggerSecurityOptions? swaggerSecurityOptions, string version)
     {
@@ -77,8 +92,12 @@ internal sealed class SwaggerInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Creates the OpenAPI document with title, version, long description, and license information
+    ///     from <paramref name="swaggerOptions" />.
     /// </summary>
+    /// <param name="swagger">The Swashbuckle options builder.</param>
+    /// <param name="swaggerOptions">The Swagger configuration options.</param>
+    /// <param name="version">The API version string to embed in the OpenAPI document.</param>
     private static void AddSwaggerDoc(SwaggerGenOptions swagger, SwaggerOptions swaggerOptions, string version)
     {
         swagger.SwaggerDoc(swaggerOptions.VersionSwagger, new OpenApiInfo
@@ -94,8 +113,11 @@ internal sealed class SwaggerInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Adds the Bearer JWT security scheme definition to the OpenAPI document
+    ///     using settings from <paramref name="swaggerSecurityOptions" />.
     /// </summary>
+    /// <param name="swagger">The Swashbuckle options builder.</param>
+    /// <param name="swaggerSecurityOptions">The JWT security scheme configuration.</param>
     private static void AddSwaggerSecurity(SwaggerGenOptions swagger, SwaggerSecurityOptions swaggerSecurityOptions)
     {
         var securityScheme = new OpenApiSecurityScheme
@@ -111,8 +133,11 @@ internal sealed class SwaggerInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Adds the API server URL, enables XML comment inclusion from the executing assembly,
+    ///     and activates Swashbuckle annotation support.
     /// </summary>
+    /// <param name="swagger">The Swashbuckle options builder.</param>
+    /// <param name="swaggerOptions">The Swagger options providing the server URL.</param>
     private static void AddSwaggeConfig(SwaggerGenOptions swagger, SwaggerOptions swaggerOptions)
     {
         //Add Server API url

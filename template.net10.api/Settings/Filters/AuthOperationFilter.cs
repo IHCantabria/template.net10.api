@@ -15,21 +15,28 @@ using ZLinq;
 namespace template.net10.api.Settings.Filters;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Swashbuckle operation filter that annotates authorized endpoints with JWT security requirements
+///     and adds standard 401/403 ProblemDetails response schemas to the OpenAPI document.
+///     Reads <see cref="AuthorizeAttribute" /> metadata from the action and its declaring controller.
 /// </summary>
 [UsedImplicitly]
 internal sealed class AuthOperationFilter(IOptions<SwaggerSecurityOptions> config)
     : IOperationFilter, IOrderedFilter
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Swagger security configuration containing the security scheme identifier used to build
+    ///     <see cref="Microsoft.OpenApi.OpenApiSecurityRequirement" /> entries.
     /// </summary>
     private readonly SwaggerSecurityOptions _config =
         config.Value ?? throw new ArgumentNullException(nameof(config));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Applies JWT security metadata to the operation: adds 401/403 response schemas and sets the
+    ///     <see cref="Microsoft.OpenApi.OpenApiSecurityRequirement" /> scopes from the resolved
+    ///     <see cref="AuthorizeAttribute" /> values. Clears security info for anonymous endpoints.
     /// </summary>
+    /// <param name="operation">The OpenAPI operation to enrich.</param>
+    /// <param name="context">Filter context providing access to the method and schema generator.</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="operation" /> is <see langword="null" />.
     ///     <paramref name="context" /> is <see langword="null" />.
@@ -102,13 +109,16 @@ internal sealed class AuthOperationFilter(IOptions<SwaggerSecurityOptions> confi
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The relative execution order of this filter among all registered <see cref="IOrderedFilter" /> instances.
+    ///     Runs after <see cref="DocumentationOperationFilter" /> (order 1), so value is 2.
     /// </summary>
     public int Order => 2;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Collects all <see cref="AuthorizeAttribute" /> instances from the action method and its declaring controller.
     /// </summary>
+    /// <param name="context">Filter context providing reflection access to the action and controller.</param>
+    /// <returns>A list of authorization attributes; empty if the action is anonymous.</returns>
     private static List<AuthorizeAttribute> GetAttributes(OperationFilterContext context)
     {
         // Get Authorize attribute

@@ -5,8 +5,10 @@ namespace template.net10.api.Core.Geometries.Contracts;
 public sealed partial record CreateExtentResource
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Implicitly converts a <see cref="CreateExtentResource"/> to a <see cref="CreateExtentDto"/>.
     /// </summary>
+    /// <param name="resource">The resource to convert.</param>
+    /// <returns>A new <see cref="CreateExtentDto"/> with the mapped coordinate values.</returns>
     public static implicit operator CreateExtentDto(CreateExtentResource resource)
     {
         ArgumentNullException.ThrowIfNull(resource);
@@ -20,8 +22,10 @@ public sealed partial record CreateExtentResource
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Explicitly converts a <see cref="CreateExtentResource"/> to a <see cref="CreateExtentDto"/>.
     /// </summary>
+    /// <param name="resource">The resource to convert.</param>
+    /// <returns>A new <see cref="CreateExtentDto"/> with the mapped coordinate values.</returns>
     public static CreateExtentDto ToCreateExtentDto(
         CreateExtentResource resource)
     {
@@ -29,8 +33,10 @@ public sealed partial record CreateExtentResource
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Converts a collection of <see cref="CreateExtentResource"/> instances to <see cref="CreateExtentDto"/> instances.
     /// </summary>
+    /// <param name="resources">The read-only list of resources to convert.</param>
+    /// <returns>An enumerable of <see cref="CreateExtentDto"/> instances.</returns>
     internal static IEnumerable<CreateExtentDto> ToCollection(
         IReadOnlyList<CreateExtentResource> resources)
     {
@@ -43,8 +49,10 @@ public sealed partial record CreateExtentResource
 public sealed partial record CreatePointResource
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Implicitly converts a <see cref="CreatePointResource"/> to a <see cref="CreatePointDto"/>.
     /// </summary>
+    /// <param name="resource">The resource to convert.</param>
+    /// <returns>A new <see cref="CreatePointDto"/> with the mapped coordinate values.</returns>
     public static implicit operator CreatePointDto(CreatePointResource resource)
     {
         ArgumentNullException.ThrowIfNull(resource);
@@ -55,8 +63,10 @@ public sealed partial record CreatePointResource
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Explicitly converts a <see cref="CreatePointResource"/> to a <see cref="CreatePointDto"/>.
     /// </summary>
+    /// <param name="resource">The resource to convert.</param>
+    /// <returns>A new <see cref="CreatePointDto"/> with the mapped coordinate values.</returns>
     public static CreatePointDto ToCreatePointDto(
         CreatePointResource resource)
     {
@@ -64,8 +74,10 @@ public sealed partial record CreatePointResource
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Converts a collection of <see cref="CreatePointResource"/> instances to <see cref="CreatePointDto"/> instances.
     /// </summary>
+    /// <param name="resources">The read-only list of resources to convert.</param>
+    /// <returns>An enumerable of <see cref="CreatePointDto"/> instances.</returns>
     internal static IEnumerable<CreatePointDto> ToCollection(
         IReadOnlyList<CreatePointResource> resources)
     {

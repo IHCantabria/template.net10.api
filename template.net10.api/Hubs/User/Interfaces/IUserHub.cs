@@ -5,7 +5,7 @@ using template.net10.api.Hubs.User.Contracts;
 namespace template.net10.api.Hubs.User.Interfaces;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Defines the server-to-client SignalR hub contract for user-related real-time event notifications.
 /// </summary>
 [SuppressMessage("ReSharper", "AsyncApostle.AsyncMethodNamingHighlighting",
     Justification =
@@ -20,27 +20,37 @@ namespace template.net10.api.Hubs.User.Interfaces;
 public interface IUserHub
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Notifies connected clients that a new connection has come online.
     /// </summary>
+    /// <param name="message">The hub info message containing the connection identifier and status text.</param>
+    /// <returns>A task representing the asynchronous notification operation.</returns>
     Task ConnectionOnline(HubInfoMessageResource message);
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Notifies connected clients of their current connection status.
     /// </summary>
+    /// <param name="message">The hub info message containing the connection identifier and status text.</param>
+    /// <returns>A task representing the asynchronous notification operation.</returns>
     Task ConnectionStatus(HubInfoMessageResource message);
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Notifies connected clients that a new user has been created.
     /// </summary>
+    /// <param name="message">The message containing the UUID and description of the created user.</param>
+    /// <returns>A task representing the asynchronous notification operation.</returns>
     Task CreatedUser(UserHubCreatedUserMessageResource message);
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Notifies connected clients that a user has been updated.
     /// </summary>
+    /// <param name="message">The message containing the UUID and description of the updated user.</param>
+    /// <returns>A task representing the asynchronous notification operation.</returns>
     Task UpdatedUser(UserHubUpdatedUserMessageResource message);
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Notifies connected clients that a user has been deleted.
     /// </summary>
+    /// <param name="message">The message containing the UUID and description of the deleted user.</param>
+    /// <returns>A task representing the asynchronous notification operation.</returns>
     Task DeletedUser(UserHubDeletedUserMessageResource message);
 }

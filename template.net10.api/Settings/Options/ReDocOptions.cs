@@ -5,36 +5,37 @@ using Microsoft.Extensions.Options;
 namespace template.net10.api.Settings.Options;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Strongly-typed configuration options for ReDoc API documentation UI.
+///     Bound from the <c>ReDoc</c> configuration section.
 /// </summary>
 internal sealed record ReDocOptions : IEqualityOperators<ReDocOptions, ReDocOptions, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The configuration section key used to bind <see cref="ReDocOptions"/>.
     /// </summary>
     public const string ReDoc = nameof(ReDoc);
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The HTML page title displayed in the browser tab when the ReDoc UI is open.
     /// </summary>
     [Required]
     public required string DocumentTitle { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The URL of the OpenAPI JSON specification consumed by the ReDoc UI.
     /// </summary>
     [Required]
     public required Uri SpecUrl { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The URL path prefix under which the ReDoc UI is served (e.g. <c>redoc</c>).
     /// </summary>
     [Required]
     public required string RoutePrefix { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Source-generated <see cref="IValidateOptions{TOptions}"/> validator for <see cref="ReDocOptions"/>.
 /// </summary>
 [OptionsValidator]
 internal sealed partial class ReDocOptionsValidator : IValidateOptions<ReDocOptions>;

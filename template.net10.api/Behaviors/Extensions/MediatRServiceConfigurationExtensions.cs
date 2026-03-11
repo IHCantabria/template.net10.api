@@ -3,14 +3,14 @@
 namespace template.net10.api.Behaviors.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for <see cref="MediatRServiceConfiguration"/> to register post-processing behaviors.
 /// </summary>
 internal static class MediatRServiceConfigurationExtensions
 {
     extension(MediatRServiceConfiguration config)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Registers all user-related MediatR post-processors for create, update, and delete operations.
         /// </summary>
         internal void ConfigurePostProcesses()
         {

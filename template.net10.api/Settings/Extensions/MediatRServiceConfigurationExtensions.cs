@@ -6,14 +6,16 @@ using template.net10.api.Features.Extensions;
 namespace template.net10.api.Settings.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Extension methods for <see cref="MediatRServiceConfiguration"/> to register pipeline behaviors
+///     for logging, validation, and post-processing of MediatR requests.
 /// </summary>
 internal static class MediatRServiceConfigurationExtensions
 {
     extension(MediatRServiceConfiguration config)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Registers the open <see cref="LoggingBehavior{TRequest,TResponse}"/> pipeline behavior
+        ///     and all configured validation behaviors for MediatR requests.
         /// </summary>
         internal void AddBehaviours()
         {
@@ -22,8 +24,11 @@ internal static class MediatRServiceConfigurationExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Registers a <see cref="ValidationBehavior{TRequest,TResponse}"/> pipeline behavior for requests
+        ///     that return <c>Result&lt;TResponse&gt;</c>, enabling automatic FluentValidation execution.
         /// </summary>
+        /// <typeparam name="TRequest">The MediatR request type to validate.</typeparam>
+        /// <typeparam name="TResponse">The response type wrapped inside <c>LanguageExt.Common.Result&lt;T&gt;</c>.</typeparam>
         internal void AddValidation<TRequest, TResponse>()
             where TRequest : notnull
         {
@@ -33,7 +38,7 @@ internal static class MediatRServiceConfigurationExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Configures all registered MediatR post-processing pipeline behaviors.
         /// </summary>
         internal void AddPostProcesses()
         {

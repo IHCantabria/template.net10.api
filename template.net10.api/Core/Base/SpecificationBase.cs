@@ -8,8 +8,9 @@ using template.net10.api.Persistence.Models.Interfaces;
 namespace template.net10.api.Core.Base;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Base class for entity verification specifications, providing filter and ordering capabilities.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that this verification targets.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedMember.Global",
@@ -18,7 +19,7 @@ namespace template.net10.api.Core.Base;
 internal class VerificationBase<TEntity> : IVerification<TEntity> where TEntity : class, IEntity
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="VerificationBase{TEntity}" /> class.
     /// </summary>
     protected VerificationBase()
     {
@@ -31,8 +32,10 @@ internal class VerificationBase<TEntity> : IVerification<TEntity> where TEntity 
     public ICollection<Tuple<Expression<Func<TEntity, object>>, OrderByType>> OrderBys { get; } = [];
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Adds an ordering expression to the verification's order-by collection.
     /// </summary>
+    /// <param name="orderByExpression">The expression that identifies the property to order by.</param>
+    /// <param name="orderType">The ordering direction (ascending or descending).</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -44,8 +47,9 @@ internal class VerificationBase<TEntity> : IVerification<TEntity> where TEntity 
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Adds a filter expression to the verification's filter collection.
     /// </summary>
+    /// <param name="filterExpression">The predicate expression used to filter entities.</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -58,8 +62,10 @@ internal class VerificationBase<TEntity> : IVerification<TEntity> where TEntity 
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Base class for entity query specifications, providing filter, ordering, include, grouping, and pagination
+///     capabilities.
 /// </summary>
+/// <typeparam name="TEntity">The entity type that this specification targets.</typeparam>
 [SuppressMessage(
     "ReSharper",
     "UnusedMember.Global",
@@ -68,7 +74,7 @@ internal class VerificationBase<TEntity> : IVerification<TEntity> where TEntity 
 internal class SpecificationBase<TEntity> : ISpecification<TEntity> where TEntity : class, IEntity
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="SpecificationBase{TEntity}" /> class.
     /// </summary>
     protected SpecificationBase()
     {
@@ -97,8 +103,9 @@ internal class SpecificationBase<TEntity> : ISpecification<TEntity> where TEntit
     public Expression<Func<TEntity, object>>? GroupBy { get; private set; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Adds a navigation property include expression to the specification for eager loading.
     /// </summary>
+    /// <param name="includeExpression">The include expression for eager loading related entities.</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -110,8 +117,10 @@ internal class SpecificationBase<TEntity> : ISpecification<TEntity> where TEntit
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Adds an ordering expression to the specification's order-by collection.
     /// </summary>
+    /// <param name="orderByExpression">The expression that identifies the property to order by.</param>
+    /// <param name="orderType">The ordering direction (ascending or descending).</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -123,16 +132,18 @@ internal class SpecificationBase<TEntity> : ISpecification<TEntity> where TEntit
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Sets the maximum number of rows to return in the query result.
     /// </summary>
+    /// <param name="rows">The maximum number of rows to take.</param>
     protected void AddTakeRows(int rows)
     {
         TakeRows = rows;
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Adds a filter expression to the specification's filter collection.
     /// </summary>
+    /// <param name="filterExpression">The predicate expression used to filter entities.</param>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -144,24 +155,27 @@ internal class SpecificationBase<TEntity> : ISpecification<TEntity> where TEntit
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Applies a group-by expression to the specification.
     /// </summary>
+    /// <param name="groupByExpression">The expression that defines the grouping key.</param>
     protected void ApplyGroupBy(Expression<Func<TEntity, object>> groupByExpression)
     {
         GroupBy = groupByExpression;
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Sets the query splitting behavior for the specification.
     /// </summary>
+    /// <param name="querySplitStrategy">The query splitting behavior to use (single query or split query).</param>
     protected void SetQuerySplitStrategy(QuerySplittingBehavior querySplitStrategy)
     {
         QuerySplitStrategy = querySplitStrategy;
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Sets the query tracking behavior for the specification.
     /// </summary>
+    /// <param name="queryTrackStrategy">The query tracking behavior to use (tracking or no-tracking).</param>
     protected void SetQueryTrackStrategy(QueryTrackingBehavior queryTrackStrategy)
     {
         QueryTrackStrategy = queryTrackStrategy;

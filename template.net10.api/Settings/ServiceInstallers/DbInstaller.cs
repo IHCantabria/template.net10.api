@@ -13,7 +13,8 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers a pooled <see cref="AppDbContext" /> factory backed by Npgsql,
+///     with environment-sensitive logging, retry policies, and PostGIS spatial support. Load order: 8.
 /// </summary>
 [UsedImplicitly]
 internal sealed class DbInstaller : IServiceInstaller
@@ -41,8 +42,12 @@ internal sealed class DbInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers the pooled <see cref="AppDbContext" /> factory, a transient <see cref="AppDbContextFactory" />,
+    ///     and a scoped direct <see cref="AppDbContext" />. Also registers the developer-page exception filter
+    ///     in non-production environments. Does nothing when no connection string is configured.
     /// </summary>
+    /// <param name="builder">The application host builder.</param>
+    /// <param name="connectionOptions">The resolved database options, or <see langword="null" /> if not configured.</param>
     private static void AddDbContextPool(IHostApplicationBuilder builder, AppDbOptions? connectionOptions)
     {
         // Register a pooling context factory as a Singleton service
@@ -60,8 +65,13 @@ internal sealed class DbInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Entry point for building the full <see cref="DbContextOptionsBuilder" /> configuration:
+    ///     development settings, diagnostic warnings, and the database provider.
+    ///     Skips configuration when the builder is already configured.
     /// </summary>
+    /// <param name="options">The EF Core options builder to configure.</param>
+    /// <param name="builder">The host application builder providing environment and services.</param>
+    /// <param name="connectionOptions">The resolved database connection options.</param>
     private static void ConfigureDbContext(DbContextOptionsBuilder options, IHostApplicationBuilder builder,
         AppDbOptions connectionOptions)
     {
@@ -73,8 +83,10 @@ internal sealed class DbInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Enables EF Core sensitive data logging and detailed errors only in Development, Local, or Test environments.
     /// </summary>
+    /// <param name="options">The EF Core options builder to configure.</param>
+    /// <param name="builder">The host application builder providing the current environment name.</param>
     private static void ConfigureDevelopmentSettings(DbContextOptionsBuilder options, IHostApplicationBuilder builder)
     {
         if (builder.Environment.EnvironmentName is not (Envs.Development or Envs.Local or Envs.Test)) return;
@@ -86,8 +98,10 @@ internal sealed class DbInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures EF Core to throw on multi-collection-include queries,
+    ///     preventing accidental Cartesian-explosion performance issues.
     /// </summary>
+    /// <param name="options">The EF Core options builder to configure.</param>
     private static void ConfigureWarnings(DbContextOptionsBuilder options)
     {
         options.ConfigureWarnings(static w =>
@@ -95,8 +109,12 @@ internal sealed class DbInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Registers Npgsql as the EF Core database provider with PostGIS/NetTopologySuite support,
+    ///     a command timeout, and an exponential retry policy for transient failures.
     /// </summary>
+    /// <param name="options">The EF Core options builder to configure.</param>
+    /// <param name="builder">The host application builder providing environment information.</param>
+    /// <param name="connectionOptions">The database connection options containing the connection string.</param>
     private static void ConfigureDatabaseProvider(
         DbContextOptionsBuilder options,
         IHostApplicationBuilder builder,
@@ -116,8 +134,12 @@ internal sealed class DbInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Builds and returns a configured <see cref="NpgsqlDataSource" /> with PostGIS support.
+    ///     Parameter logging is enabled in Development, Local, and Test environments.
     /// </summary>
+    /// <param name="env">The host environment determining whether parameter logging is activated.</param>
+    /// <param name="connectionOptions">The database options providing the HTML-decoded connection string.</param>
+    /// <returns>A ready-to-use <see cref="NpgsqlDataSource" /> that must be disposed with the application.</returns>
     [MustDisposeResource]
     private static NpgsqlDataSource GetNpgsqlDataSource(IHostEnvironment env,
         AppDbOptions connectionOptions)

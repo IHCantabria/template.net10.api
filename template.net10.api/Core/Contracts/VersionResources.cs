@@ -6,7 +6,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Core.Contracts;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an API version resource containing version metadata.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -15,25 +15,25 @@ namespace template.net10.api.Core.Contracts;
 public sealed record VersionResource : IPublicApiContract, IEqualityOperators<VersionResource, VersionResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the numeric identifier of the API version.
     /// </summary>
     [JsonRequired]
     public required short Id { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the display name of the API version.
     /// </summary>
     [JsonRequired]
     public required string Name { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the version tag label (e.g., "v1.0").
     /// </summary>
     [JsonRequired]
     public required string Tag { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the release date of this API version.
     /// </summary>
     [JsonRequired]
     public required DateTime Date { get; init; }

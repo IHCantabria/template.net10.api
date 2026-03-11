@@ -19,7 +19,7 @@ using template.net10.api.Localize.Resources;
 namespace template.net10.api.Controllers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     API controller handling identity operations including user authentication and access token management.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -35,8 +35,11 @@ public sealed class Identity(
     : MyControllerBase(mediator, localizer, logger)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Authenticates a user with the provided credentials and returns an identity token.
     /// </summary>
+    /// <param name="queryParams">The login credentials resource.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the identity token on success.</returns>
     [HttpPost]
     [RequestTimeout(RequestConstants.RequestCommandGenericPolicy)]
     [Route(ApiRoutes.IdentityController.Login)]
@@ -71,8 +74,10 @@ public sealed class Identity(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Requests an access token for the currently authenticated user using the identity token.
     /// </summary>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the access token on success.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method

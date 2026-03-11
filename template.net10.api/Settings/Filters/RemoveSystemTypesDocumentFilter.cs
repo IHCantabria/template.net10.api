@@ -7,13 +7,14 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace template.net10.api.Settings.Filters;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Swashbuckle document filter that removes all schema components whose key starts with <c>"System"</c>
+///     from the generated OpenAPI document, preventing internal .NET framework types from polluting the API spec.
 /// </summary>
 [UsedImplicitly]
 internal sealed class RemoveSystemTypesDocumentFilter : IDocumentFilter, IOrderedFilter
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initialises the filter and sets <see cref="Order"/> to 1.
     /// </summary>
     public RemoveSystemTypesDocumentFilter()
     {
@@ -21,8 +22,10 @@ internal sealed class RemoveSystemTypesDocumentFilter : IDocumentFilter, IOrdere
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Removes all schema entries from <paramref name="swaggerDoc"/> whose key begins with <c>"System"</c>.
     /// </summary>
+    /// <param name="swaggerDoc">The OpenAPI document to clean up.</param>
+    /// <param name="context">Filter context (unused).</param>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="swaggerDoc" /> is <see langword="null" />.
     ///     <paramref name="context" /> is <see langword="null" />.
@@ -40,14 +43,12 @@ internal sealed class RemoveSystemTypesDocumentFilter : IDocumentFilter, IOrdere
             where schema.Key.StartsWith("System", StringComparison.InvariantCulture)
             select schema.Key).ToList();
 
-        // Loop through all schemas in the swagger document
-
         // Remove the unwanted schemas
         foreach (var key in keysToRemove) swaggerDoc.Components?.Schemas?.Remove(key);
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The relative execution order of this filter among all registered <see cref="IOrderedFilter"/> instances.
     /// </summary>
     public int Order { get; }
 }

@@ -5,13 +5,16 @@ using template.net10.api.Persistence.Models;
 namespace template.net10.api.Persistence.Context.Configuration;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     EF Core fluent configuration for the <see cref="User"/> entity.
+///     Defines the primary key, server-side property defaults, and relationships with
+///     <see cref="Role"/>, <see cref="Claim"/> and the self-referential <c>InsertUser</c>/<c>UpdateUser</c> links.
 /// </summary>
 internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Applies the full EF Core configuration for the <see cref="User"/> entity.
     /// </summary>
+    /// <param name="builder">The entity type builder provided by EF Core.</param>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         ConfigurePrimaryKeys(builder);
@@ -23,16 +26,19 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures the primary key for <see cref="User"/> with the constraint name <c>user_pkey</c>.
     /// </summary>
+    /// <param name="builder">The entity type builder.</param>
     private static void ConfigurePrimaryKeys(EntityTypeBuilder<User> builder)
     {
         builder.HasKey(static e => e.Id).HasName("user_pkey");
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures server-side SQL default values for <c>InsertDatetime</c>, <c>UpdateDatetime</c>
+    ///     (<c>now() AT TIME ZONE 'UTC'</c>) and <c>Uuid</c> (<c>gen_random_uuid()</c>).
     /// </summary>
+    /// <param name="builder">The entity type builder.</param>
     private static void ConfigureProperties(EntityTypeBuilder<User> builder)
     {
         builder.Property(static e => e.InsertDatetime).HasDefaultValueSql("(now() AT TIME ZONE 'UTC'::text)");
@@ -41,8 +47,10 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures the self-referential relationship for <see cref="User.InsertUser"/>
+    ///     (the user who created the record) with <see cref="DeleteBehavior.Restrict"/>.
     /// </summary>
+    /// <param name="builder">The entity type builder.</param>
     private static void ConfigureInsertUserRelationship(EntityTypeBuilder<User> builder)
     {
         builder.HasOne(static d => d.InsertUser).WithMany(static p => p.InverseInsertUser)
@@ -51,8 +59,10 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures the many-to-one relationship between <see cref="User"/> and <see cref="Role"/>
+    ///     with <see cref="DeleteBehavior.Restrict"/> and the constraint <c>user_role_id_fkey</c>.
     /// </summary>
+    /// <param name="builder">The entity type builder.</param>
     private static void ConfigureRoleRelationship(EntityTypeBuilder<User> builder)
     {
         builder.HasOne(static d => d.Role).WithMany(static p => p.Users)
@@ -61,8 +71,10 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures the self-referential relationship for <see cref="User.UpdateUser"/>
+    ///     (the user who last updated the record) with <see cref="DeleteBehavior.Restrict"/>.
     /// </summary>
+    /// <param name="builder">The entity type builder.</param>
     private static void ConfigureUpdateUserRelationship(EntityTypeBuilder<User> builder)
     {
         builder.HasOne(static d => d.UpdateUser).WithMany(static p => p.InverseUpdateUser)
@@ -71,8 +83,10 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Configures the many-to-many relationship between <see cref="User"/> and <see cref="Claim"/>
+    ///     via the <c>claim_user</c> join table in the <c>identity</c> schema with <see cref="DeleteBehavior.Restrict"/>.
     /// </summary>
+    /// <param name="builder">The entity type builder.</param>
     private static void ConfigureClaimRelationship(EntityTypeBuilder<User> builder)
     {
         builder.HasMany(static d => d.Claims).WithMany(static p => p.Users)

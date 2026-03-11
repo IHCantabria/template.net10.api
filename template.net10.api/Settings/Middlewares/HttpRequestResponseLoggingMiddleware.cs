@@ -6,25 +6,29 @@ using template.net10.api.Core.Logger;
 namespace template.net10.api.Settings.Middlewares;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Middleware that logs HTTP request details on entry and logs the response body on completion,
+///     capturing error responses (4xx/5xx) with their body content for structured diagnostics.
 /// </summary>
 internal sealed class HttpRequestResponseLoggingMiddleware(
     RequestDelegate next,
     ILogger<HttpRequestResponseLoggingMiddleware> logger)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Logger used to record request and response details.
     /// </summary>
     private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The next middleware delegate in the request pipeline.
     /// </summary>
     private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Logs the incoming request, buffers the response body, and logs the response outcome.
+    ///     On error status codes the response body is also captured and logged.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>A <see cref="Task"/> that completes when the pipeline finishes.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="context" /> is <see langword="null" />.</exception>
     /// <exception cref="Exception">A delegate callback throws an exception.</exception>
     [SuppressMessage("ReSharper", "CA2007",
@@ -51,8 +55,12 @@ internal sealed class HttpRequestResponseLoggingMiddleware(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Logs the response outcome and copies the buffered body back to the original response stream.
+    ///     For 4xx/5xx responses the body text is read and included in the error log.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <param name="buffer">The memory stream that captured the response body.</param>
+    /// <param name="originalBody">The original response body stream to restore.</param>
     private async Task HandleResponseAsync(HttpContext context, Stream buffer, Stream originalBody)
     {
         if (context.Response.StatusCode >= 400)
@@ -71,8 +79,12 @@ internal sealed class HttpRequestResponseLoggingMiddleware(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Reads the buffered response body as a UTF-8 string, transparently decompressing
+    ///     GZip or Brotli encoding when indicated by the response <c>Content-Encoding</c> header.
     /// </summary>
+    /// <param name="buffer">The memory stream containing the raw response bytes.</param>
+    /// <param name="headers">The response headers used to detect content encoding.</param>
+    /// <returns>The response body as a plain text string.</returns>
     private static async Task<string> ReadResponseTextAsync(
         Stream buffer,
         IHeaderDictionary headers)

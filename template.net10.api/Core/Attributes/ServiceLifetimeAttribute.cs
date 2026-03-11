@@ -1,13 +1,13 @@
 ﻿namespace template.net10.api.Core.Attributes;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Specifies the dependency injection service lifetime for a class.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]
 internal sealed class ServiceLifetimeAttribute(ServiceLifetime serviceLifetime) : Attribute
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the dependency injection service lifetime.
     /// </summary>
     public ServiceLifetime ServiceLifetime { get; } = serviceLifetime;
 }

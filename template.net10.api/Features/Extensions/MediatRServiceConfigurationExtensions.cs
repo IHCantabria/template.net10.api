@@ -7,14 +7,14 @@ using template.net10.api.Settings.Extensions;
 namespace template.net10.api.Features.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for configuring MediatR validation pipelines.
 /// </summary>
 internal static class MediatRServiceConfigurationExtensions
 {
     extension(MediatRServiceConfiguration config)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Registers all FluentValidation validators into the MediatR pipeline for command and query requests.
         /// </summary>
         internal void ConfigureValidations()
         {

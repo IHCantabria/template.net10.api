@@ -8,7 +8,8 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers and configures the Hot Chocolate GraphQL server, including
+///     filtering, projections, sorting, spatial support, and the root query type. Load order: 25.
 /// </summary>
 [UsedImplicitly]
 internal sealed class GraphQLInstaller : IServiceInstaller

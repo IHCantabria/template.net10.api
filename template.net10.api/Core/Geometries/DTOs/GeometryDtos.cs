@@ -5,7 +5,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Core.Geometries.DTOs;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an internal extent (bounding box) data transfer object with WGS84 coordinates.
 /// </summary>
 internal sealed partial record ExtentDto : IDto, IEqualityOperators<ExtentDto, ExtentDto, bool>
 {
@@ -31,7 +31,7 @@ internal sealed partial record ExtentDto : IDto, IEqualityOperators<ExtentDto, E
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a data transfer object for creating an extent (bounding box) in WGS84 coordinates.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -61,8 +61,9 @@ public sealed record CreateExtentDto : IDto, IEqualityOperators<CreateExtentDto,
     public required decimal LatMax { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the extent coordinates are within valid WGS84 ranges and that min values are less than max values.
     /// </summary>
+    /// <returns><see langword="true"/> if the extent is valid; otherwise, <see langword="false"/>.</returns>
     internal bool IsValid()
     {
         return LonMin >= -180 && LonMax <= 180 && LatMin >= -90 && LatMax <= 90 && LonMin < LonMax &&
@@ -71,12 +72,12 @@ public sealed record CreateExtentDto : IDto, IEqualityOperators<CreateExtentDto,
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an internal point data transfer object with WGS84 coordinates.
 /// </summary>
 internal sealed partial record PointDto : IDto, IEqualityOperators<PointDto, PointDto, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Unique identifier of the point.
     /// </summary>
     internal required Guid Uuid { get; init; }
 
@@ -92,7 +93,7 @@ internal sealed partial record PointDto : IDto, IEqualityOperators<PointDto, Poi
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a data transfer object for creating a geographic point in WGS84 coordinates.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -111,8 +112,9 @@ public sealed record CreatePointDto : IDto, IEqualityOperators<CreatePointDto, C
     public required decimal Lat { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the point coordinates are within valid WGS84 ranges.
     /// </summary>
+    /// <returns><see langword="true"/> if the point is valid; otherwise, <see langword="false"/>.</returns>
     internal bool IsValid()
     {
         return Lon is >= -180 and <= 180 && Lat is >= -90 and <= 90;

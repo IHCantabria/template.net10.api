@@ -6,28 +6,34 @@ using template.net10.api.Core.Extensions;
 namespace template.net10.api.Core.Json;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     JSON converter that dynamically selects a naming policy (camelCase, snake_case, kebab-case) based on HTTP request
+///     headers.
 /// </summary>
 internal sealed class NamingPolicyConverter(IHttpContextAccessor httpContextAccessor) : JsonConverter<object>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The HTTP context accessor used to retrieve naming policy headers from the current request.
     /// </summary>
     private readonly IHttpContextAccessor _httpContextAccessor =
         httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Returns <see langword="true" /> for all types, indicating this converter handles any object type.
     /// </summary>
+    /// <param name="typeToConvert">The type to check conversion support for.</param>
+    /// <returns><see langword="true"/> for all types; this converter handles any object type.</returns>
     public override bool CanConvert(Type typeToConvert)
     {
         return true;
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Reads a JSON value using the naming policy specified in the <c>x-json-input-naming-policy</c> request header.
     /// </summary>
-    /// <exception cref="ObjectDisposedException">The parent <see cref="JsonDocument" /> has been disposed.</exception>
+    /// <param name="reader">The UTF-8 JSON reader to read from.</param>
+    /// <param name="typeToConvert">The target type to deserialize into.</param>
+    /// <param name="options">The serializer options (naming policy is overridden by the <c>x-json-input-naming-policy</c> header).</param>
+    /// <returns>The deserialized object with naming policy applied from the <c>x-json-input-naming-policy</c> header.</returns>
     /// <exception cref="JsonException">A value could not be read from the reader.</exception>
     /// <exception cref="ArgumentException">
     ///     <paramref name="reader" /> contains unsupported options.
@@ -56,8 +62,11 @@ internal sealed class NamingPolicyConverter(IHttpContextAccessor httpContextAcce
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Writes a JSON value using the naming policy specified in the <c>x-json-output-naming-policy</c> request header.
     /// </summary>
+    /// <param name="writer">The UTF-8 JSON writer to write to.</param>
+    /// <param name="value">The object to serialize.</param>
+    /// <param name="options">The serializer options (naming policy is overridden by the <c>x-json-output-naming-policy</c> header).</param>
     /// <exception cref="ArgumentNullException"><paramref name="writer" /> is <see langword="null" />.</exception>
     /// <exception cref="InvalidOperationException">This property is set after serialization or deserialization has occurred.</exception>
     [SuppressMessage(
@@ -81,8 +90,10 @@ internal sealed class NamingPolicyConverter(IHttpContextAccessor httpContextAcce
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Resolves a <see cref="JsonNamingPolicy" /> from the header value. Defaults to snake_case.
     /// </summary>
+    /// <param name="headerValue">The raw header value (<c>"camel"</c>, <c>"snake"</c>, or <c>"kebab"</c>); defaults to snake_case if <see langword="null"/> or unrecognized.</param>
+    /// <returns>The resolved <see cref="JsonNamingPolicy"/>.</returns>
     private static JsonNamingPolicy GetNamingPolicyFromHeader(string? headerValue)
     {
         if (string.Equals(headerValue, "camel", StringComparison.OrdinalIgnoreCase))

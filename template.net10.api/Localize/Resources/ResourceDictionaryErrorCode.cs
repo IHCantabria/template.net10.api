@@ -3,7 +3,7 @@
 namespace template.net10.api.Localize.Resources;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Marker class used as the resource type for error code localization via <c>IStringLocalizer&lt;ResourceDictionaryErrorCode&gt;</c>.
 /// </summary>
 [SuppressMessage(
     "Major Code Smell",

@@ -6,7 +6,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Core.Contracts;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Base record for RFC 9457 problem details responses, providing common properties for all HTTP error representations.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -16,7 +16,7 @@ public record ProblemDetailsBaseResource : IPublicApiContract,
     IEqualityOperators<ProblemDetailsBaseResource, ProblemDetailsBaseResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="ProblemDetailsBaseResource"/> class.
     /// </summary>
     protected internal ProblemDetailsBaseResource()
     {
@@ -72,7 +72,7 @@ public record ProblemDetailsBaseResource : IPublicApiContract,
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 400 Bad Request errors.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -102,7 +102,7 @@ public sealed record BadRequestProblemDetailsResource : ProblemDetailsBaseResour
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 401 Unauthorized errors.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -132,7 +132,7 @@ public sealed record UnauthorizedProblemDetailsResource : ProblemDetailsBaseReso
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 403 Forbidden errors.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -162,7 +162,7 @@ public sealed record ForbiddenProblemDetailsResource : ProblemDetailsBaseResourc
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 404 Not Found errors.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -192,7 +192,7 @@ public sealed record NotFoundProblemDetailsResource : ProblemDetailsBaseResource
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 408 Request Timeout errors.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -222,7 +222,7 @@ public sealed record RequestTimeoutProblemDetailsResource : ProblemDetailsBaseRe
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 409 Conflict errors.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -252,7 +252,7 @@ public sealed record ConflictProblemDetailsResource : ProblemDetailsBaseResource
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 410 Gone errors.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -282,7 +282,7 @@ public sealed record GoneProblemDetailsResource : ProblemDetailsBaseResource,
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 422 Unprocessable Entity errors.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -312,7 +312,7 @@ public sealed record UnprocessableEntityProblemDetailsResource : ProblemDetailsB
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 500 Internal Server Error.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -342,7 +342,7 @@ public sealed record InternalServerProblemDetailsResource : ProblemDetailsBaseRe
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an RFC 9457 problem details response for HTTP 501 Not Implemented errors.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",

@@ -5,7 +5,7 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.PipelineConfigurators;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Pipeline configurator that maps all SignalR hubs defined in the application. Load order: 5.
 /// </summary>
 [UsedImplicitly]
 internal sealed class HubsConfigurator : IPipelineConfigurator

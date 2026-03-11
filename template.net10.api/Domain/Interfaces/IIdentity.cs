@@ -4,7 +4,7 @@ using template.net10.api.Domain.DTOs;
 namespace template.net10.api.Domain.Interfaces;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Defines a contract for types that carry user identity information.
 /// </summary>
 [SuppressMessage(
     "ReSharper",
@@ -13,7 +13,7 @@ namespace template.net10.api.Domain.Interfaces;
 internal interface IIdentity
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets or sets the identity information associated with the current request.
     /// </summary>
     IdentityDto Identity { get; set; }
 }

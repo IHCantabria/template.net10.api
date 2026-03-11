@@ -7,18 +7,21 @@ using template.net10.api.Logger;
 namespace template.net10.api.Core.Logger;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides methods to log HTTP request and response details including query, route, body parameters, and form fields.
 /// </summary>
 internal static class RequestLogger
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Maximum allowed request body size in bytes (10 MB) for logging purposes.
     /// </summary>
     private const int MaxBodySizeBytes = 1024 * 1024 * 10; // Max 10MB
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Logs an incoming HTTP request with its method, path, query parameters, route parameters, body content, and form
+    ///     fields.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <param name="logger">The logger instance to write to.</param>
     [SuppressMessage("ReSharper", "InconsistentContextLogPropertyNaming",
         Justification = "OpenTelemetry log properties follow a hierarchical naming convention (parent.child).")]
     internal static async Task LogActionRequestAsync(HttpContext context, ILogger logger)
@@ -41,16 +44,20 @@ internal static class RequestLogger
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Extracts query string parameters from the current HTTP request as a dictionary.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>A dictionary of query parameter key-value pairs.</returns>
     private static Dictionary<string, string> ExtractQueryParams(HttpContext context)
     {
         return context.Request.Query.ToDictionary(static kvp => kvp.Key, static kvp => kvp.Value.ToString());
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Extracts route data values from the current HTTP request as a dictionary.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>A dictionary of route parameter key-value pairs.</returns>
     private static Dictionary<string, string> ExtractRouteParams(HttpContext context)
     {
         return context.GetRouteData()?.Values
@@ -59,8 +66,10 @@ internal static class RequestLogger
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Extracts the request body content and form fields from POST, PUT, PATCH, or DELETE requests.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>A tuple containing the JSON body content and form field dictionary, or nulls for non-body HTTP methods.</returns>
     private static async Task<(string? BodyContent, Dictionary<string, string>? FormFields)>
         ExtractRequestBodyAsync(HttpContext context)
     {
@@ -73,8 +82,10 @@ internal static class RequestLogger
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Reads the JSON body from the request stream with buffering enabled, limited to <see cref="MaxBodySizeBytes" />.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>The JSON body content string, or <see langword="null" /> if the content type is not JSON.</returns>
     private static async Task<string?> TryReadJsonBodyAsync(HttpContext context)
     {
         var contentType = context.Request.ContentType ?? string.Empty;
@@ -91,8 +102,10 @@ internal static class RequestLogger
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Reads form fields from the request if the content type is URL-encoded or multipart form data.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>A dictionary of form field key-value pairs, or <see langword="null" /> if the content type does not match.</returns>
     private static async Task<Dictionary<string, string>?> TryReadFormFieldsAsync(HttpContext context)
     {
         var contentType = context.Request.ContentType ?? string.Empty;
@@ -109,8 +122,10 @@ internal static class RequestLogger
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Reads up to <see cref="MaxBodySizeBytes" /> characters from the specified text reader.
     /// </summary>
+    /// <param name="reader">The text reader to read from.</param>
+    /// <returns>The content read from the reader, truncated to the maximum allowed size.</returns>
     private static async Task<string> ReadLimitedAsync(TextReader reader)
     {
         var buffer = new char[MaxBodySizeBytes / sizeof(char)];
@@ -119,8 +134,10 @@ internal static class RequestLogger
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Logs a successful HTTP response with the resolved controller action name and request path.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <param name="logger">The logger instance to write to.</param>
     internal static void LogActionResponseSuccess(HttpContext context,
         ILogger logger)
     {
@@ -135,8 +152,11 @@ internal static class RequestLogger
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Logs an HTTP error response with the controller action name, request path, status code, and response body.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <param name="responseText">The error response body text.</param>
+    /// <param name="logger">The logger instance to write to.</param>
     [SuppressMessage("ReSharper", "InconsistentContextLogPropertyNaming",
         Justification =
             "Open Telemetry fields should have this format: father.child")]

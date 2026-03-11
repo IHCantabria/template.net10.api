@@ -3,7 +3,7 @@
 namespace template.net10.api.Core.Exceptions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an invalid operation error thrown when attempting to access an exception from a successful <see cref="LanguageExt.Common.Result{T}"/>.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -24,22 +24,25 @@ namespace template.net10.api.Core.Exceptions;
 public sealed class ResultSuccessInvalidOperationException : CoreException
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="ResultSuccessInvalidOperationException"/> class.
     /// </summary>
     public ResultSuccessInvalidOperationException()
     {
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="ResultSuccessInvalidOperationException"/> class with a specified error message.
     /// </summary>
+    /// <param name="message">The error message that explains the reason for the exception.</param>
     public ResultSuccessInvalidOperationException(string message) : base(message)
     {
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="ResultSuccessInvalidOperationException"/> class with a specified error message and inner exception.
     /// </summary>
+    /// <param name="message">The error message that explains the reason for the exception.</param>
+    /// <param name="innerException">The exception that is the cause of the current exception.</param>
     public ResultSuccessInvalidOperationException(string message, Exception innerException) : base(message,
         innerException)
     {

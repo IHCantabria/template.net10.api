@@ -14,7 +14,7 @@ using template.net10.api.Persistence.Models;
 namespace template.net10.api.Behaviors.Users;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     MediatR post-processor that sends a SignalR notification to all clients after a user is successfully deleted.
 /// </summary>
 internal sealed class DeleteUserProcessor(
     IHubContext<UserHub, IUserHub> hubContext,
@@ -23,20 +23,23 @@ internal sealed class DeleteUserProcessor(
 
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     SignalR hub context for broadcasting user-related events to connected clients.
     /// </summary>
     private readonly IHubContext<UserHub, IUserHub> _hubContext =
         hubContext ?? throw new ArgumentNullException(nameof(hubContext));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     String localizer for producing localized notification messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer =
         localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Processes the response of a <see cref="CommandDeleteUser"/> request and sends a notification if the operation succeeded.
     /// </summary>
+    /// <param name="request">The delete user command that was executed.</param>
+    /// <param name="response">The result containing the deleted <see cref="User"/> or a fault.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation.</param>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead and Check the
     ///     state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -50,8 +53,10 @@ internal sealed class DeleteUserProcessor(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Sends a SignalR notification to all connected clients informing them that a user was deleted.
     /// </summary>
+    /// <param name="data">The deleted <see cref="User"/> entity.</param>
+    /// <returns>A task representing the asynchronous notification operation.</returns>
     private Task SendEventNotificationAsync(User data)
     {
         return _hubContext.Clients.All.DeletedUser(new UserHubDeletedUserMessageResource

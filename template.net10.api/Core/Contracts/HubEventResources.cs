@@ -7,7 +7,7 @@ using template.net10.api.Core.Json;
 namespace template.net10.api.Core.Contracts;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a SignalR hub event resource describing an available real-time event endpoint.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -16,32 +16,32 @@ namespace template.net10.api.Core.Contracts;
 public sealed record HubEventResource : IPublicApiContract, IEqualityOperators<HubEventResource, HubEventResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the name of the hub event.
     /// </summary>
     [JsonRequired]
     [JsonConverter(typeof(CamelCaseStringConverter))]
     public required string Name { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the description of the hub event.
     /// </summary>
     [JsonRequired]
     public required string Description { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the endpoint path associated with this hub event.
     /// </summary>
     [JsonRequired]
     public required string Path { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the type of the hub event (e.g., notification, broadcast).
     /// </summary>
     [JsonRequired]
     public required string Type { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the collection of field names included in the hub event payload.
     /// </summary>
     [JsonRequired]
     [JsonConverter(typeof(CamelCaseStringEnumerableConverter))]
@@ -49,7 +49,7 @@ public sealed record HubEventResource : IPublicApiContract, IEqualityOperators<H
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents an informational message resource sent through a SignalR hub connection.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -59,12 +59,12 @@ public sealed record HubInfoMessageResource : IPublicApiContract,
     IEqualityOperators<HubInfoMessageResource, HubInfoMessageResource, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the informational message content.
     /// </summary>
     public required string Message { get; init; } = string.Empty;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the SignalR connection identifier associated with this message.
     /// </summary>
     public required string ConnectionId { get; init; } = string.Empty;
 }

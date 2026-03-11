@@ -12,7 +12,7 @@ using template.net10.api.Settings.Attributes;
 namespace template.net10.api.Controllers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     API controller providing health check endpoints for monitoring system availability.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -28,8 +28,10 @@ public sealed class Health(
     : MyControllerBase(mediator, localizer, logger)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Performs a health check of the system and returns current status information.
     /// </summary>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the system health status.</returns>
     [HttpGet]
     [Route(ApiRoutes.HealthController.HealthCheck)]
     public async Task<IActionResult> HealthCheckAsync(CancellationToken cancellationToken)

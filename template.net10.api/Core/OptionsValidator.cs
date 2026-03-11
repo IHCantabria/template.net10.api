@@ -5,12 +5,12 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Core;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides validation methods for application configuration options.
 /// </summary>
 internal static class OptionsValidator
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates the JWT authentication configuration options.
     /// </summary>
     /// <exception cref="InvalidConfigurationException">The Jwt configuration in the appsettings file is incorrect</exception>
     internal static void ValidateJwtOptions(JwtOptions? config)
@@ -26,7 +26,7 @@ internal static class OptionsValidator
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates the CORS configuration options.
     /// </summary>
     /// <exception cref="InvalidConfigurationException">The Cors configuration in the appsettings file is incorrect</exception>
     internal static void ValidateCorsOptions(CorsOptions? config)
@@ -42,7 +42,7 @@ internal static class OptionsValidator
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates the OpenTelemetry configuration options.
     /// </summary>
     /// <exception cref="InvalidConfigurationException">The OpenTelemetry configuration in the appsettings file is incorrect</exception>
     internal static void ValidateOpenTelemetryOptions(OpenTelemetryOptions? config)
@@ -58,9 +58,9 @@ internal static class OptionsValidator
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates the application database configuration options.
     /// </summary>
-    /// <exception cref="InvalidConfigurationException">Condition.</exception>
+    /// <exception cref="InvalidConfigurationException">The App Db configuration in the appsettings file is incorrect</exception>
     internal static void ValidateAppDbOptions(AppDbOptions? config)
     {
         var optionsValidator = new AppDbOptionsValidator();
@@ -74,7 +74,7 @@ internal static class OptionsValidator
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates the API configuration options.
     /// </summary>
     /// <exception cref="InvalidConfigurationException">The Api configuration in the appsettings file is incorrect</exception>
     internal static void ValidateApiOptions(ApiOptions? config)
@@ -90,7 +90,7 @@ internal static class OptionsValidator
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates the Swagger documentation configuration options.
     /// </summary>
     /// <exception cref="InvalidConfigurationException">The Swagger configuration in the appsettings file is incorrect</exception>
     internal static void ValidateSwaggerOptions(SwaggerOptions? config)
@@ -106,7 +106,7 @@ internal static class OptionsValidator
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates the Swagger security configuration options.
     /// </summary>
     /// <exception cref="InvalidConfigurationException">The Swagger Security configuration in the appsettings file is incorrect</exception>
     internal static void ValidateSwaggerSecurityOptions(SwaggerSecurityOptions? config)

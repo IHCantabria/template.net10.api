@@ -7,28 +7,30 @@ using template.net10.api.Domain.DTOs;
 namespace template.net10.api.Domain.Password;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides password hashing and verification using PBKDF2 with SHA-512.
 /// </summary>
 internal static class PasswordHasher
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The size in bytes of the derived key and salt.
     /// </summary>
     private const short KeySize = 64;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The number of PBKDF2 iterations used for key derivation.
     /// </summary>
     private const int Iterations = 350000;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The hash algorithm used for PBKDF2 key derivation.
     /// </summary>
     private static readonly HashAlgorithmName HashAlgorithm = HashAlgorithmName.SHA512;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Hashes a password using PBKDF2 with a randomly generated salt and the application pepper.
     /// </summary>
+    /// <param name="payload">The password and pepper to hash.</param>
+    /// <returns>A <see cref="Try{A}" /> containing a tuple of (hash, salt) as hexadecimal strings.</returns>
     /// <exception cref="EncoderFallbackException">
     ///     A fallback occurred (for more information, see Character Encoding in .NET)
     ///     -and-
@@ -52,8 +54,13 @@ internal static class PasswordHasher
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Verifies a password against a stored hash and salt using PBKDF2 with constant-time comparison.
     /// </summary>
+    /// <param name="payload">The password, pepper, salt, and hash to verify against.</param>
+    /// <returns>
+    ///     A <see cref="Try{A}" /> containing <see langword="true" /> if the password matches; otherwise
+    ///     <see langword="false" />.
+    /// </returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumented",
@@ -78,8 +85,10 @@ internal static class PasswordHasher
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Converts a hexadecimal string representation of a salt into a byte array.
     /// </summary>
+    /// <param name="hex">The hexadecimal string to convert.</param>
+    /// <returns>A byte array decoded from the hex string.</returns>
     private static byte[] SaltHexStringToByteArray(string hex)
     {
         return

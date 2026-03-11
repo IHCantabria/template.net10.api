@@ -4,7 +4,7 @@ using template.net10.api.Core.Exceptions;
 namespace template.net10.api.Core.Geometries;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Exception thrown when a geometry extent (bounding box) does not satisfy validity constraints.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -25,29 +25,32 @@ namespace template.net10.api.Core.Geometries;
 public sealed class GeometryExtentNotValidException : CoreException
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="GeometryExtentNotValidException"/> class.
     /// </summary>
     public GeometryExtentNotValidException()
     {
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="GeometryExtentNotValidException"/> class with a specified error message.
     /// </summary>
+    /// <param name="message">The message that describes the error.</param>
     public GeometryExtentNotValidException(string message) : base(message)
     {
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="GeometryExtentNotValidException"/> class with a specified error message and inner exception.
     /// </summary>
+    /// <param name="message">The message that describes the error.</param>
+    /// <param name="innerException">The exception that is the cause of the current exception.</param>
     public GeometryExtentNotValidException(string message, Exception innerException) : base(message, innerException)
     {
     }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Exception thrown when a geometry point does not satisfy validity constraints.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -68,22 +71,25 @@ public sealed class GeometryExtentNotValidException : CoreException
 public sealed class GeometryPointNotValidException : CoreException
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="GeometryPointNotValidException"/> class.
     /// </summary>
     public GeometryPointNotValidException()
     {
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="GeometryPointNotValidException"/> class with a specified error message.
     /// </summary>
+    /// <param name="message">The message that describes the error.</param>
     public GeometryPointNotValidException(string message) : base(message)
     {
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="GeometryPointNotValidException"/> class with a specified error message and inner exception.
     /// </summary>
+    /// <param name="message">The message that describes the error.</param>
+    /// <param name="innerException">The exception that is the cause of the current exception.</param>
     public GeometryPointNotValidException(string message, Exception innerException) : base(message, innerException)
     {
     }

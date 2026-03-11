@@ -5,7 +5,8 @@ using template.net10.api.Localize.Resources;
 namespace template.net10.api.Settings.Middlewares;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Middleware that rejects all non-HTTPS requests with a 400 Bad Request ProblemDetails response,
+///     enforcing HTTPS-only communication for the API.
 /// </summary>
 internal sealed class HttpRejectMiddleware(
     RequestDelegate next,
@@ -13,25 +14,27 @@ internal sealed class HttpRejectMiddleware(
     IStringLocalizer<ResourceMain> localizer)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     String localizer used to produce the localized error message for non-HTTPS requests.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer =
         localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The next middleware delegate in the request pipeline.
     /// </summary>
     private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Service used to write the ProblemDetails payload to the HTTP response.
     /// </summary>
     private readonly IProblemDetailsService _problemDetailsService =
         problemDetailsService ?? throw new ArgumentNullException(nameof(problemDetailsService));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Passes HTTPS requests to the next middleware; rejects plain HTTP requests with a 400 response.
     /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>A <see cref="Task"/> that completes when the response is finished.</returns>
     /// <exception cref="Exception">A delegate callback throws an exception.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="context" /> is <see langword="null" />.</exception>
     public async Task InvokeAsync(HttpContext context)

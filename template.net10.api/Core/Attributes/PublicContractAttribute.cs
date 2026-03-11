@@ -3,7 +3,7 @@
 namespace template.net10.api.Core.Attributes;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Marks an interface as a public API contract, indicating its members are implicitly used.
 /// </summary>
 [MeansImplicitUse(ImplicitUseTargetFlags.WithMembers)]
 [AttributeUsage(AttributeTargets.Interface)]

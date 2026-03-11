@@ -8,15 +8,17 @@ using template.net10.api.Domain.Password;
 namespace template.net10.api.Persistence.Models.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     C# 13 extension block providing domain-level mutation methods on the <see cref="User"/> entity.
 /// </summary>
 internal static class UserExtensions
 {
     extension(User entity)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Updates the mutable fields of this <see cref="User"/> with non-null values from <paramref name="payload"/>.
+        ///     Null fields in the payload are ignored, preserving the existing values.
         /// </summary>
+        /// <param name="payload">The DTO carrying the updated field values.</param>
         internal void UpdateUser(CommandUpdateUserParamsDto payload)
         {
             entity.Email = payload.Email ?? entity.Email;
@@ -28,7 +30,7 @@ internal static class UserExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Sets <see cref="User.IsDisabled"/> to <see langword="true"/>, preventing the user from authenticating.
         /// </summary>
         internal void DisableUser()
         {
@@ -36,7 +38,7 @@ internal static class UserExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Sets <see cref="User.IsDisabled"/> to <see langword="false"/>, re-enabling the user account.
         /// </summary>
         public void EnableUser()
         {
@@ -44,8 +46,12 @@ internal static class UserExtensions
         }
 
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Hashes the new password from <paramref name="payload"/> using <see cref="PasswordHasher"/> and updates
+        ///     <see cref="User.PasswordHash"/> and <see cref="User.PasswordSalt"/> on the entity.
         /// </summary>
+        /// <param name="payload">DTO carrying the new plain-text password.</param>
+        /// <param name="pepper">Application-level pepper added to the hash input.</param>
+        /// <returns>A <see cref="Try{A}"/> wrapping <see langword="true"/> on success, or the exception on failure.</returns>
         /// <exception cref="ResultFaultedInvalidOperationException">
         ///     Result is not a failure! Use ExtractData method instead and
         ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method

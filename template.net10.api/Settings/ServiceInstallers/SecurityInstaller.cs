@@ -4,13 +4,14 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that adds HSTS (HTTP Strict Transport Security) with a one-year max age,
+///     preload flag, and include-subdomains directive. Load order: 21.
 /// </summary>
 [UsedImplicitly]
 internal sealed class SecurityInstaller : IServiceInstaller
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The HSTS max-age duration set to one year (365 days), as recommended by the HSTS preload list.
     /// </summary>
     private readonly TimeSpan _maxAge = TimeSpan.FromDays(365);
 

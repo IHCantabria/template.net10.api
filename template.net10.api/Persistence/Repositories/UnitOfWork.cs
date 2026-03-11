@@ -14,12 +14,12 @@ internal sealed class UnitOfWork<TDbContext>(TDbContext context, ILogger<UnitOfW
     where TDbContext : DbContext
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The active database transaction, or <see langword="null"/> when no transaction is in progress.
     /// </summary>
     private IDbContextTransaction? _transaction;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Asynchronously disposes the active transaction if one exists.
     /// </summary>
     public async ValueTask DisposeAsync()
     {

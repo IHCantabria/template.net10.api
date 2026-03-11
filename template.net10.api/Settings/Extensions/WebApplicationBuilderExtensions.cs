@@ -5,13 +5,16 @@ using ZLinq.Linq;
 namespace template.net10.api.Settings.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Extension methods for <see cref="WebApplicationBuilder"/> to auto-discover and run
+///     all <see cref="IServiceInstaller"/> implementations registered in the assembly.
 /// </summary>
 internal static class WebApplicationBuilderExtensions
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Reflects over the assembly to locate every non-abstract type that implements
+    ///     <see cref="IServiceInstaller"/> and returns an activated instance of each.
     /// </summary>
+    /// <returns>An enumerable of <see cref="IServiceInstaller"/> instances ready to be ordered and invoked.</returns>
     private static ValueEnumerable<Cast<ArrayWhereSelect<Type, object?>, object?, IServiceInstaller>, IServiceInstaller>
         GetServiceInstallers()
     {
@@ -24,7 +27,9 @@ internal static class WebApplicationBuilderExtensions
     extension(WebApplicationBuilder builder)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Discovers all <see cref="IServiceInstaller"/> implementations in the executing assembly
+        ///     and invokes them in ascending <see cref="IServiceInstaller.LoadOrder"/> order.
+        ///     Execution is intentionally serial to respect installer dependencies.
         /// </summary>
         internal async Task InstallServicesInAssemblyAsync()
         {

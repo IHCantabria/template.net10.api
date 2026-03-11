@@ -6,41 +6,43 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.Options;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Strongly-typed configuration options for JWT Bearer authentication.
+///     Bound from the <c>Security:Jwt</c> configuration section.
 /// </summary>
 internal sealed record JwtOptions : ISecurityOptions, IEqualityOperators<JwtOptions, JwtOptions, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The configuration section key used to bind <see cref="JwtOptions"/>.
     /// </summary>
     public const string Jwt = $"{ISecurityOptions.Security}:{nameof(Jwt)}";
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The expected JWT audience claim value, used during token validation.
     /// </summary>
     [Required]
     public required string Audience { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The expected JWT issuer claim value, used during token validation.
     /// </summary>
     [Required]
     public required string Issuer { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The HMAC-SHA signing secret used to generate and validate JWT tokens.
+    ///     Must be kept confidential and loaded from a secure configuration source.
     /// </summary>
     [Required]
     public required string Secret { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The lifetime of issued JWT tokens, or <see langword="null"/> to use the provider default.
     /// </summary>
     public required TimeSpan? TokenLifetime { get; init; }
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Source-generated <see cref="IValidateOptions{TOptions}"/> validator for <see cref="JwtOptions"/>.
 /// </summary>
 [OptionsValidator]
 internal sealed partial class JwtOptionsValidator : IValidateOptions<JwtOptions>;

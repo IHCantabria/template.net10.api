@@ -5,20 +5,22 @@ using template.net10.api.Persistence.Models.Interfaces;
 namespace template.net10.api.Persistence.Models;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Entity representing a user role in the identity system.
+///     Mapped to the <c>role</c> table in the <c>identity</c> schema with a unique index on <c>Name</c>.
 /// </summary>
 [Table("role", Schema = "identity")]
 [Microsoft.EntityFrameworkCore.Index("Name", Name = "rol_key", IsUnique = true)]
 internal class Role : IEntityWithNameKey, IEntityWithAlias, IEntityWithId<short>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Collection of <see cref="User"/> entities assigned to this role.
     /// </summary>
     [InverseProperty("Role")]
     public virtual ICollection<User> Users { get; } = [];
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Collection of <see cref="Claim"/> entities associated with this role
+    ///     via the <c>claim_role</c> join table.
     /// </summary>
     [ForeignKey("RoleId")]
     [InverseProperty("Roles")]

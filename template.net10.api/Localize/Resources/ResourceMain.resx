@@ -151,7 +151,7 @@
     <value>Expired Data.</value>
   </data>
   <data name="ProblemDetailsNotFoundTitle" xml:space="preserve">
-    <value>Data not Found.</value>
+    <value>Data Not Found.</value>
   </data>
   <data name="ProblemDetailsRequestTimeoutTitle" xml:space="preserve">
     <value>Request Timeout. Try Again.</value>
@@ -169,13 +169,13 @@
     <value>One or more validation errors occurred.</value>
   </data>
   <data name="ProblemDetailsValidationCode" xml:space="preserve">
-    <value>BE-R-EV-001</value>
+    <value>BE-R-V-001</value>
   </data>
   <data name="ProblemDetailsBadRequestValidationJsonMalformedDetail" xml:space="preserve">
-    <value>The payload is malformed and is not a valid json file.</value>
+    <value>The payload is malformed and is not valid JSON.</value>
   </data>
   <data name="ProblemDetailsBadRequestValidationJsonMalformedCode" xml:space="preserve">
-    <value>BE-R-EV-002</value>
+    <value>BE-R-V-002</value>
   </data>
   <data name="ProblemDetailsBadRequestCode" xml:space="preserve">
     <value>BE-R-E-400</value>
@@ -190,10 +190,10 @@
     <value>HTTP protocol is not allowed.</value>
   </data>
   <data name="ProblemDetailsBadRequestValidationJsonInvalidCode" xml:space="preserve">
-    <value>BE-R-EV-003</value>
+    <value>BE-R-V-003</value>
   </data>
   <data name="ProblemDetailsBadRequestValidationJsonInvalidDetail" xml:space="preserve">
-    <value>The Json used as payload does not honour the required contract.</value>
+	<value>The JSON payload does not match the required contract.</value>
   </data>
   <data name="ProblemDetailsConflictCode" xml:space="preserve">
     <value>BE-R-E-409</value>
@@ -292,238 +292,180 @@
     <value>New User Created</value>
   </data>
   <data name="UserHubCreatedUserMsg" xml:space="preserve">
-    <value>UserHubCreatedUserMsg</value>
+    <value>User created successfully.</value>
   </data>
   <data name="UserHubDeletedUserMsg" xml:space="preserve">
-    <value>UserHubDeletedUserMsg</value>
-    <comment>UserHubDeletedUserMsg</comment>
+    <value>User deleted successfully.</value>
   </data>
   <data name="UserHubUpdatedUserMsg" xml:space="preserve">
-    <value>UserHubUpdatedUserMsg</value>
-    <comment>UserHubUpdatedUserMsg</comment>
+    <value>User updated successfully.</value>
   </data>
   <data name="GetUserEventsUpdateUserDescription" xml:space="preserve">
-    <value>GetUserEventsUpdateUserDescription</value>
-    <comment>GetUserEventsUpdateUserDescription</comment>
+    <value>Server event when a user is updated.</value>
   </data>
   <data name="GetUserEventsDeleteUserDescription" xml:space="preserve">
-    <value>GetUserEventsDeleteUserDescription</value>
-    <comment>GetUserEventsDeleteUserDescription</comment>
+    <value>Server event when a user is deleted.</value>
   </data>
   <data name="CreateUserValidatorPasswordNotValidMsg" xml:space="preserve">
-    <value>CreateUserValidatorPasswordNotValidMsg</value>
-    <comment>CreateUserValidatorPasswordNotValidMsg</comment>
+    <value>The password and confirmation password must match.</value>
   </data>
   <data name="CreateUserValidatorPasswordNotValidCode" xml:space="preserve">
-    <value>CreateUserValidatorPasswordNotValidCode</value>
-    <comment>CreateUserValidatorPasswordNotValidCode</comment>
+    <value>BE-R-V-CU-001</value>
   </data>
   <data name="CreateUserValidatorEmailNotValidMsg" xml:space="preserve">
-    <value>CreateUserValidatorEmailNotValidMsg</value>
-    <comment>CreateUserValidatorEmailNotValidMsg</comment>
+    <value>The provided email address is not valid.</value>
   </data>
   <data name="CreateUserValidatorEmailNotValidCode" xml:space="preserve">
-    <value>CreateUserValidatorEmailNotValidCode</value>
-    <comment>CreateUserValidatorEmailNotValidCode</comment>
-  </data>
-  <data name="CreateUserValidatorEmailUsedCode" xml:space="preserve">
-    <value>CreateUserValidatorEmailUsedCode</value>
-    <comment>CreateUserValidatorEmailUsedCode</comment>
+    <value>BE-R-V-CU-002</value>
   </data>
   <data name="CreateUserValidatorEmailUsedMsg" xml:space="preserve">
-    <value>CreateUserValidatorEmailUsedMsg</value>
-    <comment>CreateUserValidatorEmailUsedMsg</comment>
+    <value>The provided email address is already in use.</value>
   </data>
-  <data name="TokenValidatoUserExistMsg" xml:space="preserve">
-    <value>TokenValidatoUserExistMsg</value>
-    <comment>TokenValidatoUserExistMsg</comment>
-  </data>
-  <data name="TokenValidatoUserExistCode" xml:space="preserve">
-    <value>TokenValidatoUserExistCode</value>
-    <comment>TokenValidatoUserExistCode</comment>
-  </data>
-  <data name="TokenValidatoUserDisabledMsg" xml:space="preserve">
-    <value>TokenValidatoUserDisabledMsg</value>
-    <comment>TokenValidatoUserDisabledMsg</comment>
-  </data>
-  <data name="TokenValidatoUserDisabledCode" xml:space="preserve">
-    <value>TokenValidatoUserDisabledCode</value>
-    <comment>TokenValidatoUserDisabledCode</comment>
-  </data>
-  <data name="DeleteUserValidatorUuidNotFoundMsg" xml:space="preserve">
-    <value>DeleteUserValidatorUuidNotFoundMsg</value>
-    <comment>DeleteUserValidatorUuidNotFoundMsg</comment>
-  </data>
-  <data name="DeleteUserValidatorUuidNotFoundCode" xml:space="preserve">
-    <value>DeleteUserValidatorUuidNotFoundCode</value>
-    <comment>DeleteUserValidatorUuidNotFoundCode</comment>
-  </data>
-  <data name="DisableUserValidatorUserDisabledMsg" xml:space="preserve">
-    <value>DisableUserValidatorUserDisabledMsg</value>
-    <comment>DisableUserValidatorUserDisabledMsg</comment>
-  </data>
-  <data name="DisableUserValidatorUserDisabledCode" xml:space="preserve">
-    <value>DisableUserValidatorUserDisabledCode</value>
-    <comment>DisableUserValidatorUserDisabledCode</comment>
-  </data>
-  <data name="DisableUserValidatorUuidNotFoundCode" xml:space="preserve">
-    <value>DisableUserValidatorUuidNotFoundCode</value>
-    <comment>DisableUserValidatorUuidNotFoundCode</comment>
-  </data>
-  <data name="DisableUserValidatorUuidNotFoundMsg" xml:space="preserve">
-    <value>DisableUserValidatorUuidNotFoundMsg</value>
-    <comment>DisableUserValidatorUuidNotFoundMsg</comment>
-  </data>
-  <data name="EnableUserValidatorUuidNotFoundMsg" xml:space="preserve">
-    <value>EnableUserValidatorUuidNotFoundMsg</value>
-    <comment>EnableUserValidatorUuidNotFoundMsg</comment>
-  </data>
-  <data name="EnableUserValidatorUuidNotFoundCode" xml:space="preserve">
-    <value>EnableUserValidatorUuidNotFoundCode</value>
-    <comment>EnableUserValidatorUuidNotFoundCode</comment>
-  </data>
-  <data name="EnableUserValidatorUserEnabledCode" xml:space="preserve">
-    <value>EnableUserValidatorUserEnabledCode</value>
-    <comment>EnableUserValidatorUserEnabledCode</comment>
-  </data>
-  <data name="EnableUserValidatorUserEnabledMsg" xml:space="preserve">
-    <value>EnableUserValidatorUserEnabledMsg</value>
-    <comment>EnableUserValidatorUserEnabledMsg</comment>
-  </data>
-  <data name="ResetUserPasswordValidatorPasswordNotValidMasg" xml:space="preserve">
-    <value>ResetUserPasswordValidatorPasswordNotValidMasg</value>
-    <comment>ResetUserPasswordValidatorPasswordNotValidMasg</comment>
-  </data>
-  <data name="ResetUserPasswordValidatorPasswordNotValidCode" xml:space="preserve">
-    <value>ResetUserPasswordValidatorPasswordNotValidCode</value>
-    <comment>ResetUserPasswordValidatorPasswordNotValidCode</comment>
-  </data>
-  <data name="ResetUserPasswordValidatorUserDisabledCode" xml:space="preserve">
-    <value>ResetUserPasswordValidatorUserDisabledCode</value>
-    <comment>ResetUserPasswordValidatorUserDisabledCode</comment>
-  </data>
-  <data name="ResetUserPasswordValidatorUserDisabledMsg" xml:space="preserve">
-    <value>ResetUserPasswordValidatorUserDisabledMsg</value>
-    <comment>ResetUserPasswordValidatorUserDisabledMsg</comment>
-  </data>
-  <data name="ResetUserPasswordValidatorUuidNotFoundCode" xml:space="preserve">
-    <value>ResetUserPasswordValidatorUuidNotFoundCode</value>
-    <comment>ResetUserPasswordValidatorUuidNotFoundCode</comment>
-  </data>
-  <data name="ResetUserPasswordValidatorUuidNotFoundMsg" xml:space="preserve">
-    <value>ResetUserPasswordValidatorUuidNotFoundMsg</value>
-    <comment>ResetUserPasswordValidatorUuidNotFoundMsg</comment>
-  </data>
-  <data name="UpdateUserValidatorRoleNotFoundCode" xml:space="preserve">
-    <value>UpdateUserValidatorRoleNotFoundCode</value>
-    <comment>UpdateUserValidatorRoleNotFoundCode</comment>
-  </data>
-  <data name="UpdateUserValidatorRoleNotFoundMsg" xml:space="preserve">
-    <value>UpdateUserValidatorRoleNotFoundMsg</value>
-    <comment>UpdateUserValidatorRoleNotFoundMsg</comment>
-  </data>
-  <data name="UpdateUserValidatorEmailUsedMsg" xml:space="preserve">
-    <value>UpdateUserValidatorEmailUsedMsg</value>
-    <comment>UpdateUserValidatorEmailUsedMsg</comment>
-  </data>
-  <data name="UpdateUserValidatorEmailUsedCode" xml:space="preserve">
-    <value>UpdateUserValidatorEmailUsedCode</value>
-    <comment>UpdateUserValidatorEmailUsedCode</comment>
-  </data>
-  <data name="UpdateUserValidatorEmailNotValidCode" xml:space="preserve">
-    <value>UpdateUserValidatorEmailNotValidCode</value>
-    <comment>UpdateUserValidatorEmailNotValidCode</comment>
-  </data>
-  <data name="UpdateUserValidatorEmailNotValidMsg" xml:space="preserve">
-    <value>UpdateUserValidatorEmailNotValidMsg</value>
-    <comment>UpdateUserValidatorEmailNotValidMsg</comment>
-  </data>
-  <data name="UpdateUserValidatorUuidNotFoundMsg" xml:space="preserve">
-    <value>UpdateUserValidatorUuidNotFoundMsg</value>
-    <comment>UpdateUserValidatorUuidNotFoundMsg</comment>
-  </data>
-  <data name="UpdateUserValidatorUuidNotFoundCode" xml:space="preserve">
-    <value>UpdateUserValidatorUuidNotFoundCode</value>
-    <comment>UpdateUserValidatorUuidNotFoundCode</comment>
-  </data>
-  <data name="AccessUserValidatorUuidMissingMsg" xml:space="preserve">
-    <value>AccessUserValidatorUuidMissingMsg</value>
-    <comment>AccessUserValidatorUuidMissingMsg</comment>
-  </data>
-  <data name="AccessUserValidatorUuidMissingCode" xml:space="preserve">
-    <value>AccessUserValidatorUuidMissingCode</value>
-    <comment>AccessUserValidatorUuidMissingCode</comment>
-  </data>
-  <data name="AccessUserValidatorUuidEmptyMsg" xml:space="preserve">
-    <value>AccessUserValidatorUuidEmptyMsg</value>
-    <comment>AccessUserValidatorUuidEmptyMsg</comment>
-  </data>
-  <data name="AccessUserValidatorUuidEmptyCode" xml:space="preserve">
-    <value>AccessUserValidatorUuidEmptyCode</value>
-    <comment>AccessUserValidatorUuidEmptyCode</comment>
-  </data>
-  <data name="AccessUserValidatorUserDisabledCode" xml:space="preserve">
-    <value>AccessUserValidatorUserDisabledCode</value>
-    <comment>AccessUserValidatorUserDisabledCode</comment>
-  </data>
-  <data name="AccessUserValidatorUserDisabledMsg" xml:space="preserve">
-    <value>AccessUserValidatorUserDisabledMsg</value>
-    <comment>AccessUserValidatorUserDisabledMsg</comment>
-  </data>
-  <data name="AccessUserValidatorRoleInvalidCode" xml:space="preserve">
-    <value>AccessUserValidatorRoleInvalidCode</value>
-    <comment>AccessUserValidatorRoleInvalidCode</comment>
-  </data>
-  <data name="AccessUserValidatorRoleInvalidMsg" xml:space="preserve">
-    <value>AccessUserValidatorRoleInvalidMsg</value>
-    <comment>AccessUserValidatorRoleInvalidMsg</comment>
-  </data>
-  <data name="GetUserValidatorUuidNotFoundMsg" xml:space="preserve">
-    <value>GetUserValidatorUuidNotFoundMsg</value>
-    <comment>GetUserValidatorUuidNotFoundMsg</comment>
-  </data>
-  <data name="GetUserValidatorUuidNotFoundCode" xml:space="preserve">
-    <value>GetUserValidatorUuidNotFoundCode</value>
-    <comment>GetUserValidatorUuidNotFoundCode</comment>
-  </data>
-  <data name="LoginUserValidatorEmailNotValidMsg" xml:space="preserve">
-    <value>LoginUserValidatorEmailNotValidMsg</value>
-    <comment>LoginUserValidatorEmailNotValidMsg</comment>
-  </data>
-  <data name="LoginUserValidatorEmailNotValidCode" xml:space="preserve">
-    <value>LoginUserValidatorEmailNotValidCode</value>
-    <comment>LoginUserValidatorEmailNotValidCode</comment>
-  </data>
-  <data name="LoginUserValidatorEmailNotFoundMsg" xml:space="preserve">
-    <value>LoginUserValidatorEmailNotFoundMsg</value>
-    <comment>LoginUserValidatorEmailNotFoundMsg</comment>
-  </data>
-  <data name="LoginUserValidatorEmailNotFoundCode" xml:space="preserve">
-    <value>LoginUserValidatorEmailNotFoundCode</value>
-    <comment>LoginUserValidatorEmailNotFoundCode</comment>
-  </data>
-  <data name="LoginUserValidatorUserDisabledMsg" xml:space="preserve">
-    <value>LoginUserValidatorUserDisabledMsg</value>
-    <comment>LoginUserValidatorUserDisabledMsg</comment>
-  </data>
-  <data name="LoginUserValidatorUserDisabledCode" xml:space="preserve">
-    <value>LoginUserValidatorUserDisabledCode</value>
-    <comment>LoginUserValidatorUserDisabledCode</comment>
-  </data>
-  <data name="LoginUserValidatorPasswordInvalidMsg" xml:space="preserve">
-    <value>LoginUserValidatorPasswordInvalidMsg</value>
-    <comment>LoginUserValidatorPasswordInvalidMsg</comment>
-  </data>
-  <data name="LoginUserValidatorPasswordInvalidCode" xml:space="preserve">
-    <value>LoginUserValidatorPasswordInvalidCode</value>
-    <comment>LoginUserValidatorPasswordInvalidCode</comment>
-  </data>
-  <data name="CreateUserValidatorRoleNotFoundCode" xml:space="preserve">
-    <value>CreateUserValidatorRoleNotFoundCode</value>
-    <comment>CreateUserValidatorRoleNotFoundCode</comment>
+  <data name="CreateUserValidatorEmailUsedCode" xml:space="preserve">
+	<value>BE-R-V-CU-003</value>
   </data>
   <data name="CreateUserValidatorRoleNotFoundMsg" xml:space="preserve">
-    <value>CreateUserValidatorRoleNotFoundMsg</value>
-    <comment>CreateUserValidatorRoleNotFoundMsg</comment>
+    <value>The specified role was not found.</value>
+  </data>
+  <data name="CreateUserValidatorRoleNotFoundCode" xml:space="preserve">
+    <value>BE-R-V-CU-004</value>
+  </data>
+  <data name="TokenValidatorUserExistMsg" xml:space="preserve">
+    <value>The user associated with the token was not found.</value>
+  </data>
+  <data name="TokenValidatorUserExistCode" xml:space="preserve">
+    <value>BE-R-V-I-001</value>
+  </data>
+  <data name="TokenValidatorUserDisabledMsg" xml:space="preserve">
+    <value>The user associated with the token is disabled.</value>
+  </data>
+  <data name="TokenValidatorUserDisabledCode" xml:space="preserve">
+    <value>BE-R-V-I-002</value>
+  </data>
+  <data name="DeleteUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>The specified user was not found.</value>
+  </data>
+  <data name="DeleteUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>BE-R-V-DEU-001</value>
+  </data>
+  <data name="DisableUserValidatorUserDisabledMsg" xml:space="preserve">
+    <value>The user is already disabled.</value>
+  </data>
+  <data name="DisableUserValidatorUserDisabledCode" xml:space="preserve">
+    <value>BE-R-V-DIU-001</value>
+  </data>
+  <data name="DisableUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>The specified user was not found.</value>
+  </data>
+  <data name="DisableUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>BE-R-V-DIU-002</value>
+  </data>
+  <data name="EnableUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>The specified user was not found.</value>
+  </data>
+  <data name="EnableUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>BE-R-V-EU-001</value>
+  </data>
+  <data name="EnableUserValidatorUserEnabledMsg" xml:space="preserve">
+    <value>The user is already enabled.</value>
+  </data>
+  <data name="EnableUserValidatorUserEnabledCode" xml:space="preserve">
+    <value>BE-R-V-EU-002</value>
+  </data>
+  <data name="ResetUserPasswordValidatorPasswordNotValidMsg" xml:space="preserve">
+    <value>The password and confirmation password must match.</value>
+  </data>
+  <data name="ResetUserPasswordValidatorPasswordNotValidCode" xml:space="preserve">
+    <value>BE-R-V-RUP-001</value>
+  </data>
+  <data name="ResetUserPasswordValidatorUserDisabledMsg" xml:space="preserve">
+    <value>The specified user is disabled.</value>
+  </data>
+  <data name="ResetUserPasswordValidatorUserDisabledCode" xml:space="preserve">
+    <value>BE-R-V-RUP-002</value>
+  </data>
+  <data name="ResetUserPasswordValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>The specified user was not found.</value>
+  </data>
+  <data name="ResetUserPasswordValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>BE-R-V-RUP-003</value>
+  </data>
+  <data name="UpdateUserValidatorRoleNotFoundMsg" xml:space="preserve">
+    <value>The specified role was not found.</value>
+  </data>
+  <data name="UpdateUserValidatorRoleNotFoundCode" xml:space="preserve">
+    <value>BE-R-V-UU-001</value>
+  </data>
+  <data name="UpdateUserValidatorEmailUsedMsg" xml:space="preserve">
+    <value>The provided email address is already in use.</value>
+  </data>
+  <data name="UpdateUserValidatorEmailUsedCode" xml:space="preserve">
+    <value>BE-R-V-UU-002</value>
+  </data>
+  <data name="UpdateUserValidatorEmailNotValidMsg" xml:space="preserve">
+    <value>The provided email address is not valid.</value>
+  </data>
+  <data name="UpdateUserValidatorEmailNotValidCode" xml:space="preserve">
+    <value>BE-R-V-UU-003</value>
+  </data>
+  <data name="UpdateUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>The specified user was not found.</value>
+  </data>
+  <data name="UpdateUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>BE-R-V-UU-004</value>
+  </data>
+  <data name="AccessUserValidatorUuidMissingMsg" xml:space="preserve">
+    <value>The user identifier is missing.</value>
+  </data>
+  <data name="AccessUserValidatorUuidMissingCode" xml:space="preserve">
+    <value>BE-R-V-AU-001</value>
+  </data>
+  <data name="AccessUserValidatorUuidEmptyMsg" xml:space="preserve">
+    <value>The user identifier cannot be empty.</value>
+  </data>
+  <data name="AccessUserValidatorUuidEmptyCode" xml:space="preserve">
+    <value>BE-R-V-AU-002</value>
+  </data>
+  <data name="AccessUserValidatorUserDisabledMsg" xml:space="preserve">
+    <value>The specified user is disabled.</value>
+  </data>
+  <data name="AccessUserValidatorUserDisabledCode" xml:space="preserve">
+    <value>BE-R-V-AU-003</value>
+  </data>
+  <data name="AccessUserValidatorRoleInvalidMsg" xml:space="preserve">
+    <value>The specified role is not valid for this operation.</value>
+  </data>
+  <data name="AccessUserValidatorRoleInvalidCode" xml:space="preserve">
+    <value>BE-R-V-AU-004</value>
+  </data>
+  <data name="GetUserValidatorUuidNotFoundMsg" xml:space="preserve">
+    <value>The specified user was not found.</value>
+  </data>
+  <data name="GetUserValidatorUuidNotFoundCode" xml:space="preserve">
+    <value>BE-R-V-GU-001</value>
+  </data>
+  <data name="LoginUserValidatorEmailNotValidMsg" xml:space="preserve">
+    <value>The provided email address is not valid.</value>
+  </data>
+  <data name="LoginUserValidatorEmailNotValidCode" xml:space="preserve">
+    <value>BE-R-V-LU-001</value>
+  </data>
+  <data name="LoginUserValidatorEmailNotFoundMsg" xml:space="preserve">
+    <value>No user was found with the provided email address.</value>
+  </data>
+  <data name="LoginUserValidatorEmailNotFoundCode" xml:space="preserve">
+    <value>BE-R-V-LU-002</value>
+  </data>
+  <data name="LoginUserValidatorUserDisabledMsg" xml:space="preserve">
+    <value>The specified user is disabled.</value>
+  </data>
+  <data name="LoginUserValidatorUserDisabledCode" xml:space="preserve">
+    <value>BE-R-V-LU-003</value>
+  </data>
+  <data name="LoginUserValidatorPasswordInvalidMsg" xml:space="preserve">
+    <value>The provided password is incorrect.</value>
+  </data>
+  <data name="LoginUserValidatorPasswordInvalidCode" xml:space="preserve">
+    <value>BE-R-V-LU-004</value>
   </data>
 </root>

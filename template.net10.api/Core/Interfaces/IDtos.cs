@@ -3,7 +3,7 @@
 namespace template.net10.api.Core.Interfaces;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Marker interface for data transfer objects (DTOs). Used for generic type constraints and architectural separation.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",

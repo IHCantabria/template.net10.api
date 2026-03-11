@@ -7,7 +7,9 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers the <see cref="ClaimRequirementHandler" /> and all application
+///     authorization policies. Policies are environment-aware: production uses strict AND logic,
+///     non-production uses lenient OR logic. Load order: 19.
 /// </summary>
 [UsedImplicitly]
 internal sealed class AuthorizationInstaller : IServiceInstaller

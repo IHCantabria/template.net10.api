@@ -8,13 +8,19 @@ using ILogger = Serilog.ILogger;
 namespace template.net10.api.Core.Logger.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for Serilog <see cref="ILogger" /> to inspect internal sink configuration.
 /// </summary>
 internal static class LoggerExtensions
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Determines whether the specified sink is or wraps a <see cref="MemorySink" /> by inspecting internal fields via
+    ///     reflection.
     /// </summary>
+    /// <param name="sink">The log event sink to inspect.</param>
+    /// <returns>
+    ///     <see langword="true" /> if the sink is or wraps a <see cref="MemorySink" />; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
     [SuppressMessage("Security",
         "S3011:Reflection should not be used to increase accessibility of classes, methods, or fields",
         Justification =
@@ -39,8 +45,13 @@ internal static class LoggerExtensions
     extension(ILogger? logger)
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Checks whether the current Serilog logger has any non-memory sinks configured, using reflection to access internal
+        ///     pipeline state.
         /// </summary>
+        /// <returns>
+        ///     <see langword="true" /> if at least one non-<see cref="MemorySink" /> sink is configured; otherwise,
+        ///     <see langword="false" />.
+        /// </returns>
         /// <exception cref="NotSupportedException">
         ///     A field is marked literal, but the field does not have one of the accepted
         ///     literal types.

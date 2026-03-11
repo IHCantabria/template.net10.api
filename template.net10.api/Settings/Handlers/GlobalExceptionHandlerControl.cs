@@ -8,7 +8,8 @@ using template.net10.api.Logger;
 namespace template.net10.api.Settings.Handlers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Global ASP.NET Core <see cref="IExceptionHandler"/> that catches all unhandled exceptions,
+///     logs them, and writes a structured ProblemDetails response based on the HTTP status code.
 /// </summary>
 internal sealed class GlobalExceptionHandlerControl(
     IProblemDetailsService problemDetailsService,
@@ -17,25 +18,33 @@ internal sealed class GlobalExceptionHandlerControl(
     : IExceptionHandler
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     String localizer used to produce localized error messages in ProblemDetails responses.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer =
         localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Logger used to record server-side exception details for diagnostics.
     /// </summary>
     private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Service used to serialize and write the ProblemDetails payload to the HTTP response.
     /// </summary>
     private readonly IProblemDetailsService _problemDetailsService =
         problemDetailsService ?? throw new ArgumentNullException(nameof(problemDetailsService));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Attempts to handle <paramref name="exception"/> by logging it and writing a ProblemDetails
+    ///     response derived from the current HTTP status code and the exception message.
     /// </summary>
+    /// <param name="httpContext">The current HTTP context.</param>
+    /// <param name="exception">The unhandled exception to process.</param>
+    /// <param name="cancellationToken">Token to cancel the write operation.</param>
+    /// <returns>
+    ///     A <see cref="ValueTask{TResult}"/> of <see langword="true"/> when the exception was handled
+    ///     and a response was written; otherwise <see langword="false"/>.
+    /// </returns>
     public ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,

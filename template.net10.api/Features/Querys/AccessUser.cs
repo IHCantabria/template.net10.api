@@ -22,7 +22,7 @@ using template.net10.api.Settings.Options;
 namespace template.net10.api.Features.Querys;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents a MediatR query request to generate an access token for an authenticated user.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -39,7 +39,7 @@ public sealed record QueryAccessUser(QueryAccessUserParamsDto QueryParams)
         IEqualityOperators<QueryAccessUser, QueryAccessUser, bool>;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Handles the <see cref="QueryAccessUser"/> request by generating an access token (JWT) for the authenticated user.
 /// </summary>
 internal sealed class QueryAccessUserHandler(
     IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -48,24 +48,26 @@ internal sealed class QueryAccessUserHandler(
     : IRequestHandler<QueryAccessUser, LanguageExt.Common.Result<AccessTokenDto>>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Application configuration options used for token generation.
     /// </summary>
     private readonly AppOptions _appConfig = appConfig.Value ?? throw new ArgumentNullException(nameof(appConfig));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     JWT configuration options including signing key, issuer, and audience.
     /// </summary>
     private readonly JwtOptions _jwtConfig = jwtConfig.Value ?? throw new ArgumentNullException(nameof(jwtConfig));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Read-only repository for querying <see cref="User"/> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Handles the access token request by generating a JWT for genie or standard user authentication.
     /// </summary>
+    /// <param name="request">The MediatR query request containing the identity information to generate the access token.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
     /// <exception cref="ResultFaultedInvalidOperationException">
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
@@ -107,30 +109,36 @@ internal sealed class QueryAccessUserHandler(
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     FluentValidation validator that verifies the identity token UUID, user status, and role when requesting an access token.
 /// </summary>
 [UsedImplicitly]
 internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUser>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Read-only repository for verifying <see cref="Role"/> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, Role> _roleRepository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Read-only repository for verifying <see cref="User"/> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _userRepository;
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="AccessUserUuidValidator"/> class with repositories and localization dependencies.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Condition.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="roleRepository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="userRepository"/> is <see langword="null"/>.
+    ///     -or-
+    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    /// </exception>
     public AccessUserUuidValidator(
         IGenericDbRepositoryReadContext<AppDbContext, Role> roleRepository,
         IGenericDbRepositoryReadContext<AppDbContext, User> userRepository,
@@ -177,7 +185,7 @@ internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUse
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the user identified by the UUID is currently active (enabled).
     /// </summary>
     private bool ValidateTokenUserActive(Guid key)
     {
@@ -191,7 +199,7 @@ internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUse
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Validates that the specified role name exists in the system.
     /// </summary>
     private bool ValidateTokenUserRole(string roleName)
     {

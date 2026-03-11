@@ -5,7 +5,8 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers MediatR with all handlers from the application assembly
+///     and configures the pipeline behaviors for logging, validation, and post-processing. Load order: 14.
 /// </summary>
 [UsedImplicitly]
 internal sealed class MediatorInstaller : IServiceInstaller

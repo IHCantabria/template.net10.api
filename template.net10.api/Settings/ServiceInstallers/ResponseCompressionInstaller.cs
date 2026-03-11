@@ -7,13 +7,15 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that enables Brotli and Gzip response compression for a wide range of
+///     JSON, XML, and problem-detail MIME types, including common charset variants. Load order: 20.
 /// </summary>
 [UsedImplicitly]
 internal sealed class ResponseCompressionInstaller : IServiceInstaller
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The additional MIME types to compress beyond the ASP.NET Core defaults,
+    ///     covering JSON, XML, and problem-detail media types with common charset variants.
     /// </summary>
     private static readonly string[] MimeTypes =
     [

@@ -9,15 +9,17 @@ using template.net10.api.Domain.Interfaces;
 namespace template.net10.api.Domain.Extensions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Provides extension methods for populating identity information on DTOs that implement <see cref="IIdentity"/>.
 /// </summary>
 internal static class IdentityExtensions
 {
     extension<T>(T dto) where T : IIdentity, IDto
     {
         /// <summary>
-        ///     ADD DOCUMENTATION
+        ///     Extracts identity claims from the given <see cref="ClaimsPrincipal"/> and attaches them to the DTO.
         /// </summary>
+        /// <param name="claimsPrincipal">The claims principal containing the user's authentication claims.</param>
+        /// <returns>The same DTO instance with the <see cref="IIdentity.Identity"/> property populated.</returns>
         /// <exception cref="ResultSuccessInvalidOperationException">
         ///     Result is not a success! Use ExtractException method instead
         ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method

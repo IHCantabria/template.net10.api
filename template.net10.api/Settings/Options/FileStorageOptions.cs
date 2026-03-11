@@ -6,7 +6,8 @@ using template.net10.api.Settings.Attributes;
 namespace template.net10.api.Settings.Options;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Strongly-typed configuration options for local file storage, defining root paths for temporary
+///     and permanent file operations. Bound from the <c>FileStorage</c> configuration section.
 /// </summary>
 [SuppressMessage(
     "Performance",
@@ -19,25 +20,27 @@ namespace template.net10.api.Settings.Options;
 internal sealed record FileStorageOptions : IEqualityOperators<FileStorageOptions, FileStorageOptions, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The configuration section key used to bind <see cref="FileStorageOptions" />.
     /// </summary>
     public const string FileStorage = nameof(FileStorage);
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The absolute path to the root directory used for temporary file and directory creation.
+    ///     Validated by <see cref="LocalAbsolutePathAttribute" />.
     /// </summary>
     [LocalAbsolutePath]
     public required string RootTempPath { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The absolute path to the root directory used for permanent file storage.
+    ///     Validated by <see cref="LocalAbsolutePathAttribute" />.
     /// </summary>
     [LocalAbsolutePath]
     public required string RootFilePath { get; init; }
 }
 
 /// <summary>
-///     File Storage Options Validator
+///     Source-generated <see cref="IValidateOptions{TOptions}" /> validator for <see cref="FileStorageOptions" />.
 /// </summary>
 [OptionsValidator]
 [SuppressMessage(

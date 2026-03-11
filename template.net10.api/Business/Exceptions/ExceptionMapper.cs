@@ -11,68 +11,68 @@ using NotImplementedException = template.net10.api.Core.Exceptions.NotImplemente
 namespace template.net10.api.Business.Exceptions;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Defines the supported exception types mapped to their corresponding HTTP status codes.
 /// </summary>
 internal enum ExceptionType
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 400 Bad Request error.
     /// </summary>
     BadRequest = 400,
 
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 401 Unauthorized error.
     /// </summary>
     Unauthorized = 401,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 403 Forbidden error.
     /// </summary>
     Forbidden = 403,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 404 Not Found error.
     /// </summary>
     NotFound = 404,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 408 Request Timeout error.
     /// </summary>
     RequestTimeout = 408,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 409 Conflict error.
     /// </summary>
     Conflict = 409,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 410 Gone error.
     /// </summary>
     Gone = 410,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 422 Unprocessable Entity error.
     /// </summary>
     UnprocessableEntity = 422,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 500 Internal Server Error.
     /// </summary>
     InternalServerError = 500,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an HTTP 501 Not Implemented error.
     /// </summary>
     NotImplemented = 501,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents a validation error (custom code 601, not a standard HTTP status).
     /// </summary>
     Validation = 601,
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Represents an unsupported exception type (custom code 602, not a standard HTTP status).
     /// </summary>
     NotSupported = 602
 
@@ -80,12 +80,13 @@ internal enum ExceptionType
 }
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Maps domain and business exceptions to their corresponding <see cref="IActionResult" /> HTTP responses.
 /// </summary>
 internal static class ExceptionMapper
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Lookup dictionary that maps each <see cref="ExceptionType" /> to a factory delegate that produces the corresponding
+    ///     <see cref="IActionResult" />.
     /// </summary>
     private static readonly Dictionary<ExceptionType,
             Func<Exception, IStringLocalizer<ResourceMain>, IFeatureCollection, IActionResult>>
@@ -136,10 +137,17 @@ internal static class ExceptionMapper
         };
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Maps the specified exception to the corresponding <see cref="IActionResult" /> based on its runtime type.
     /// </summary>
+    /// <param name="ex">The exception to map.</param>
+    /// <param name="localizer">The string localizer for resolving localized error messages.</param>
+    /// <param name="features">The HTTP feature collection for the current request.</param>
+    /// <returns>An <see cref="IActionResult" /> representing the mapped HTTP error response.</returns>
     /// <exception cref="Exception">A delegate callback throws an exception.</exception>
-    /// <exception cref="NotSupportedException">Condition.</exception>
+    /// <exception cref="NotSupportedException">
+    ///     Thrown when the exception type is not mapped to a known handler; the exception
+    ///     type is not supported by the mapper.
+    /// </exception>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -158,8 +166,13 @@ internal static class ExceptionMapper
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Resolves the <see cref="ExceptionType" /> corresponding to the runtime type of the given exception.
     /// </summary>
+    /// <param name="exception">The exception whose type is to be resolved.</param>
+    /// <returns>
+    ///     The <see cref="ExceptionType" /> that matches the exception, or <see cref="ExceptionType.NotSupported" /> if
+    ///     no match is found.
+    /// </returns>
     private static ExceptionType GetExceptionType(Exception exception)
     {
         return exception switch

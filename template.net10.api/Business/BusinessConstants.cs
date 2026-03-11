@@ -1,12 +1,12 @@
 ﻿namespace template.net10.api.Business;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Contains business-level constants used throughout the application.
 /// </summary>
 internal static class BusinessConstants
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     The display name or namespace identifier for this API project.
     /// </summary>
     internal const string ApiName = "{PROJECT_NAMESPACE}";
 

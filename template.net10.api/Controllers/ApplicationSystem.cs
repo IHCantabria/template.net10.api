@@ -17,7 +17,7 @@ using template.net10.api.Settings.Attributes;
 namespace template.net10.api.Controllers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     API controller providing system-level operations such as error codes retrieval and version information.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -33,8 +33,10 @@ public sealed class ApplicationSystem(
     : MyControllerBase(mediator, localizer, logger)
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Retrieves all error codes managed by the system along with their localized descriptions.
     /// </summary>
+    /// <param name="localizer">The string localizer for error code resources.</param>
+    /// <returns>An <see cref="IActionResult" /> containing the collection of error codes.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -65,8 +67,10 @@ public sealed class ApplicationSystem(
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Retrieves the current version of the system.
     /// </summary>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>An <see cref="IActionResult" /> containing the current system version.</returns>
     [HttpGet]
     [RequestTimeout(RequestConstants.RequestQueryGenericPolicy)]
     [Route(ApiRoutes.SystemController.GetVersion)]

@@ -4,7 +4,8 @@ using template.net10.api.Settings.Interfaces;
 namespace template.net10.api.Settings.ServiceInstallers;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Service installer that registers the ASP.NET Core minimal API endpoint explorer required
+///     by Swagger/OpenAPI to discover endpoint metadata. Load order: 16.
 /// </summary>
 [UsedImplicitly]
 internal sealed class OpenApiInstaller : IServiceInstaller

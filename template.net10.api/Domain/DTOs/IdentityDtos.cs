@@ -6,7 +6,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Domain.DTOs;
 
 /// <summary>
-///     ADD DOCUMENTATION
+///     Represents the authenticated user's identity information extracted from the request context.
 /// </summary>
 [SuppressMessage(
     "Design",
@@ -15,7 +15,7 @@ namespace template.net10.api.Domain.DTOs;
 public sealed record IdentityDto : IDto, IEqualityOperators<IdentityDto, IdentityDto, bool>
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="IdentityDto"/> record with all identity values set to <see langword="null"/>.
     /// </summary>
     [SetsRequiredMembers]
     internal IdentityDto()
@@ -26,8 +26,11 @@ public sealed record IdentityDto : IDto, IEqualityOperators<IdentityDto, Identit
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="IdentityDto"/> record with the specified identity values.
     /// </summary>
+    /// <param name="userUuid">The unique identifier of the authenticated user.</param>
+    /// <param name="userRoleName">The role name assigned to the user.</param>
+    /// <param name="userIdentifier">The user's subject identifier from the token.</param>
     [SetsRequiredMembers]
     internal IdentityDto(Guid? userUuid, string? userRoleName, string? userIdentifier)
     {
@@ -37,39 +40,42 @@ public sealed record IdentityDto : IDto, IEqualityOperators<IdentityDto, Identit
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the unique identifier (UUID) of the authenticated user.
     /// </summary>
     public required Guid? UserUuid { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the subject identifier of the authenticated user from the token.
     /// </summary>
     public required string? UserIdentifier { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Gets the role name assigned to the authenticated user.
     /// </summary>
     public required string? UserRoleName { get; init; }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Determines whether the identity has a non-null user identifier.
     /// </summary>
+    /// <returns><see langword="true"/> if <see cref="UserIdentifier"/> is not <see langword="null"/>; otherwise, <see langword="false"/>.</returns>
     private bool HasUserIdentifier()
     {
         return UserIdentifier is not null;
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Determines whether the current identity corresponds to the Genie (system) user.
     /// </summary>
+    /// <returns><see langword="true"/> if the user identifier matches the Genie identifier constant; otherwise, <see langword="false"/>.</returns>
     internal bool IsGenie()
     {
         return HasUserIdentifier() && UserIdentifier == GenieIdentityConstants.Identifier;
     }
 
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Determines whether the identity has an assigned role.
     /// </summary>
+    /// <returns><see langword="true"/> if <see cref="UserRoleName"/> is not <see langword="null"/>; otherwise, <see langword="false"/>.</returns>
     internal bool HasRole()
     {
         return UserRoleName is not null;
