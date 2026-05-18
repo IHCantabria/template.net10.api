@@ -3,8 +3,8 @@
 namespace template.net10.api.Settings.Interfaces;
 
 /// <summary>
-///     Options contract for HTTP client configurations. Extends <see cref="IConnectionsOptions"/> with
-///     the base URI and request timeout required to configure typed <see cref="System.Net.Http.HttpClient"/> instances.
+///     Options contract for HTTP client configurations. Extends <see cref="IConnectionsOptions" /> with
+///     the base URI and request timeout required to configure typed <see cref="System.Net.Http.HttpClient" /> instances.
 /// </summary>
 [SuppressMessage(
     "ReSharper",

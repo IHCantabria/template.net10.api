@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using template.net10.api.Contracts;
-using template.net10.api.Persistence.Models;
 
 namespace template.net10.api.Domain.DTOs;
 
@@ -42,11 +41,6 @@ internal sealed partial record IdTokenDto
     }
 }
 
-[SuppressMessage(
-    "Design",
-    "CA1515:Consider making public types internal",
-    Justification =
-        "Public visibility is required as the DTO is part of the API contract and exposed through public conversions.")]
 public sealed partial record UserDto
 {
     /// <summary>
@@ -98,11 +92,6 @@ public sealed partial record UserDto
     }
 }
 
-[SuppressMessage(
-    "Design",
-    "CA1515:Consider making public types internal",
-    Justification =
-        "Public visibility is required as the DTO is part of the API contract and exposed through public conversions.")]
 public sealed partial record UserResetedPasswordDto
 {
     /// <summary>
@@ -134,37 +123,5 @@ public sealed partial record UserResetedPasswordDto
     public static UserResetedPasswordResource ToUserResetedPasswordResource(UserResetedPasswordDto dto)
     {
         return dto;
-    }
-}
-
-internal sealed partial record CreateUserDto
-{
-    /// <summary>
-    ///     Implicitly converts a <see cref="CreateUserDto" /> to a <see cref="User" /> persistence entity.
-    /// </summary>
-    /// <param name="dto">The create-user DTO to convert.</param>
-    /// <returns>A new <see cref="User" /> entity populated from the DTO with generated timestamps.</returns>
-    public static implicit operator User(CreateUserDto dto)
-    {
-        ArgumentNullException.ThrowIfNull(dto);
-        return new User
-        {
-            Username = dto.Username,
-            Email = dto.Email,
-            IsDisabled = dto.IsDisabled,
-            RoleId = dto.RoleId,
-            FirstName = dto.FirstName,
-            LastName = dto.LastName,
-            InsertDatetime = DateTime.SpecifyKind(DateTime.UtcNow,
-                DateTimeKind.Unspecified),
-            PasswordHash = dto.PasswordHash,
-            PasswordSalt = dto.PasswordSalt,
-            Uuid = dto.Uuid,
-            InsertUserId = null,
-            UpdateDatetime = DateTime.SpecifyKind(DateTime.UtcNow,
-                DateTimeKind.Unspecified),
-            UpdateUserId = null,
-            Id = 0
-        };
     }
 }

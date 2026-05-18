@@ -34,14 +34,14 @@ public sealed record QueryGetUser(QueryGetUserParamsDto QueryParams)
     : IRequest<LanguageExt.Common.Result<UserDto>>, IEqualityOperators<QueryGetUser, QueryGetUser, bool>;
 
 /// <summary>
-///     Handles the <see cref="QueryGetUser"/> request by retrieving a single user from the database by key.
+///     Handles the <see cref="QueryGetUser" /> request by retrieving a single user from the database by key.
 /// </summary>
 internal sealed class QueryGetUserHandler(
     IGenericDbRepositoryReadContext<AppDbContext, User> repository)
     : IRequestHandler<QueryGetUser, LanguageExt.Common.Result<UserDto>>
 {
     /// <summary>
-    ///     Read-only repository for querying <see cref="User"/> entities.
+    ///     Read-only repository for querying <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
@@ -80,20 +80,21 @@ internal sealed class GetUserKeyValidator : AbstractValidator<QueryGetUser>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     Read-only repository for verifying <see cref="User"/> entities during validation.
+    ///     Read-only repository for verifying <see cref="User" /> entities during validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="GetUserKeyValidator"/> class with repository and localization dependencies.
+    ///     Initializes a new instance of the <see cref="GetUserKeyValidator" /> class with repository and localization
+    ///     dependencies.
     /// </summary>
     /// <param name="repository">The read-only repository used to verify user existence during validation.</param>
     /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     <paramref name="repository" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     <paramref name="localizer" /> is <see langword="null" />.
     /// </exception>
     public GetUserKeyValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -117,7 +118,7 @@ internal sealed class GetUserKeyValidator : AbstractValidator<QueryGetUser>
     ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
     /// <param name="key">The unique identifier of the user to verify existence for.</param>
-    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user exists; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserUuid(Guid key)
     {
         var verification = new EntityVerificationByUuid<User>(key);

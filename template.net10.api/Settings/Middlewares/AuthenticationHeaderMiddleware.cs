@@ -7,6 +7,11 @@
 internal sealed class AuthenticationHeaderMiddleware(RequestDelegate next)
 {
     /// <summary>
+    ///     Constants for the <c>WWW-Authenticate</c> header name used in authentication error responses.
+    /// </summary>
+    private const string WwwAuthenticateHeader = "WWW-Authenticate";
+
+    /// <summary>
     ///     The next middleware delegate in the request pipeline.
     /// </summary>
     private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
@@ -17,7 +22,7 @@ internal sealed class AuthenticationHeaderMiddleware(RequestDelegate next)
     ///     to the next middleware in the pipeline.
     /// </summary>
     /// <param name="context">The HTTP context for the current request.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous middleware operation.</returns>
+    /// <returns>A <see cref="Task" /> representing the asynchronous middleware operation.</returns>
     /// <exception cref="Exception">A delegate callback throws an exception.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="context" /> is <see langword="null" />.</exception>
     public Task InvokeAsync(HttpContext context)
@@ -59,9 +64,9 @@ internal sealed class AuthenticationHeaderMiddleware(RequestDelegate next)
             ? d as string
             : "The access token is missing, invalid, or expired";
 
-        context.Response.Headers.Remove("WWW-Authenticate");
+        context.Response.Headers.Remove(WwwAuthenticateHeader);
         context.Response.Headers.Append(
-            "WWW-Authenticate",
+            WwwAuthenticateHeader,
             $"Bearer error=\"{err}\", error_description=\"{desc}\""
         );
     }
@@ -77,9 +82,9 @@ internal sealed class AuthenticationHeaderMiddleware(RequestDelegate next)
             ? d as string
             : "The token does not have sufficient scope for this resource";
 
-        context.Response.Headers.Remove("WWW-Authenticate");
+        context.Response.Headers.Remove(WwwAuthenticateHeader);
         context.Response.Headers.Append(
-            "WWW-Authenticate",
+            WwwAuthenticateHeader,
             $"Bearer error=\"insufficient_scope\", error_description=\"{desc}\""
         );
     }

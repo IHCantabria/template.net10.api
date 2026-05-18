@@ -13,7 +13,7 @@ namespace template.net10.api.Core.Interfaces;
     "CA1515:Consider making public types internal",
     Justification =
         "The enum is part of the public API contract and must remain publicly accessible.")]
-public enum OrderByType
+internal enum OrderByType
 {
     /// <summary>
     ///     Ascending Order

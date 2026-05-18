@@ -13,23 +13,23 @@ namespace template.net10.api.Persistence.Models;
 internal class Role : IEntityWithNameKey, IEntityWithAlias, IEntityWithId<short>
 {
     /// <summary>
-    ///     Collection of <see cref="User"/> entities assigned to this role.
+    ///     Collection of <see cref="User" /> entities assigned to this role.
     /// </summary>
     [InverseProperty("Role")]
-    public virtual ICollection<User> Users { get; } = [];
+    public virtual required ICollection<User> Users { get; init; } = [];
 
     /// <summary>
-    ///     Collection of <see cref="Claim"/> entities associated with this role
+    ///     Collection of <see cref="Claim" /> entities associated with this role
     ///     via the <c>claim_role</c> join table.
     /// </summary>
     [ForeignKey("RoleId")]
     [InverseProperty("Roles")]
-    public virtual ICollection<Claim> Claims { get; } = [];
+    public virtual required ICollection<Claim> Claims { get; init; } = [];
 
     /// <inheritdoc cref="IEntityWithAlias.AliasText" />
     [Column("alias")]
     [MaxLength(100)]
-    public required string AliasText { get; set; }
+    public required string AliasText { get; init; }
 
     /// <inheritdoc cref="IEntityWithId{T}.Id" />
     [Key]

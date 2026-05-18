@@ -11,9 +11,9 @@ namespace template.net10.api.Settings.Handlers;
 internal static class GlobalErrorAndExitHandlers
 {
     /// <summary>
-    ///     Registers all global handlers: <see cref="AppDomain.UnhandledException"/>,
-    ///     <see cref="TaskScheduler.UnobservedTaskException"/>, <see cref="AppDomain.ProcessExit"/>,
-    ///     and <see cref="AppDomain.DomainUnload"/>.
+    ///     Registers all global handlers: <see cref="AppDomain.UnhandledException" />,
+    ///     <see cref="TaskScheduler.UnobservedTaskException" />, <see cref="AppDomain.ProcessExit" />,
+    ///     and <see cref="AppDomain.DomainUnload" />.
     /// </summary>
     public static void Register()
     {
@@ -24,7 +24,7 @@ internal static class GlobalErrorAndExitHandlers
     }
 
     /// <summary>
-    ///     Handles <see cref="AppDomain.UnhandledException"/>. Logs the exception critically and,
+    ///     Handles <see cref="AppDomain.UnhandledException" />. Logs the exception critically and,
     ///     if the runtime is terminating, flushes the Serilog sink before the process exits.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
@@ -32,7 +32,7 @@ internal static class GlobalErrorAndExitHandlers
     private static void OnUnhandledException(object? sender, UnhandledExceptionEventArgs args)
     {
         var ex = args.ExceptionObject as Exception
-                 ?? new CoreException($"Unhandled exception object: {args.ExceptionObject}");
+                 ?? new GlobalUnhandledException($"Unhandled exception object: {args.ExceptionObject}");
 
         MainLoggerMethods.LogCriticalUnhandledException(ex);
 
@@ -43,11 +43,11 @@ internal static class GlobalErrorAndExitHandlers
     }
 
     /// <summary>
-    ///     Handles <see cref="TaskScheduler.UnobservedTaskException"/>. Logs the exception and marks it
+    ///     Handles <see cref="TaskScheduler.UnobservedTaskException" />. Logs the exception and marks it
     ///     as observed to prevent the process from being terminated.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
-    /// <param name="args">Contains the unobserved <see cref="AggregateException"/>.</param>
+    /// <param name="args">Contains the unobserved <see cref="AggregateException" />.</param>
     private static void OnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs args)
     {
         MainLoggerMethods.LogUnobservedTaskException(args.Exception);
@@ -55,7 +55,7 @@ internal static class GlobalErrorAndExitHandlers
     }
 
     /// <summary>
-    ///     Handles <see cref="AppDomain.ProcessExit"/>. Logs the process-exit event for observability.
+    ///     Handles <see cref="AppDomain.ProcessExit" />. Logs the process-exit event for observability.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">Event data (unused).</param>
@@ -65,7 +65,7 @@ internal static class GlobalErrorAndExitHandlers
     }
 
     /// <summary>
-    ///     Handles <see cref="AppDomain.DomainUnload"/>. Logs the domain-unload event for observability.
+    ///     Handles <see cref="AppDomain.DomainUnload" />. Logs the domain-unload event for observability.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">Event data (unused).</param>

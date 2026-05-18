@@ -14,7 +14,12 @@ internal sealed class UnitOfWork<TDbContext>(TDbContext context, ILogger<UnitOfW
     where TDbContext : DbContext
 {
     /// <summary>
-    ///     The active database transaction, or <see langword="null"/> when no transaction is in progress.
+    ///     Constants for error messages related to transaction operations.
+    /// </summary>
+    private const string NoTransactionActive = "There is not a transaction active!";
+
+    /// <summary>
+    ///     The active database transaction, or <see langword="null" /> when no transaction is in progress.
     /// </summary>
     private IDbContextTransaction? _transaction;
 
@@ -51,7 +56,8 @@ internal sealed class UnitOfWork<TDbContext>(TDbContext context, ILogger<UnitOfW
     public async Task<LanguageExt.Common.Result<bool>> BeginTransactionAsync(CancellationToken cancellationToken)
     {
         if (_transaction is not null)
-            return new LanguageExt.Common.Result<bool>(new CoreException("There is a transaction already open!"));
+            return new LanguageExt.Common.Result<bool>(
+                new DatabaseTransactionException("There is a transaction already open!"));
 
         _transaction = await Context.Database.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
         return true;
@@ -62,7 +68,7 @@ internal sealed class UnitOfWork<TDbContext>(TDbContext context, ILogger<UnitOfW
     public async Task<LanguageExt.Common.Result<bool>> CommitTransactionAsync(CancellationToken cancellationToken)
     {
         if (_transaction is null)
-            return new LanguageExt.Common.Result<bool>(new CoreException("There is not a transaction active"));
+            return new LanguageExt.Common.Result<bool>(new DatabaseTransactionException(NoTransactionActive));
 
         await _transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
         return true;
@@ -73,7 +79,7 @@ internal sealed class UnitOfWork<TDbContext>(TDbContext context, ILogger<UnitOfW
     public async Task<LanguageExt.Common.Result<bool>> RollbackTransactionAsync(CancellationToken cancellationToken)
     {
         if (_transaction is null)
-            return new LanguageExt.Common.Result<bool>(new CoreException("There is not a transaction active"));
+            return new LanguageExt.Common.Result<bool>(new DatabaseTransactionException(NoTransactionActive));
 
         await _transaction.RollbackAsync(cancellationToken).ConfigureAwait(false);
         return true;
@@ -83,7 +89,7 @@ internal sealed class UnitOfWork<TDbContext>(TDbContext context, ILogger<UnitOfW
     public async Task<LanguageExt.Common.Result<bool>> ReleaseTransactionAsync(CancellationToken cancellationToken)
     {
         if (_transaction is null)
-            return new LanguageExt.Common.Result<bool>(new CoreException("There is not a transaction active"));
+            return new LanguageExt.Common.Result<bool>(new DatabaseTransactionException(NoTransactionActive));
 
         await _transaction.DisposeAsync().ConfigureAwait(false);
         _transaction = null;
@@ -96,7 +102,7 @@ internal sealed class UnitOfWork<TDbContext>(TDbContext context, ILogger<UnitOfW
         CancellationToken cancellationToken)
     {
         if (_transaction is null)
-            return new LanguageExt.Common.Result<bool>(new CoreException("There is not a transaction active"));
+            return new LanguageExt.Common.Result<bool>(new DatabaseTransactionException(NoTransactionActive));
 
         await _transaction.CreateSavepointAsync(name, cancellationToken).ConfigureAwait(false);
         return true;
@@ -108,7 +114,7 @@ internal sealed class UnitOfWork<TDbContext>(TDbContext context, ILogger<UnitOfW
         CancellationToken cancellationToken)
     {
         if (_transaction is null)
-            return new LanguageExt.Common.Result<bool>(new CoreException("There is not a transaction active"));
+            return new LanguageExt.Common.Result<bool>(new DatabaseTransactionException(NoTransactionActive));
 
         await _transaction.RollbackToSavepointAsync(name, cancellationToken).ConfigureAwait(false);
         return true;
@@ -120,7 +126,7 @@ internal sealed class UnitOfWork<TDbContext>(TDbContext context, ILogger<UnitOfW
         CancellationToken cancellationToken)
     {
         if (_transaction is null)
-            return new LanguageExt.Common.Result<bool>(new CoreException("There is not a transaction active"));
+            return new LanguageExt.Common.Result<bool>(new DatabaseTransactionException(NoTransactionActive));
 
         await _transaction.ReleaseSavepointAsync(name, cancellationToken).ConfigureAwait(false);
         return true;

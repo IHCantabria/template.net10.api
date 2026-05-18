@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using Microsoft.Extensions.Options;
 
@@ -8,10 +9,11 @@ namespace template.net10.api.Settings.Options;
 ///     Strongly-typed configuration options for ReDoc API documentation UI.
 ///     Bound from the <c>ReDoc</c> configuration section.
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 internal sealed record ReDocOptions : IEqualityOperators<ReDocOptions, ReDocOptions, bool>
 {
     /// <summary>
-    ///     The configuration section key used to bind <see cref="ReDocOptions"/>.
+    ///     The configuration section key used to bind <see cref="ReDocOptions" />.
     /// </summary>
     public const string ReDoc = nameof(ReDoc);
 
@@ -19,6 +21,7 @@ internal sealed record ReDocOptions : IEqualityOperators<ReDocOptions, ReDocOpti
     ///     The HTML page title displayed in the browser tab when the ReDoc UI is open.
     /// </summary>
     [Required]
+    [MinLength(1)]
     public required string DocumentTitle { get; init; }
 
     /// <summary>
@@ -31,11 +34,12 @@ internal sealed record ReDocOptions : IEqualityOperators<ReDocOptions, ReDocOpti
     ///     The URL path prefix under which the ReDoc UI is served (e.g. <c>redoc</c>).
     /// </summary>
     [Required]
+    [MinLength(1)]
     public required string RoutePrefix { get; init; }
 }
 
 /// <summary>
-///     Source-generated <see cref="IValidateOptions{TOptions}"/> validator for <see cref="ReDocOptions"/>.
+///     Source-generated <see cref="IValidateOptions{TOptions}" /> validator for <see cref="ReDocOptions" />.
 /// </summary>
 [OptionsValidator]
 internal sealed partial class ReDocOptionsValidator : IValidateOptions<ReDocOptions>;

@@ -11,14 +11,15 @@ internal sealed record AppOptions : IEqualityOperators<AppOptions, AppOptions, b
 {
     /// <summary>
     ///     The name of the current deployment environment (e.g. <c>local</c>, <c>dev</c>, <c>prod</c>).
-    ///     See <see cref="Envs"/> for valid values.
+    ///     See <see cref="Envs" /> for valid values.
     /// </summary>
     [Required]
+    [MinLength(1)]
     public required string Env { get; set; }
 }
 
 /// <summary>
-///     Source-generated <see cref="IValidateOptions{TOptions}"/> validator for <see cref="AppOptions"/>.
+///     Source-generated <see cref="IValidateOptions{TOptions}" /> validator for <see cref="AppOptions" />.
 /// </summary>
 [OptionsValidator]
 internal sealed partial class AppOptionsValidator : IValidateOptions<AppOptions>;

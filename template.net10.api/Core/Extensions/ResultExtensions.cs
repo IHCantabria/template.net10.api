@@ -3,7 +3,7 @@
 namespace template.net10.api.Core.Extensions;
 
 /// <summary>
-///     Provides extension methods for <see cref="LanguageExt.Common.Result{T}"/> to safely extract data or exceptions.
+///     Provides extension methods for <see cref="LanguageExt.Common.Result{T}" /> to safely extract data or exceptions.
 /// </summary>
 internal static class ResultExtensions
 {
@@ -16,7 +16,7 @@ internal static class ResultExtensions
         ///     Result is not a failure! Use ExtractData method instead and
         ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
         /// </exception>
-        /// <returns>The <see cref="Exception"/> contained in the faulted result.</returns>
+        /// <returns>The <see cref="Exception" /> contained in the faulted result.</returns>
         internal Exception ExtractException()
         {
             return result.Match(
@@ -32,7 +32,7 @@ internal static class ResultExtensions
         ///     Result is not a success! Use ExtractException method instead
         ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
         /// </exception>
-        /// <returns>The data value of type <typeparamref name="T"/> contained in the successful result.</returns>
+        /// <returns>The data value of type <typeparamref name="T" /> contained in the successful result.</returns>
         internal T ExtractData()
         {
             return result.Match(static data => data, static _ => throw new ResultSuccessInvalidOperationException(

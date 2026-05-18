@@ -14,7 +14,10 @@ internal static class PasswordUtils
     /// <param name="payload">The stored user credentials containing the password hash and salt.</param>
     /// <param name="password">The plain-text password to verify.</param>
     /// <param name="pepper">The application-level secret pepper used during hashing.</param>
-    /// <returns>A <see cref="Try{A}"/> containing <see langword="true"/> if the password matches; otherwise <see langword="false"/>.</returns>
+    /// <returns>
+    ///     A <see cref="Try{A}" /> containing <see langword="true" /> if the password matches; otherwise
+    ///     <see langword="false" />.
+    /// </returns>
     internal static Try<bool> VerifyUserCredentials(UserCredentialsDto payload, string password, string pepper)
     {
         return () =>

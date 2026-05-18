@@ -34,7 +34,7 @@ internal sealed class HttpRejectMiddleware(
     ///     Passes HTTPS requests to the next middleware; rejects plain HTTP requests with a 400 response.
     /// </summary>
     /// <param name="context">The current HTTP context.</param>
-    /// <returns>A <see cref="Task"/> that completes when the response is finished.</returns>
+    /// <returns>A <see cref="Task" /> that completes when the response is finished.</returns>
     /// <exception cref="Exception">A delegate callback throws an exception.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="context" /> is <see langword="null" />.</exception>
     public async Task InvokeAsync(HttpContext context)

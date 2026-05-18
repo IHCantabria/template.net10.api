@@ -31,7 +31,7 @@ public sealed class Health(
     ///     Performs a health check of the system and returns current status information.
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the system health status.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the system health status.</returns>
     [HttpGet]
     [Route(ApiRoutes.HealthController.HealthCheck)]
     public async Task<IActionResult> HealthCheckAsync(CancellationToken cancellationToken)

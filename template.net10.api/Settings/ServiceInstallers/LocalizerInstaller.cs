@@ -19,7 +19,8 @@ internal sealed class LocalizerInstaller : IServiceInstaller
     public Task InstallServiceAsync(WebApplicationBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-        builder.Services.AddLocalization();
+        builder.Services
+            .AddLocalization(); // IStringLocalizer is transient but use a singleton factory, so we can register it here without worrying about scope issues.
         return Task.CompletedTask;
     }
 }

@@ -2,7 +2,7 @@
 
 /// <summary>
 ///     Marker interface for options classes that represent security configurations.
-///     Provides the canonical configuration section key <see cref="Security"/>.
+///     Provides the canonical configuration section key <see cref="Security" />.
 /// </summary>
 internal interface ISecurityOptions
 {

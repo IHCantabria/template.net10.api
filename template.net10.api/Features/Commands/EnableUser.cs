@@ -77,7 +77,7 @@ internal sealed class CommandEnableUserHandler(
             return new LanguageExt.Common.Result<User>(userResult.ExtractException());
 
         var userToEnable = userResult.ExtractData();
-        userToEnable.EnableUser();
+        userToEnable.EnableUser(request.CommandParams.Identity.UserInternalIdentifier);
         var updateResult = _repository.Update(userToEnable).Try();
         if (updateResult.IsFaulted)
             return new LanguageExt.Common.Result<User>(updateResult.ExtractException());
@@ -113,9 +113,9 @@ internal sealed class EnableUserIdentifierValidator : AbstractValidator<CommandE
     /// <param name="repository">The read-only repository used to verify user identity during validation.</param>
     /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     <paramref name="repository" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     <paramref name="localizer" /> is <see langword="null" />.
     /// </exception>
     public EnableUserIdentifierValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -146,7 +146,7 @@ internal sealed class EnableUserIdentifierValidator : AbstractValidator<CommandE
     ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
     /// <param name="uuid">The unique identifier of the user to verify existence for.</param>
-    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user exists; otherwise, <see langword="false" />.</returns>
     private bool ValidateIdentifier(Guid uuid)
     {
         var verification = new EntityVerificationByUuid<User>(uuid);
@@ -162,7 +162,7 @@ internal sealed class EnableUserIdentifierValidator : AbstractValidator<CommandE
     ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
     /// <param name="uuid">The unique identifier of the user to check active status for.</param>
-    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user is active; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserActive(Guid uuid)
     {
         var verification = new UserEnabledVerification(uuid);
@@ -198,9 +198,9 @@ internal sealed class EnableUserUserValidator : AbstractValidator<CommandEnableU
     /// <param name="repository">The read-only repository used to verify user existence and state during validation.</param>
     /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     <paramref name="repository" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     <paramref name="localizer" /> is <see langword="null" />.
     /// </exception>
     public EnableUserUserValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -231,7 +231,7 @@ internal sealed class EnableUserUserValidator : AbstractValidator<CommandEnableU
     ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
     /// <param name="userUuid">The unique identifier of the user to validate existence for.</param>
-    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user exists; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserUuid(Guid userUuid)
     {
         var verification = new EntityVerificationByUuid<User>(userUuid);
@@ -247,7 +247,7 @@ internal sealed class EnableUserUserValidator : AbstractValidator<CommandEnableU
     ///     Validates that the user with the specified UUID is not already enabled.
     /// </summary>
     /// <param name="userUuid">The unique identifier of the user to check enabled state for.</param>
-    /// <returns><see langword="true"/> if the user is not already enabled; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user is not already enabled; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserEnabled(Guid userUuid)
     {
         var verification = new UserEnabledVerification(userUuid);

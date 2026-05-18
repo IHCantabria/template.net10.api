@@ -18,6 +18,8 @@ internal partial class AppDbContext
         Justification = "Template method for partial extensions")]
     [SuppressMessage("Performance", "CA1822:Mark members as static",
         Justification = "Template method for partial extensions")]
+    [SuppressMessage("Style", "IDE0060:Remove unused parameter",
+        Justification = "Template method for partial extensions")]
     private void OnModelCreatingPartial(ModelBuilder modelBuilder)
     {
         // No business model configuration by default. This method is a template for partial extensions in the future.

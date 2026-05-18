@@ -51,7 +51,7 @@ public sealed class Users(
     /// </summary>
     /// <param name="commandParams">The user creation parameters.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the created user with a 201 Created response.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the created user with a 201 Created response.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -98,7 +98,7 @@ public sealed class Users(
     /// </summary>
     /// <param name="commandParams">The user update parameters.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the updated user state.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the updated user state.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -145,7 +145,7 @@ public sealed class Users(
     /// </summary>
     /// <param name="commandParams">The user deletion parameters from the route.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the deleted user state.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the deleted user state.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -190,7 +190,7 @@ public sealed class Users(
     /// </summary>
     /// <param name="commandParams">The user disable parameters from the route.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the disabled user state.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the disabled user state.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -236,7 +236,7 @@ public sealed class Users(
     /// </summary>
     /// <param name="commandParams">The user enable parameters from the route.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the enabled user state.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the enabled user state.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -282,7 +282,7 @@ public sealed class Users(
     /// </summary>
     /// <param name="commandParams">The password reset parameters.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the new user credentials.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the new user credentials.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -325,7 +325,7 @@ public sealed class Users(
     ///     Retrieves all users available in the system.
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the collection of users.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the collection of users.</returns>
     [SuppressMessage(
         "ReSharper",
         "ExceptionNotDocumentedOptional",
@@ -358,7 +358,7 @@ public sealed class Users(
     /// </summary>
     /// <param name="queryParams">The query parameters containing the user key.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the user data.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the user data.</returns>
     [HttpGet]
     [Authorize(Policy = PoliciesConstants.UserReadPolicy)]
     [RequestTimeout(RequestConstants.RequestQueryGenericPolicy)]
@@ -390,10 +390,9 @@ public sealed class Users(
     ///     Retrieves the list of available user hub events and their SignalR connection details.
     /// </summary>
     /// <param name="config">The Swagger options containing the server URL configuration.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the collection of hub events.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the collection of hub events.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="config" /> is <see langword="null" />.</exception>
     [HttpGet]
-    [AllowAnonymous]
     [RequestTimeout(RequestConstants.RequestQueryGenericPolicy)]
     [Route(ApiRoutes.UsersController.Hubs)]
     [SwaggerOperation(

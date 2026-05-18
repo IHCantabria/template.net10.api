@@ -83,11 +83,11 @@ internal sealed class CommandDeleteUserHandler(
     /// </summary>
     /// <param name="user">The user entity to delete from the repository.</param>
     /// <param name="cancellationToken">A token to observe for cancellation of the asynchronous operation.</param>
-    /// <returns>A <c>Result</c> containing the deleted <see cref="User"/> or an exception on failure.</returns>
+    /// <returns>A <c>Result</c> containing the deleted <see cref="User" /> or an exception on failure.</returns>
     private async Task<LanguageExt.Common.Result<User>> DeleteUserAsync(User user,
         CancellationToken cancellationToken)
     {
-        var deletedResult = _repository.Delete(user).Try();
+        var deletedResult = await _repository.DeleteAsync(user, cancellationToken).ConfigureAwait(false);
         if (deletedResult.IsFaulted)
             return new LanguageExt.Common.Result<User>(deletedResult.ExtractException());
 
@@ -122,9 +122,9 @@ internal sealed class DeleteUserHandlerIdentifierValidator : AbstractValidator<C
     /// <param name="repository">The read-only repository used to verify user identity during validation.</param>
     /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     <paramref name="repository" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     <paramref name="localizer" /> is <see langword="null" />.
     /// </exception>
     public DeleteUserHandlerIdentifierValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -155,7 +155,7 @@ internal sealed class DeleteUserHandlerIdentifierValidator : AbstractValidator<C
     ///     Validates that a user with the specified UUID exists in the system.
     /// </summary>
     /// <param name="uuid">The unique identifier of the user to verify existence for.</param>
-    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user exists; otherwise, <see langword="false" />.</returns>
     private bool ValidateIdentifier(Guid uuid)
     {
         var verification = new EntityVerificationByUuid<User>(uuid);
@@ -171,7 +171,7 @@ internal sealed class DeleteUserHandlerIdentifierValidator : AbstractValidator<C
     ///     Validates that the user with the specified UUID is currently active (enabled).
     /// </summary>
     /// <param name="uuid">The unique identifier of the user to check active status for.</param>
-    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user is active; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserActive(Guid uuid)
     {
         var verification = new UserEnabledVerification(uuid);
@@ -207,9 +207,9 @@ internal sealed class DeleteUserUserValidator : AbstractValidator<CommandDeleteU
     /// <param name="repository">The read-only repository used to verify user existence during validation.</param>
     /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="repository"/> is <see langword="null"/>.
+    ///     <paramref name="repository" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     <paramref name="localizer" /> is <see langword="null" />.
     /// </exception>
     public DeleteUserUserValidator(
         IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -233,7 +233,7 @@ internal sealed class DeleteUserUserValidator : AbstractValidator<CommandDeleteU
     ///     Validates that a user with the specified UUID exists in the database.
     /// </summary>
     /// <param name="userUuid">The unique identifier of the user to validate existence for.</param>
-    /// <returns><see langword="true"/> if the user exists; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user exists; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserUuid(Guid userUuid)
     {
         var verification = new EntityVerificationByUuid<User>(userUuid);

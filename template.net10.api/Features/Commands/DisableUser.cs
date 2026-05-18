@@ -68,10 +68,6 @@ internal sealed class CommandDisableUserHandler(
     ///     Result is not a failure! Use ExtractData method instead and
     ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
     /// </exception>
-    /// <exception cref="ResultFaultedInvalidOperationException">
-    ///     Result is not a failure! Use ExtractData method instead and
-    ///     Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractData method
-    /// </exception>
     public async Task<LanguageExt.Common.Result<User>> Handle(CommandDisableUser request,
         CancellationToken cancellationToken)
     {
@@ -82,7 +78,7 @@ internal sealed class CommandDisableUserHandler(
             return new LanguageExt.Common.Result<User>(userResult.ExtractException());
 
         var userToDisable = userResult.ExtractData();
-        userToDisable.DisableUser();
+        userToDisable.DisableUser(request.CommandParams.Identity.UserInternalIdentifier);
         var updateResult = _repository.Update(userToDisable).Try();
         if (updateResult.IsFaulted)
             return new LanguageExt.Common.Result<User>(updateResult.ExtractException());

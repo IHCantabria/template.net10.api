@@ -21,7 +21,7 @@ internal sealed class NamingPolicyConverter(IHttpContextAccessor httpContextAcce
     ///     Returns <see langword="true" /> for all types, indicating this converter handles any object type.
     /// </summary>
     /// <param name="typeToConvert">The type to check conversion support for.</param>
-    /// <returns><see langword="true"/> for all types; this converter handles any object type.</returns>
+    /// <returns><see langword="true" /> for all types; this converter handles any object type.</returns>
     public override bool CanConvert(Type typeToConvert)
     {
         return true;
@@ -32,7 +32,10 @@ internal sealed class NamingPolicyConverter(IHttpContextAccessor httpContextAcce
     /// </summary>
     /// <param name="reader">The UTF-8 JSON reader to read from.</param>
     /// <param name="typeToConvert">The target type to deserialize into.</param>
-    /// <param name="options">The serializer options (naming policy is overridden by the <c>x-json-input-naming-policy</c> header).</param>
+    /// <param name="options">
+    ///     The serializer options (naming policy is overridden by the <c>x-json-input-naming-policy</c>
+    ///     header).
+    /// </param>
     /// <returns>The deserialized object with naming policy applied from the <c>x-json-input-naming-policy</c> header.</returns>
     /// <exception cref="JsonException">A value could not be read from the reader.</exception>
     /// <exception cref="ArgumentException">
@@ -66,7 +69,10 @@ internal sealed class NamingPolicyConverter(IHttpContextAccessor httpContextAcce
     /// </summary>
     /// <param name="writer">The UTF-8 JSON writer to write to.</param>
     /// <param name="value">The object to serialize.</param>
-    /// <param name="options">The serializer options (naming policy is overridden by the <c>x-json-output-naming-policy</c> header).</param>
+    /// <param name="options">
+    ///     The serializer options (naming policy is overridden by the <c>x-json-output-naming-policy</c>
+    ///     header).
+    /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="writer" /> is <see langword="null" />.</exception>
     /// <exception cref="InvalidOperationException">This property is set after serialization or deserialization has occurred.</exception>
     [SuppressMessage(
@@ -92,8 +98,11 @@ internal sealed class NamingPolicyConverter(IHttpContextAccessor httpContextAcce
     /// <summary>
     ///     Resolves a <see cref="JsonNamingPolicy" /> from the header value. Defaults to snake_case.
     /// </summary>
-    /// <param name="headerValue">The raw header value (<c>"camel"</c>, <c>"snake"</c>, or <c>"kebab"</c>); defaults to snake_case if <see langword="null"/> or unrecognized.</param>
-    /// <returns>The resolved <see cref="JsonNamingPolicy"/>.</returns>
+    /// <param name="headerValue">
+    ///     The raw header value (<c>"camel"</c>, <c>"snake"</c>, or <c>"kebab"</c>); defaults to
+    ///     snake_case if <see langword="null" /> or unrecognized.
+    /// </param>
+    /// <returns>The resolved <see cref="JsonNamingPolicy" />.</returns>
     private static JsonNamingPolicy GetNamingPolicyFromHeader(string? headerValue)
     {
         if (string.Equals(headerValue, "camel", StringComparison.OrdinalIgnoreCase))

@@ -13,20 +13,20 @@ namespace template.net10.api.Persistence.Models;
 internal class Claim : IEntityWithNameKey, IEntityWithId<short>
 {
     /// <summary>
-    ///     Collection of <see cref="Role"/> entities that include this claim,
+    ///     Collection of <see cref="Role" /> entities that include this claim,
     ///     linked via the <c>claim_role</c> join table.
     /// </summary>
     [ForeignKey("ClaimId")]
     [InverseProperty("Claims")]
-    public virtual ICollection<Role> Roles { get; } = [];
+    public virtual required ICollection<Role> Roles { get; init; } = [];
 
     /// <summary>
-    ///     Collection of <see cref="User"/> entities that have this claim directly assigned,
+    ///     Collection of <see cref="User" /> entities that have this claim directly assigned,
     ///     linked via the <c>claim_user</c> join table.
     /// </summary>
     [ForeignKey("ClaimId")]
     [InverseProperty("Claims")]
-    public virtual ICollection<User> Users { get; } = [];
+    public virtual required ICollection<User> Users { get; init; } = [];
 
     /// <inheritdoc cref="IEntityWithId{T}.Id" />
     [Key]

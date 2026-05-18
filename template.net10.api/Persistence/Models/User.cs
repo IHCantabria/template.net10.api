@@ -28,7 +28,8 @@ internal partial class User : IEntityWithUuid, IEntityWithId<short>
     public required string Email { get; set; }
 
     /// <summary>
-    ///     Hashed password produced by <see cref="Domain.Password.PasswordHasher"/> using PBKDF2 with the stored salt and pepper.
+    ///     Hashed password produced by <see cref="Domain.Password.PasswordHasher" /> using PBKDF2 with the stored salt and
+    ///     pepper.
     /// </summary>
     [Column("password_hash")]
     [MaxLength(128)]
@@ -42,7 +43,7 @@ internal partial class User : IEntityWithUuid, IEntityWithId<short>
     public required string PasswordSalt { get; set; }
 
     /// <summary>
-    ///     Foreign key to the <see cref="Role"/> assigned to this user.
+    ///     Foreign key to the <see cref="Role" /> assigned to this user.
     /// </summary>
     [Column("role_id")]
     public required short? RoleId { get; set; }
@@ -65,7 +66,7 @@ internal partial class User : IEntityWithUuid, IEntityWithId<short>
     ///     UTC timestamp of the record creation. Defaults to <c>now() AT TIME ZONE 'UTC'</c> at the database level.
     /// </summary>
     [Column("insert_datetime", TypeName = "timestamp without time zone")]
-    public required DateTime? InsertDatetime { get; set; }
+    public required DateTime? InsertDatetime { get; init; }
 
     /// <summary>
     ///     Indicates whether this user account is disabled and cannot authenticate.
@@ -74,10 +75,10 @@ internal partial class User : IEntityWithUuid, IEntityWithId<short>
     public required bool IsDisabled { get; set; }
 
     /// <summary>
-    ///     Foreign key of the <see cref="User"/> who created this record.
+    ///     Foreign key of the <see cref="User" /> who created this record.
     /// </summary>
     [Column("insert_user_id")]
-    public required short? InsertUserId { get; set; }
+    public required short? InsertUserId { get; init; }
 
     /// <summary>
     ///     UTC timestamp of the last update to this record. Defaults to <c>now() AT TIME ZONE 'UTC'</c>.
@@ -86,51 +87,51 @@ internal partial class User : IEntityWithUuid, IEntityWithId<short>
     public required DateTime UpdateDatetime { get; set; }
 
     /// <summary>
-    ///     Foreign key of the <see cref="User"/> who last updated this record.
+    ///     Foreign key of the <see cref="User" /> who last updated this record.
     /// </summary>
     [Column("update_user_id")]
     public required short? UpdateUserId { get; set; }
 
     /// <summary>
-    ///     Navigation property to the <see cref="User"/> who created this record (self-referential).
+    ///     Navigation property to the <see cref="User" /> who created this record (self-referential).
     /// </summary>
     [ForeignKey("InsertUserId")]
     [InverseProperty("InverseInsertUser")]
-    public virtual User? InsertUser { get; set; }
+    public virtual required User? InsertUser { get; init; }
 
     /// <summary>
     ///     Collection of users created by this user (inverse of the self-referential <c>InsertUser</c> relationship).
     /// </summary>
     [InverseProperty("InsertUser")]
-    public virtual ICollection<User> InverseInsertUser { get; } = [];
+    public virtual required ICollection<User> InverseInsertUser { get; init; } = [];
 
     /// <summary>
     ///     Collection of users last updated by this user (inverse of the self-referential <c>UpdateUser</c> relationship).
     /// </summary>
     [InverseProperty("UpdateUser")]
-    public virtual ICollection<User> InverseUpdateUser { get; } = [];
+    public virtual required ICollection<User> InverseUpdateUser { get; init; } = [];
 
     /// <summary>
-    ///     Navigation property to the <see cref="Role"/> assigned to this user.
+    ///     Navigation property to the <see cref="Role" /> assigned to this user.
     /// </summary>
     [ForeignKey("RoleId")]
     [InverseProperty("Users")]
-    public virtual Role? Role { get; set; }
+    public virtual required Role? Role { get; init; }
 
     /// <summary>
-    ///     Navigation property to the <see cref="User"/> who last updated this record (self-referential).
+    ///     Navigation property to the <see cref="User" /> who last updated this record (self-referential).
     /// </summary>
     [ForeignKey("UpdateUserId")]
     [InverseProperty("InverseUpdateUser")]
-    public virtual User? UpdateUser { get; set; }
+    public virtual required User? UpdateUser { get; init; }
 
     /// <summary>
-    ///     Collection of <see cref="Claim"/> entities directly assigned to this user
+    ///     Collection of <see cref="Claim" /> entities directly assigned to this user
     ///     via the <c>claim_user</c> join table (in addition to role-level claims).
     /// </summary>
     [ForeignKey("UserId")]
     [InverseProperty("Users")]
-    public virtual ICollection<Claim> Claims { get; } = [];
+    public virtual required ICollection<Claim> Claims { get; init; } = [];
 
     /// <inheritdoc cref="IEntityWithId{T}.Id" />
     [Key]

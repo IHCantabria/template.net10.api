@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 using template.net10.api.Core.Authorization.DTOs.Base;
 using template.net10.api.Core.Interfaces;
 
@@ -50,6 +51,10 @@ internal sealed partial record IdTokenDto : IDto, IEqualityOperators<IdTokenDto,
 /// <summary>
 ///     Represents a user data transfer object exposed through the API.
 /// </summary>
+[SuppressMessage(
+    "Design",
+    "CA1515:Consider making public types internal",
+    Justification = "Public visibility is required as this type is part of the application request contract.")]
 public sealed partial record UserDto : IDto, IEqualityOperators<UserDto, UserDto, bool>
 {
     /// <summary>
@@ -96,6 +101,10 @@ public sealed partial record UserDto : IDto, IEqualityOperators<UserDto, UserDto
 /// <summary>
 ///     Represents a user DTO containing the result of a password reset operation.
 /// </summary>
+[SuppressMessage(
+    "Design",
+    "CA1515:Consider making public types internal",
+    Justification = "Public visibility is required as this type is part of the application request contract.")]
 public sealed partial record UserResetedPasswordDto : IDto,
     IEqualityOperators<UserResetedPasswordDto, UserResetedPasswordDto, bool>
 {
@@ -129,58 +138,6 @@ internal sealed record UserCredentialsDto : IDto, IEqualityOperators<UserCredent
     ///     Gets the stored password salt.
     /// </summary>
     internal required string PasswordSalt { get; init; }
-}
-
-/// <summary>
-///     Represents the data required to create a new user in the persistence layer.
-/// </summary>
-internal sealed partial record CreateUserDto : IDto,
-    IEqualityOperators<CreateUserDto, CreateUserDto, bool>
-{
-    /// <summary>
-    ///     Gets the generated unique identifier (UUID) for the new user.
-    /// </summary>
-    internal required Guid Uuid { get; init; }
-
-    /// <summary>
-    ///     Gets the username for the new user.
-    /// </summary>
-    internal required string Username { get; init; }
-
-    /// <summary>
-    ///     Gets the email address for the new user.
-    /// </summary>
-    internal required string Email { get; init; }
-
-    /// <summary>
-    ///     Gets a value indicating whether the new user account is disabled.
-    /// </summary>
-    internal required bool IsDisabled { get; init; }
-
-    /// <summary>
-    ///     Gets the hashed password for the new user.
-    /// </summary>
-    internal required string PasswordHash { get; init; }
-
-    /// <summary>
-    ///     Gets the password salt used during hashing.
-    /// </summary>
-    internal required string PasswordSalt { get; init; }
-
-    /// <summary>
-    ///     Gets the optional role identifier to assign to the new user.
-    /// </summary>
-    internal required short? RoleId { get; init; }
-
-    /// <summary>
-    ///     Gets the optional first name of the new user.
-    /// </summary>
-    internal string? FirstName { get; init; }
-
-    /// <summary>
-    ///     Gets the optional last name of the new user.
-    /// </summary>
-    internal string? LastName { get; init; }
 }
 
 /// <summary>

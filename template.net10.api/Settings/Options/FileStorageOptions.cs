@@ -17,6 +17,7 @@ namespace template.net10.api.Settings.Options;
     "Performance",
     "UnusedAutoPropertyAccessor.Global",
     Justification = "Instantiated via configuration binding (IOptions) when the feature is enabled.")]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 internal sealed record FileStorageOptions : IEqualityOperators<FileStorageOptions, FileStorageOptions, bool>
 {
     /// <summary>
@@ -26,16 +27,16 @@ internal sealed record FileStorageOptions : IEqualityOperators<FileStorageOption
 
     /// <summary>
     ///     The absolute path to the root directory used for temporary file and directory creation.
-    ///     Validated by <see cref="LocalAbsolutePathAttribute" />.
+    ///     Validated by <see cref="AbsolutePathAttribute" />.
     /// </summary>
-    [LocalAbsolutePath]
+    [AbsolutePath]
     public required string RootTempPath { get; init; }
 
     /// <summary>
     ///     The absolute path to the root directory used for permanent file storage.
-    ///     Validated by <see cref="LocalAbsolutePathAttribute" />.
+    ///     Validated by <see cref="AbsolutePathAttribute" />.
     /// </summary>
-    [LocalAbsolutePath]
+    [AbsolutePath]
     public required string RootFilePath { get; init; }
 }
 

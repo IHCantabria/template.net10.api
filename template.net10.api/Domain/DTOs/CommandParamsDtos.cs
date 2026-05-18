@@ -36,7 +36,7 @@ public sealed record CommandCreateUserParamsDto : IDto, IIdentity,
     public required string Password { get; init; }
 
     /// <summary>
-    ///     Gets the password confirmation that must match <see cref="Password"/>.
+    ///     Gets the password confirmation that must match <see cref="Password" />.
     /// </summary>
     public required string ConfirmPassword { get; init; }
 
@@ -80,7 +80,7 @@ public sealed record CommandResetUserPasswordParamsDto : IDto, IIdentity,
     public required string Password { get; init; }
 
     /// <summary>
-    ///     Gets the password confirmation that must match <see cref="Password"/>.
+    ///     Gets the password confirmation that must match <see cref="Password" />.
     /// </summary>
     public required string ConfirmPassword { get; init; }
 

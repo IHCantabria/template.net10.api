@@ -1,4 +1,6 @@
-﻿namespace template.net10.api.Settings.Middlewares;
+﻿using Microsoft.Net.Http.Headers;
+
+namespace template.net10.api.Settings.Middlewares;
 
 /// <summary>
 ///     Middleware that appends security-related HTTP response headers (CSP, X-Content-Type-Options,
@@ -16,7 +18,7 @@ internal sealed class SecurityHeadersMiddleware(RequestDelegate next)
     ///     Registers a response-starting callback that sets all security headers, then forwards the request.
     /// </summary>
     /// <param name="context">The current HTTP context.</param>
-    /// <returns>A <see cref="Task"/> that completes when the request pipeline finishes.</returns>
+    /// <returns>A <see cref="Task" /> that completes when the request pipeline finishes.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="context" /> is <see langword="null" />.</exception>
     /// <exception cref="Exception">A delegate callback throws an exception.</exception>
     public Task InvokeAsync(HttpContext context)
@@ -34,19 +36,19 @@ internal sealed class SecurityHeadersMiddleware(RequestDelegate next)
     }
 
     /// <summary>
-    ///     Sets all security response headers on the current <paramref name="context"/> response.
+    ///     Sets all security response headers on the current <paramref name="context" /> response.
     /// </summary>
     /// <param name="context">The current HTTP context whose response headers are to be set.</param>
     private static void SetSecurityHeaders(HttpContext context)
     {
         // Content-Security-Policy Header
-        context.Response.Headers["Content-Security-Policy"] = BuildCsp();
+        context.Response.Headers[HeaderNames.ContentSecurityPolicy] = BuildCsp();
 
         // X-Content-Type-Options
-        context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+        context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff";
 
         // / X-Frame-Options (legacy browser compatibility; modern protection should be implemented using CSP frame-ancestors)
-        context.Response.Headers["X-Frame-Options"] = "SAMEORIGIN";
+        context.Response.Headers[HeaderNames.XFrameOptions] = "SAMEORIGIN";
 
         // Referrer-Policy
         context.Response.Headers["Referrer-Policy"] = "no-referrer";

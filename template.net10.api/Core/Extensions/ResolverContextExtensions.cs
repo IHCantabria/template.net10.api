@@ -9,32 +9,6 @@ namespace template.net10.api.Core.Extensions;
 /// </summary>
 internal static class ResolverContextExtensions
 {
-    /// <summary>
-    ///     Recursively visits a GraphQL field selection node and populates the selected fields tree.
-    /// </summary>
-    /// <param name="fieldNode">The GraphQL field node to visit.</param>
-    /// <param name="tree">The dictionary tree mapping parent paths to their selected field names.</param>
-    /// <param name="parentPath">The dot-separated path of the parent field in the selection hierarchy.</param>
-    private static void VisitSelection(FieldNode fieldNode, Dictionary<string, HashSet<string>> tree, string parentPath)
-    {
-        var currentPath = string.IsNullOrEmpty(parentPath)
-            ? fieldNode.Name.Value
-            : $"{parentPath}.{fieldNode.Name.Value}";
-
-        if (fieldNode.SelectionSet != null)
-        {
-            foreach (var selection in fieldNode.SelectionSet.Selections.OfType<FieldNode>())
-                VisitSelection(selection, tree, currentPath);
-        }
-        else
-        {
-            if (!tree.ContainsKey(parentPath))
-                tree[parentPath] = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-            tree[parentPath].Add(fieldNode.Name.Value);
-        }
-    }
-
     extension(IResolverContext context)
     {
         /// <summary>
@@ -56,9 +30,36 @@ internal static class ResolverContextExtensions
                 return result;
 
             foreach (var selection in root.SelectionSet.Selections.OfType<FieldNode>())
-                VisitSelection(selection, result, string.Empty);
+                IResolverContext.VisitSelection(selection, result, string.Empty);
 
             return result;
+        }
+
+        /// <summary>
+        ///     Recursively visits a GraphQL field selection node and populates the selected fields tree.
+        /// </summary>
+        /// <param name="fieldNode">The GraphQL field node to visit.</param>
+        /// <param name="tree">The dictionary tree mapping parent paths to their selected field names.</param>
+        /// <param name="parentPath">The dot-separated path of the parent field in the selection hierarchy.</param>
+        private static void VisitSelection(FieldNode fieldNode, Dictionary<string, HashSet<string>> tree,
+            string parentPath)
+        {
+            var currentPath = string.IsNullOrEmpty(parentPath)
+                ? fieldNode.Name.Value
+                : $"{parentPath}.{fieldNode.Name.Value}";
+
+            if (fieldNode.SelectionSet != null)
+            {
+                foreach (var selection in fieldNode.SelectionSet.Selections.OfType<FieldNode>())
+                    IResolverContext.VisitSelection(selection, tree, currentPath);
+            }
+            else
+            {
+                if (!tree.ContainsKey(parentPath))
+                    tree[parentPath] = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                tree[parentPath].Add(fieldNode.Name.Value);
+            }
         }
     }
 }

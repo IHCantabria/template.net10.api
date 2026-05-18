@@ -9,18 +9,10 @@ namespace template.net10.api.Core.Base;
 /// </summary>
 /// <typeparam name="TEntity">The entity type to project from.</typeparam>
 /// <typeparam name="TDto">The DTO type to project to.</typeparam>
-internal class ProjectionBase<TEntity, TDto> : IProjection<TEntity, TDto>
+internal abstract class ProjectionBase<TEntity, TDto>(Expression<Func<TEntity, TDto>> expression)
+    : IProjection<TEntity, TDto>
     where TEntity : class, IEntity where TDto : class, IDto
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ProjectionBase{TEntity, TDto}"/> class with the specified projection expression.
-    /// </summary>
-    /// <param name="expression">The LINQ expression that defines the projection from entity to DTO.</param>
-    protected ProjectionBase(Expression<Func<TEntity, TDto>> expression)
-    {
-        Expression = expression;
-    }
-
     /// <inheritdoc cref="IProjection{TEntity, TDto}.Expression" />
-    public Expression<Func<TEntity, TDto>> Expression { get; }
+    public Expression<Func<TEntity, TDto>> Expression { get; } = expression;
 }

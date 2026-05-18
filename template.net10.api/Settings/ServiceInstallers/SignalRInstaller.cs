@@ -22,7 +22,9 @@ internal sealed class SignalRInstaller : IServiceInstaller
         builder.Services
             .AddSignalR(hubOptions => hubOptions.EnableDetailedErrors =
                 builder.Environment.EnvironmentName is Envs.Development or Envs.Local).AddJsonProtocol(static options =>
-                options.PayloadSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
+                options.PayloadSerializerOptions.PropertyNamingPolicy =
+                    JsonNamingPolicy
+                        .CamelCase); // SignalR is singleton, so we can configure it here without worrying about scope issues.
         return Task.CompletedTask;
     }
 }

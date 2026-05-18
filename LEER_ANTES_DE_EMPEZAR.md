@@ -91,6 +91,10 @@ Read and follow this steps after clone template repo and  before doing anything 
 6. Add the Env variables needed for the Business/Infraestructure logic.
 7. Make the specific changes needed for your Business/Infraestructure logic.
 
+## UPDATE DEPENDENCIES
+
+1. Update all the dependencies to the last stable version for .NET10. Except MediatR: It must stay in the 12.5 (license); and HotChocolate: It must stay in the last 15.x.x version (breaking changes in the 16.x version).
+
 ## CHECKS
 
 1. Check correct compilation and Startup.

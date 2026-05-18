@@ -14,7 +14,7 @@ namespace template.net10.api.Settings.Filters;
 internal sealed class RemoveSystemTypesDocumentFilter : IDocumentFilter, IOrderedFilter
 {
     /// <summary>
-    ///     Initialises the filter and sets <see cref="Order"/> to 1.
+    ///     Initialises the filter and sets <see cref="Order" /> to 1.
     /// </summary>
     public RemoveSystemTypesDocumentFilter()
     {
@@ -22,7 +22,7 @@ internal sealed class RemoveSystemTypesDocumentFilter : IDocumentFilter, IOrdere
     }
 
     /// <summary>
-    ///     Removes all schema entries from <paramref name="swaggerDoc"/> whose key begins with <c>"System"</c>.
+    ///     Removes all schema entries from <paramref name="swaggerDoc" /> whose key begins with <c>"System"</c>.
     /// </summary>
     /// <param name="swaggerDoc">The OpenAPI document to clean up.</param>
     /// <param name="context">Filter context (unused).</param>
@@ -48,7 +48,7 @@ internal sealed class RemoveSystemTypesDocumentFilter : IDocumentFilter, IOrdere
     }
 
     /// <summary>
-    ///     The relative execution order of this filter among all registered <see cref="IOrderedFilter"/> instances.
+    ///     The relative execution order of this filter among all registered <see cref="IOrderedFilter" /> instances.
     /// </summary>
     public int Order { get; }
 }

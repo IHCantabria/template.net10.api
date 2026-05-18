@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using Microsoft.Extensions.Options;
 
@@ -7,6 +8,7 @@ namespace template.net10.api.Core.OpenTelemetry.Options;
 /// <summary>
 ///     Configuration options for OpenTelemetry log, metric, and trace endpoints with authentication support.
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 internal sealed record OpenTelemetryOptions : IEqualityOperators<OpenTelemetryOptions, OpenTelemetryOptions, bool>
 {
     /// <summary>
@@ -24,6 +26,7 @@ internal sealed record OpenTelemetryOptions : IEqualityOperators<OpenTelemetryOp
     ///     Gets the service name reported in OpenTelemetry resource attributes.
     /// </summary>
     [Required]
+    [MinLength(1)]
     public required string ServiceName { get; init; }
 
     /// <summary>
@@ -87,7 +90,7 @@ internal sealed record OpenTelemetryOptions : IEqualityOperators<OpenTelemetryOp
     /// <summary>
     ///     Determines whether the log endpoint requires API key header authentication.
     /// </summary>
-    /// <returns><see langword="true"/> if both header name and value are provided; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if both header name and value are provided; otherwise, <see langword="false" />.</returns>
     internal bool UseLogHeaderApiKey()
     {
         if (string.IsNullOrEmpty(LogEndpointApiKeyHeader))
@@ -99,7 +102,7 @@ internal sealed record OpenTelemetryOptions : IEqualityOperators<OpenTelemetryOp
     /// <summary>
     ///     Determines whether the metric endpoint requires API key header authentication.
     /// </summary>
-    /// <returns><see langword="true"/> if both header name and value are provided; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if both header name and value are provided; otherwise, <see langword="false" />.</returns>
     internal bool UseMetricHeaderApiKey()
     {
         if (string.IsNullOrEmpty(MetricEndpointApiKeyHeader))
@@ -111,7 +114,7 @@ internal sealed record OpenTelemetryOptions : IEqualityOperators<OpenTelemetryOp
     /// <summary>
     ///     Determines whether the metric endpoint URL is a valid non-empty URI.
     /// </summary>
-    /// <returns><see langword="true"/> if the metric endpoint URL is valid; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the metric endpoint URL is valid; otherwise, <see langword="false" />.</returns>
     internal bool IsValidMetricUri()
     {
         return !string.IsNullOrEmpty(MetricEndpointUrl?.ToString());
@@ -120,7 +123,7 @@ internal sealed record OpenTelemetryOptions : IEqualityOperators<OpenTelemetryOp
     /// <summary>
     ///     Determines whether the trace endpoint requires API key header authentication.
     /// </summary>
-    /// <returns><see langword="true"/> if both header name and value are provided; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if both header name and value are provided; otherwise, <see langword="false" />.</returns>
     internal bool UseTraceHeaderApiKey()
     {
         if (string.IsNullOrEmpty(TraceEndpointApiKeyHeader))
@@ -132,7 +135,7 @@ internal sealed record OpenTelemetryOptions : IEqualityOperators<OpenTelemetryOp
     /// <summary>
     ///     Determines whether the trace endpoint URL is a valid non-empty URI.
     /// </summary>
-    /// <returns><see langword="true"/> if the trace endpoint URL is valid; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the trace endpoint URL is valid; otherwise, <see langword="false" />.</returns>
     internal bool IsValidTraceUri()
     {
         return !string.IsNullOrEmpty(TraceEndpointUrl?.ToString());
@@ -140,7 +143,7 @@ internal sealed record OpenTelemetryOptions : IEqualityOperators<OpenTelemetryOp
 }
 
 /// <summary>
-///     Validates <see cref="OpenTelemetryOptions"/> using data annotation attributes.
+///     Validates <see cref="OpenTelemetryOptions" /> using data annotation attributes.
 /// </summary>
 [OptionsValidator]
 internal sealed partial class OpenTelemetryOptionsValidator : IValidateOptions<OpenTelemetryOptions>;

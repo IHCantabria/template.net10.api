@@ -25,7 +25,8 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     Executes a collection of dependent tasks in parallel, returning their results, and cancelling remaining tasks if any faults.
+    ///     Executes a collection of dependent tasks in parallel, returning their results, and cancelling remaining tasks if
+    ///     any faults.
     /// </summary>
     /// <typeparam name="T">The return type of each task.</typeparam>
     /// <param name="tasks">The tasks to execute.</param>
@@ -38,7 +39,8 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     Executes a collection of dependent Result-wrapped tasks in parallel, cancelling remaining tasks if any faults or returns a faulted result.
+    ///     Executes a collection of dependent Result-wrapped tasks in parallel, cancelling remaining tasks if any faults or
+    ///     returns a faulted result.
     /// </summary>
     /// <typeparam name="T">The success type of the Result.</typeparam>
     /// <param name="tasks">The Result-wrapped tasks to execute.</param>
@@ -123,7 +125,8 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     Handles dependent Result-wrapped task completion, cancelling all remaining tasks if any task faults or returns a faulted Result.
+    ///     Handles dependent Result-wrapped task completion, cancelling all remaining tasks if any task faults or returns a
+    ///     faulted Result.
     /// </summary>
     /// <typeparam name="T">The success type of the Result.</typeparam>
     /// <param name="tasks">The Result-wrapped tasks to monitor.</param>
@@ -162,7 +165,8 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     Executes a collection of independent tasks in parallel, allowing all tasks to complete regardless of individual faults.
+    ///     Executes a collection of independent tasks in parallel, allowing all tasks to complete regardless of individual
+    ///     faults.
     /// </summary>
     /// <param name="tasks">The tasks to execute.</param>
     internal static Task ExecuteIndependentInParallelAsync(IEnumerable<Task> tasks)
@@ -171,7 +175,8 @@ internal static class ParallelUtils
     }
 
     /// <summary>
-    ///     Executes a collection of independent Result-wrapped tasks in parallel, collecting all individual results regardless of faults.
+    ///     Executes a collection of independent Result-wrapped tasks in parallel, collecting all individual results regardless
+    ///     of faults.
     /// </summary>
     /// <typeparam name="T">The success type of the Result.</typeparam>
     /// <param name="tasks">The Result-wrapped tasks to execute.</param>

@@ -8,7 +8,7 @@ using template.net10.api.Logger;
 namespace template.net10.api.Settings.Handlers;
 
 /// <summary>
-///     Global ASP.NET Core <see cref="IExceptionHandler"/> that catches all unhandled exceptions,
+///     Global ASP.NET Core <see cref="IExceptionHandler" /> that catches all unhandled exceptions,
 ///     logs them, and writes a structured ProblemDetails response based on the HTTP status code.
 /// </summary>
 internal sealed class GlobalExceptionHandlerControl(
@@ -35,15 +35,15 @@ internal sealed class GlobalExceptionHandlerControl(
         problemDetailsService ?? throw new ArgumentNullException(nameof(problemDetailsService));
 
     /// <summary>
-    ///     Attempts to handle <paramref name="exception"/> by logging it and writing a ProblemDetails
+    ///     Attempts to handle <paramref name="exception" /> by logging it and writing a ProblemDetails
     ///     response derived from the current HTTP status code and the exception message.
     /// </summary>
     /// <param name="httpContext">The current HTTP context.</param>
     /// <param name="exception">The unhandled exception to process.</param>
     /// <param name="cancellationToken">Token to cancel the write operation.</param>
     /// <returns>
-    ///     A <see cref="ValueTask{TResult}"/> of <see langword="true"/> when the exception was handled
-    ///     and a response was written; otherwise <see langword="false"/>.
+    ///     A <see cref="ValueTask{TResult}" /> of <see langword="true" /> when the exception was handled
+    ///     and a response was written; otherwise <see langword="false" />.
     /// </returns>
     public ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,

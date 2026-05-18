@@ -51,7 +51,7 @@ internal sealed class DbInstaller : IServiceInstaller
     private static void AddDbContextPool(IHostApplicationBuilder builder, AppDbOptions? connectionOptions)
     {
         // Register a pooling context factory as a Singleton service
-        if (connectionOptions is null || string.IsNullOrEmpty(connectionOptions.ConnectionString)) return;
+        if (connectionOptions is null) return;
 
         builder.Services.AddPooledDbContextFactory<AppDbContext>(options =>
             ConfigureDbContext(options, builder, connectionOptions));

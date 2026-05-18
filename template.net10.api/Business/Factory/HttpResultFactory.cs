@@ -15,12 +15,12 @@ namespace template.net10.api.Business.Factory;
 internal static class HttpResultFactory
 {
     /// <summary>
-    ///     Creates an HTTP result for a <see cref="ValidationException"/> by determining the appropriate status code.
+    ///     Creates an HTTP result for a <see cref="ValidationException" /> by determining the appropriate status code.
     /// </summary>
     /// <param name="vex">The validation exception to process.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with the corresponding ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with the corresponding ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateValidationResult(
         ValidationException vex, IStringLocalizer<ResourceMain> localizer, IFeatureCollection features)
     {
@@ -35,19 +35,12 @@ internal static class HttpResultFactory
     /// <param name="vex">The validation exception containing the errors.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with the corresponding ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with the corresponding ProblemDetails set in the feature collection.</returns>
     private static BadRequestResult ManageValidationResultCreation(HttpStatusCode httpStatusCode,
         ValidationException vex,
         IStringLocalizer<ResourceMain> localizer, IFeatureCollection features)
     {
-        return httpStatusCode switch
-        {
-            HttpStatusCode.BadRequest or HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden
-                or HttpStatusCode.NotFound or HttpStatusCode.RequestTimeout or HttpStatusCode.Conflict
-                or HttpStatusCode.Gone or HttpStatusCode.UnprocessableEntity or HttpStatusCode.InternalServerError
-                or HttpStatusCode.NotImplemented => CreateValidationResult(httpStatusCode, vex, localizer, features),
-            _ => throw new NotSupportedException(localizer["MapperExceptionStatusCodeNotSupported"])
-        };
+        return CreateValidationResult(httpStatusCode, vex, localizer, features);
     }
 
     /// <summary>
@@ -56,7 +49,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the bad request.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateBadRequestResult(Exception exception,
         IStringLocalizer<ResourceMain> localizer,
         IFeatureCollection features)
@@ -73,7 +66,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The validation exception containing the errors.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails and validation errors set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails and validation errors set in the feature collection.</returns>
     private static BadRequestResult CreateValidationResult(HttpStatusCode statusCode, ValidationException exception,
         IStringLocalizer<ResourceMain> localizer, IFeatureCollection features)
     {
@@ -90,7 +83,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the unauthorized response.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateUnauthorizedResult(Exception exception,
         IStringLocalizer<ResourceMain> localizer,
         IFeatureCollection features)
@@ -106,7 +99,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the forbidden response.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateForbiddenResult(Exception exception,
         IStringLocalizer<ResourceMain> localizer,
         IFeatureCollection features)
@@ -122,7 +115,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the not found response.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateNotFoundResult(Exception exception, IStringLocalizer<ResourceMain> localizer,
         IFeatureCollection features)
     {
@@ -137,7 +130,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the request timeout response.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateRequestTimeoutResult(Exception exception,
         IStringLocalizer<ResourceMain> localizer, IFeatureCollection features)
     {
@@ -152,7 +145,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the conflict response.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateConflictResult(Exception exception, IStringLocalizer<ResourceMain> localizer,
         IFeatureCollection features)
     {
@@ -167,7 +160,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the gone response.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateGoneResult(Exception exception, IStringLocalizer<ResourceMain> localizer,
         IFeatureCollection features)
     {
@@ -182,7 +175,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the unprocessable entity response.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateUnprocessableEntityResult(Exception exception,
         IStringLocalizer<ResourceMain> localizer,
         IFeatureCollection features)
@@ -199,7 +192,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the internal server error response.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateInternalServerErrorResult(Exception exception,
         IStringLocalizer<ResourceMain> localizer,
         IFeatureCollection features)
@@ -216,7 +209,7 @@ internal static class HttpResultFactory
     /// <param name="exception">The exception that caused the not implemented response.</param>
     /// <param name="localizer">The string localizer for resolving localized error messages.</param>
     /// <param name="features">The HTTP feature collection for the current request.</param>
-    /// <returns>A <see cref="BadRequestResult"/> with ProblemDetails set in the feature collection.</returns>
+    /// <returns>A <see cref="BadRequestResult" /> with ProblemDetails set in the feature collection.</returns>
     internal static BadRequestResult CreateNotImplementedResult(Exception exception,
         IStringLocalizer<ResourceMain> localizer,
         IFeatureCollection features)

@@ -148,6 +148,7 @@ internal static class TokenFactory
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
         claims.AddClaimIfNotNull(ClaimCoreConstants.RoleClaim, user.RoleName);
+        claims.AddClaimIfNotNull(ClaimCoreConstants.InternalIdentifierClaim, user.Id.ToString());
         claims.AddClaimIfNotNull(JwtRegisteredClaimNames.FamilyName, user.LastName);
         claims.AddClaimIfNotNull(JwtRegisteredClaimNames.GivenName, user.FirstName);
         return claims;
@@ -174,6 +175,7 @@ internal static class TokenFactory
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
         claims.AddClaimIfNotNull(ClaimCoreConstants.RoleClaim, user.RoleName);
+        claims.AddClaimIfNotNull(ClaimCoreConstants.InternalIdentifierClaim, user.Id.ToString());
         claims.AddClaimIfNotNull(JwtRegisteredClaimNames.FamilyName, user.LastName);
         claims.AddClaimIfNotNull(JwtRegisteredClaimNames.GivenName, user.FirstName);
         return

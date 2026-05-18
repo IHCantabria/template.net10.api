@@ -68,6 +68,11 @@ internal static class ClaimCoreConstants
     internal const string RoleClaim = "role";
 
     /// <summary>
+    ///     The claim type name for user internal identifier.
+    /// </summary>
+    internal const string InternalIdentifierClaim = "internal_identifier";
+
+    /// <summary>
     ///     The claim type name for scopes.
     /// </summary>
     internal const string ScopeClaim = "scope";

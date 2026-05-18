@@ -4,7 +4,7 @@ namespace template.net10.api.Persistence.Models.Interfaces;
 
 /// <summary>
 ///     Base marker interface that all persistence entities must implement.
-///     Provides a default <see cref="Check"/> validation method.
+///     Provides a default <see cref="Check" /> validation method.
 /// </summary>
 [UsedImplicitly(ImplicitUseTargetFlags.WithInheritors | ImplicitUseTargetFlags.WithMembers)]
 internal interface IEntity
@@ -12,7 +12,7 @@ internal interface IEntity
     /// <summary>
     ///     Performs a basic validity check on the entity.
     /// </summary>
-    /// <returns><see langword="true"/> if the entity is considered valid; otherwise <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the entity is considered valid; otherwise <see langword="false" />.</returns>
     public bool Check()
     {
         return true;
@@ -20,9 +20,9 @@ internal interface IEntity
 }
 
 /// <summary>
-///     Extends <see cref="IEntity"/> to expose a typed primary key <typeparamref name="TKey"/>.
+///     Extends <see cref="IEntity" /> to expose a typed primary key <typeparamref name="TKey" />.
 /// </summary>
-/// <typeparam name="TKey">The value-type used as the primary key (e.g. <see cref="short"/>, <see cref="int"/>).</typeparam>
+/// <typeparam name="TKey">The value-type used as the primary key (e.g. <see cref="short" />, <see cref="int" />).</typeparam>
 internal interface IEntityWithId<TKey> : IEntity where TKey : struct
 {
     /// <summary>
@@ -32,7 +32,7 @@ internal interface IEntityWithId<TKey> : IEntity where TKey : struct
 }
 
 /// <summary>
-///     Extends <see cref="IEntity"/> for entities that carry an external Datahub identifier.
+///     Extends <see cref="IEntity" /> for entities that carry an external Datahub identifier.
 /// </summary>
 internal interface IEntityWithDatahubId : IEntity
 {
@@ -43,7 +43,7 @@ internal interface IEntityWithDatahubId : IEntity
 }
 
 /// <summary>
-///     Extends <see cref="IEntity"/> for entities that expose a globally unique UUID.
+///     Extends <see cref="IEntity" /> for entities that expose a globally unique UUID.
 /// </summary>
 internal interface IEntityWithUuid : IEntity
 {
@@ -54,7 +54,7 @@ internal interface IEntityWithUuid : IEntity
 }
 
 /// <summary>
-///     Extends <see cref="IEntity"/> for entities that have a mutable display name.
+///     Extends <see cref="IEntity" /> for entities that have a mutable display name.
 /// </summary>
 internal interface IEntityWithName : IEntity
 {
@@ -65,7 +65,7 @@ internal interface IEntityWithName : IEntity
 }
 
 /// <summary>
-///     Extends <see cref="IEntity"/> for entities whose name acts as an immutable natural key.
+///     Extends <see cref="IEntity" /> for entities whose name acts as an immutable natural key.
 /// </summary>
 internal interface IEntityWithNameKey : IEntity
 {
@@ -76,12 +76,12 @@ internal interface IEntityWithNameKey : IEntity
 }
 
 /// <summary>
-///     Extends <see cref="IEntity"/> for entities that carry a human-friendly alias or display text.
+///     Extends <see cref="IEntity" /> for entities that carry a human-friendly alias or display text.
 /// </summary>
 internal interface IEntityWithAlias : IEntity
 {
     /// <summary>
     ///     A human-friendly alias or display label for the entity.
     /// </summary>
-    string AliasText { get; set; }
+    string AliasText { get; init; }
 }

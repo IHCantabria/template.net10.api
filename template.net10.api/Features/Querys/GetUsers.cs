@@ -28,14 +28,14 @@ public sealed record QueryGetUsers : IRequest<LanguageExt.Common.Result<IEnumera
     IEqualityOperators<QueryGetUsers, QueryGetUsers, bool>;
 
 /// <summary>
-///     Handles the <see cref="QueryGetUsers"/> request by retrieving all users from the database.
+///     Handles the <see cref="QueryGetUsers" /> request by retrieving all users from the database.
 /// </summary>
 internal sealed class QueryGetUsersHandler(
     IGenericDbRepositoryReadContext<AppDbContext, User> repository)
     : IRequestHandler<QueryGetUsers, LanguageExt.Common.Result<IEnumerable<UserDto>>>
 {
     /// <summary>
-    ///     Read-only repository for querying <see cref="User"/> entities.
+    ///     Read-only repository for querying <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));

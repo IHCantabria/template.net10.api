@@ -443,7 +443,7 @@ internal static class SwaggerDocumentation
             /// <summary>
             ///     Response description for a successful (200 OK) Get Users request.
             /// </summary>
-            internal const string Ok = "Return the uses availables in the system.";
+            internal const string Ok = "Return the users availables in the system.";
         }
 
         /// <summary>
@@ -602,5 +602,11 @@ internal static class SwaggerDocumentation
         /// </summary>
         internal const string RequestTimeoutErrorDescription =
             "Unable to execute the requested operation due to a request timeout issue, please retry the request.";
+
+        /// <summary>
+        ///     Description for an HTTP 429 Too Many Requests response.
+        /// </summary>
+        internal const string TooManyRequestsErrorDescription =
+            "Unable to execute the requested operation due to a rate limit issue, please retry the request after a while.";
     }
 }

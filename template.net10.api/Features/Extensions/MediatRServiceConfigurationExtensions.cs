@@ -1,8 +1,8 @@
-﻿using template.net10.api.Domain.DTOs;
+﻿using template.net10.api.Behaviors.Extensions;
+using template.net10.api.Domain.DTOs;
 using template.net10.api.Features.Commands;
 using template.net10.api.Features.Querys;
 using template.net10.api.Persistence.Models;
-using template.net10.api.Settings.Extensions;
 
 namespace template.net10.api.Features.Extensions;
 

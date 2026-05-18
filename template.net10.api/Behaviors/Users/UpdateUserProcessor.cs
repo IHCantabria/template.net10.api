@@ -1,8 +1,7 @@
-﻿using System.Globalization;
-using MediatR.Pipeline;
+﻿using MediatR.Pipeline;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Localization;
-using template.net10.api.Core.Exceptions;
+using template.net10.api.Behaviors.Extensions;
 using template.net10.api.Core.Extensions;
 using template.net10.api.Features.Commands;
 using template.net10.api.Hubs.User;
@@ -10,17 +9,21 @@ using template.net10.api.Hubs.User.Contracts;
 using template.net10.api.Hubs.User.Interfaces;
 using template.net10.api.Localize.Resources;
 using template.net10.api.Persistence.Models;
+using template.net10.api.Services.Background;
+using template.net10.api.Services.Background.Interfaces;
 
 namespace template.net10.api.Behaviors.Users;
 
 /// <summary>
-///     MediatR post-processor that sends a SignalR notification to all clients after a user is successfully updated.
+///     MediatR post-processor that enqueues a fire-and-forget SignalR notification
+///     after a user is successfully updated.
 /// </summary>
 internal sealed class UpdateUserProcessor(
+    IBackgroundTaskQueue queue,
     IHubContext<UserHub, IUserHub> hubContext,
-    IStringLocalizer<ResourceMain> localizer)
+    IStringLocalizer<ResourceMain> localizer,
+    ILogger<UpdateUserProcessor> logger)
     : IRequestPostProcessor<CommandUpdateUser, LanguageExt.Common.Result<User>>
-
 {
     /// <summary>
     ///     SignalR hub context for broadcasting user-related events to connected clients.
@@ -35,34 +38,56 @@ internal sealed class UpdateUserProcessor(
         localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     /// <summary>
-    ///     Processes the response of a <see cref="CommandUpdateUser"/> request and sends a notification if the operation succeeded.
+    ///     Logger instance scoped to this post-processor.
     /// </summary>
-    /// <param name="request">The update user command that was executed.</param>
-    /// <param name="response">The result containing the updated <see cref="User"/> or a fault.</param>
-    /// <param name="cancellationToken">A token to observe for cancellation.</param>
-    /// <exception cref="ResultSuccessInvalidOperationException">
-    ///     Result is not a success! Use ExtractException method instead and Check the
-    ///     state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
-    /// </exception>
-    public async Task Process(CommandUpdateUser request, LanguageExt.Common.Result<User> response,
+    private readonly ILogger<UpdateUserProcessor> _logger =
+        logger ?? throw new ArgumentNullException(nameof(logger));
+
+    /// <summary>
+    ///     Background task queue for fire-and-forget post-process work.
+    /// </summary>
+    private readonly IBackgroundTaskQueue _queue =
+        queue ?? throw new ArgumentNullException(nameof(queue));
+
+    /// <inheritdoc />
+    public Task Process(CommandUpdateUser request, LanguageExt.Common.Result<User> response,
         CancellationToken cancellationToken)
     {
-        if (response.IsFaulted) return;
+        if (response.IsFaulted) return Task.CompletedTask;
 
-        await SendEventNotificationAsync(response.ExtractData()).ConfigureAwait(false);
+        var start = _logger.PrepareLogHandlingPostProcess(nameof(UpdateUserProcessor), nameof(CommandUpdateUser));
+        ExecutePostProcess(response);
+        _logger.PrepareLogHandledPostProcess(nameof(UpdateUserProcessor), nameof(CommandUpdateUser), start);
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///     Extracts the UUID of the updated user from <paramref name="response" /> and enqueues a
+    ///     fire-and-forget <see cref="BackgroundWorkItem" /> that broadcasts a SignalR notification to all
+    ///     connected clients via <see cref="SendNotificationAsync" />.
+    /// </summary>
+    /// <param name="response">
+    ///     The successful result of the <see cref="CommandUpdateUser" /> command containing the updated
+    ///     <see cref="User" />.
+    /// </param>
+    private void ExecutePostProcess(LanguageExt.Common.Result<User> response)
+    {
+        var uuid = response.ExtractData().Uuid;
+        _queue.Enqueue(new BackgroundWorkItem(
+            (_, _) => SendNotificationAsync(uuid),
+            nameof(UpdateUserProcessor),
+            nameof(CommandUpdateUser)));
     }
 
     /// <summary>
     ///     Sends a SignalR notification to all connected clients informing them that a user was updated.
     /// </summary>
-    /// <param name="data">The updated <see cref="User"/> entity.</param>
-    /// <returns>A task representing the asynchronous notification operation.</returns>
-    private Task SendEventNotificationAsync(User data)
+    private Task SendNotificationAsync(Guid uuid)
     {
         return _hubContext.Clients.All.UpdatedUser(new UserHubUpdatedUserMessageResource
         {
             Message = _localizer["UserHubUpdatedUserMsg"],
-            Uuid = data.Uuid.ToString(CultureInfo.InvariantCulture.ToString())
+            Uuid = uuid.ToString("D")
         });
     }
 }

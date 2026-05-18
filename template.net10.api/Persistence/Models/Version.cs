@@ -17,20 +17,20 @@ internal class Version : IEntityWithNameKey, IEntityWithId<short>
     /// </summary>
     [Column("tag")]
     [MaxLength(100)]
-    public required string Tag { get; set; }
+    public required string Tag { get; init; }
 
     /// <summary>
     ///     UTC timestamp of the version release. Defaults to <c>now() AT TIME ZONE 'UTC'</c> at the database level.
     /// </summary>
     [Column("date", TypeName = "timestamp without time zone")]
-    public required DateTime Date { get; set; }
+    public required DateTime Date { get; init; }
 
     /// <summary>
-    ///     Navigation property back to <see cref="CurrentVersion"/> if this version is currently active.
-    ///     <see langword="null"/> when this is not the active version.
+    ///     Navigation property back to <see cref="CurrentVersion" /> if this version is currently active.
+    ///     <see langword="null" /> when this is not the active version.
     /// </summary>
     [InverseProperty("Version")]
-    public virtual CurrentVersion? CurrentVersion { get; set; }
+    public virtual required CurrentVersion? CurrentVersion { get; init; }
 
     /// <inheritdoc cref="IEntityWithId{T}.Id" />
     [Key]

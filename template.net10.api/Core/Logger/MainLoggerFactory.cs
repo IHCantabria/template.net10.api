@@ -41,7 +41,10 @@ internal static class SerilogLoggersFactory
     /// <param name="envName">The current environment name.</param>
     /// <param name="version">The application version.</param>
     /// <exception cref="ArgumentOutOfRangeException">Given depth must be positive.</exception>
-    /// <exception cref="InvalidConfigurationException">Thrown when a required Serilog sink or configuration section is missing or invalid in the provided <paramref name="builderConfiguration"/>.</exception>
+    /// <exception cref="InvalidConfigurationException">
+    ///     Thrown when a required Serilog sink or configuration section is missing
+    ///     or invalid in the provided <paramref name="builderConfiguration" />.
+    /// </exception>
     /// <exception cref="InvalidOperationException">When the logger is already created</exception>
     [SuppressMessage(
         "ReSharper",

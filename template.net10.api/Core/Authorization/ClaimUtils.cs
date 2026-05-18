@@ -10,10 +10,13 @@ namespace template.net10.api.Core.Authorization;
 internal static class ClaimUtils
 {
     /// <summary>
-    ///     Extracts the user's unique identifier as a <see cref="Guid"/> from the claims principal.
+    ///     Extracts the user's unique identifier as a <see cref="Guid" /> from the claims principal.
     /// </summary>
     /// <param name="claimsPrincipal">The claims principal to extract the identifier from.</param>
-    /// <returns>A <see cref="Try{A}"/> containing the parsed <see cref="Guid"/>, or an <see cref="UnauthorizedException"/> if absent or invalid.</returns>
+    /// <returns>
+    ///     A <see cref="Try{A}" /> containing the parsed <see cref="Guid" />, or an <see cref="UnauthorizedException" />
+    ///     if absent or invalid.
+    /// </returns>
     internal static Try<Guid> GetUserGuid(ClaimsPrincipal claimsPrincipal)
     {
         return () =>
@@ -31,7 +34,7 @@ internal static class ClaimUtils
     ///     Extracts the role name from the claims principal.
     /// </summary>
     /// <param name="claimsPrincipal">The claims principal to extract the role from.</param>
-    /// <returns>The role name claim value, or <see langword="null"/> if not present.</returns>
+    /// <returns>The role name claim value, or <see langword="null" /> if not present.</returns>
     internal static string? GetRoleName(ClaimsPrincipal claimsPrincipal)
     {
         return claimsPrincipal.FindFirstValue(ClaimCoreConstants.RoleClaim);
@@ -41,9 +44,21 @@ internal static class ClaimUtils
     ///     Extracts the user's unique identifier as a string from the claims principal.
     /// </summary>
     /// <param name="claimsPrincipal">The claims principal to extract the identifier from.</param>
-    /// <returns>The NameIdentifier claim value as a string, or <see langword="null"/> if not present.</returns>
+    /// <returns>The NameIdentifier claim value as a string, or <see langword="null" /> if not present.</returns>
     internal static string? GetUserUuid(ClaimsPrincipal claimsPrincipal)
     {
         return claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+    }
+
+    /// <summary>
+    ///     Extracts the user's unique internal identifier as a short from the claims principal.
+    /// </summary>
+    /// <param name="claimsPrincipal">The claims principal to extract the identifier from.</param>
+    /// <returns>The internal identifier claim value, or <see langword="null" /> if not present.</returns>
+    internal static short? GetUserId(ClaimsPrincipal claimsPrincipal)
+    {
+        var parseResult = short.TryParse(claimsPrincipal.FindFirstValue(ClaimCoreConstants.InternalIdentifierClaim),
+            out var internalIdentifier);
+        return parseResult ? internalIdentifier : null;
     }
 }

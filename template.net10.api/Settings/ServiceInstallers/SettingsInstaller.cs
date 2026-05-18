@@ -28,6 +28,7 @@ internal sealed class SettingsInstaller : IServiceInstaller
         InstallCoreOptionsServices(builder, config);
         InstallUiOptionsServices(builder, config);
         InstallSecurityOptionsServices(builder, config);
+        InstallBusinessOptionsServices(builder, config);
 
         return Task.CompletedTask;
     }
@@ -88,5 +89,20 @@ internal sealed class SettingsInstaller : IServiceInstaller
 
         builder.Services.Configure<PasswordOptions>(config.GetSection(PasswordOptions.Password));
         builder.Services.AddSingleton<IValidateOptions<PasswordOptions>, PasswordOptionsValidator>();
+    }
+
+    /// <summary>
+    ///     Registers business-related options: <see cref="FileStorageOptions" /> and <see cref="AppDbOptions" /> as well as
+    ///     their source-generated validators.
+    /// </summary>
+    /// <param name="builder">The web application builder.</param>
+    /// <param name="config">The configuration manager used to bind sections.</param>
+    private static void InstallBusinessOptionsServices(WebApplicationBuilder builder, ConfigurationManager config)
+    {
+        builder.Services.Configure<FileStorageOptions>(config.GetSection(FileStorageOptions.FileStorage));
+        builder.Services.AddSingleton<IValidateOptions<FileStorageOptions>, FileStorageOptionsValidator>();
+
+        builder.Services.Configure<AppDbOptions>(config.GetSection(AppDbOptions.AppDb));
+        builder.Services.AddSingleton<IValidateOptions<AppDbOptions>, AppDbOptionsValidator>();
     }
 }

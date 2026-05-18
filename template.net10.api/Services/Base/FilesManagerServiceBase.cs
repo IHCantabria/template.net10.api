@@ -23,13 +23,22 @@ namespace template.net10.api.Services.Base;
     "UnusedMember.Global",
     Justification =
         "Protected helper members are intended for derived services; not all are used in every implementation.")]
-internal class FilesManagerServiceBase(IOptions<FileStorageOptions> config, ILogger<FilesManagerServiceBase> logger)
-    : ServiceBase(logger)
+internal class FilesManagerServiceBase : ServiceBase
 {
+    /// <summary>
+    ///     ADD DOCUMENTATION
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="logger" /> is <see langword="null" />.</exception>
+    protected FilesManagerServiceBase(IOptions<FileStorageOptions> config, ILogger<FilesManagerServiceBase> logger) :
+        base(logger)
+    {
+        Config = config.Value ?? throw new ArgumentNullException(nameof(config));
+    }
+
     /// <summary>
     ///     File storage configuration containing root paths used for temporary file operations.
     /// </summary>
-    private FileStorageOptions Config { get; } = config.Value ?? throw new ArgumentNullException(nameof(config));
+    private FileStorageOptions Config { get; }
 
     /// <summary>
     ///     Creates a new unique temporary directory under the configured root temp path.
@@ -49,9 +58,34 @@ internal class FilesManagerServiceBase(IOptions<FileStorageOptions> config, ILog
     {
         return () =>
         {
-            var tempDirectory = Path.Combine(Config.RootTempPath, Path.GetRandomFileName());
+            var tempDirectory = Path.GetFullPath(Path.Combine(Config.RootTempPath, Path.GetRandomFileName()));
             Directory.CreateDirectory(tempDirectory);
             return tempDirectory;
+        };
+    }
+
+    /// <summary>
+    ///     Creates a new unique directory under the configured root file path.
+    /// </summary>
+    /// <param name="path">The partial path of the directory to create under Root File Path.</param>
+    /// <returns>
+    ///     A <see cref="LanguageExt.Try{A}" /> wrapping the full path of the newly created file directory.
+    /// </returns>
+    /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive).</exception>
+    /// <exception cref="UnauthorizedAccessException">The caller does not have the required permission.</exception>
+    /// <exception cref="PathTooLongException">The specified path, file name, or both exceed the system-defined maximum length.</exception>
+    [SuppressMessage(
+        "ReSharper",
+        "ExceptionNotDocumentedOptional",
+        Justification =
+            "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]
+    protected Try<string> CreateDirectory(string path)
+    {
+        return () =>
+        {
+            var directory = Path.GetFullPath(Path.Combine(Config.RootFilePath, path));
+            Directory.CreateDirectory(directory);
+            return directory;
         };
     }
 

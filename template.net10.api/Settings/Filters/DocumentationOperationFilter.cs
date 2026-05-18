@@ -17,7 +17,7 @@ namespace template.net10.api.Settings.Filters;
 internal sealed class DocumentationOperationFilter : IOperationFilter, IOrderedFilter
 {
     /// <summary>
-    ///     Initialises the filter and sets <see cref="Order"/> to 1 so it runs before security filters.
+    ///     Initialises the filter and sets <see cref="Order" /> to 1 so it runs before security filters.
     /// </summary>
     public DocumentationOperationFilter()
     {
@@ -25,8 +25,8 @@ internal sealed class DocumentationOperationFilter : IOperationFilter, IOrderedF
     }
 
     /// <summary>
-    ///     Appends 408 (Request Timeout) and 500 (Internal Server Error) response schemas with
-    ///     ProblemDetails content to the given <paramref name="operation"/>.
+    ///     Appends 408 (Request Timeout), 429 (Too many Request) and 500 (Internal Server Error) response schemas with
+    ///     ProblemDetails content to the given <paramref name="operation" />.
     /// </summary>
     /// <param name="operation">The OpenAPI operation to enrich.</param>
     /// <param name="context">Filter context providing access to the schema generator.</param>
@@ -51,6 +51,19 @@ internal sealed class DocumentationOperationFilter : IOperationFilter, IOrderedF
                     }
                 }
             });
+        operation.Responses?.TryAdd(StatusCodes.Status429TooManyRequests.ToString(CultureInfo.InvariantCulture),
+            new OpenApiResponse
+            {
+                Description = SwaggerDocumentation.Filter.TooManyRequestsErrorDescription,
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    [MediaTypeNames.Application.ProblemJson] = new()
+                    {
+                        Schema = context.SchemaGenerator.GenerateSchema(typeof(TooManyRequestsProblemDetailsResource),
+                            context.SchemaRepository)
+                    }
+                }
+            });
         operation.Responses?.TryAdd(StatusCodes.Status500InternalServerError.ToString(CultureInfo.InvariantCulture),
             new OpenApiResponse
             {
@@ -67,7 +80,7 @@ internal sealed class DocumentationOperationFilter : IOperationFilter, IOrderedF
     }
 
     /// <summary>
-    ///     The relative execution order of this filter among all registered <see cref="IOrderedFilter"/> instances.
+    ///     The relative execution order of this filter among all registered <see cref="IOrderedFilter" /> instances.
     ///     Set to 1 so it runs before authorization filters.
     /// </summary>
     public int Order { get; }

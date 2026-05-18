@@ -126,9 +126,6 @@
   <data name="ProblemDetailsInternalServerErrorTitle" xml:space="preserve">
     <value>There is something wrong with our bloody servers today.</value>
   </data>
-  <data name="MapperExceptionStatusCodeNotSupported" xml:space="preserve">
-    <value>Mapper for http status code {0} is not supported.</value>
-  </data>
   <data name="GenieAccessTokenServerError" xml:space="preserve">
     <value>Something went wrong when creating the genie access token.</value>
   </data>

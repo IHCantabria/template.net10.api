@@ -7,8 +7,6 @@ using template.net10.api.Settings.Interfaces;
 using template.net10.api.Settings.Middlewares;
 using template.net10.api.Settings.Options;
 
-// ReSharper disable MethodTooLong (justification: The method is the main pipeline configuration for the application)
-
 namespace template.net10.api.Settings.PipelineConfigurators;
 
 /// <summary>
@@ -30,6 +28,12 @@ internal sealed class MainConfigurator : IPipelineConfigurator
         "ExceptionNotDocumentedOptional",
         Justification =
             "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]
+    [SuppressMessage(
+        "ReSharper",
+        "MethodTooLong",
+        Justification =
+            "This method represents the central pipeline configuration of the application. Splitting it would reduce readability and make the startup flow harder to follow."
+    )]
     public Task ConfigurePipelineAsync(WebApplication app)
     {
         ArgumentNullException.ThrowIfNull(app);

@@ -136,6 +136,16 @@ internal static class QueryableExtensions
     extension<TEntity>(IQueryable<TEntity> queryable) where TEntity : class, IEntity
     {
         /// <summary>
+        ///     Applies a collection of include functions to the queryable for eager loading of related entities.
+        /// </summary>
+        /// <param name="includes">The include functions to apply.</param>
+        /// <returns>The <see cref="IQueryable{T}" /> with includes applied.</returns>
+        private IQueryable<TEntity> ApplyIncludes(IEnumerable<Func<IQueryable<TEntity>, IQueryable<TEntity>>> includes)
+        {
+            return includes.Aggregate(queryable, static (current, include) => include(current));
+        }
+
+        /// <summary>
         ///     Applies a collection of filter expressions to the queryable using AND logic via LinqKit's
         ///     <see cref="PredicateBuilder" />.
         /// </summary>
@@ -150,23 +160,7 @@ internal static class QueryableExtensions
             var expandedPredicate = (Expression<Func<TEntity, bool>>)predicate.Expand();
             return queryable.Where(expandedPredicate);
         }
-    }
 
-    extension<TEntity>(IQueryable<TEntity> queryable)
-    {
-        /// <summary>
-        ///     Applies a collection of include functions to the queryable for eager loading of related entities.
-        /// </summary>
-        /// <param name="includes">The include functions to apply.</param>
-        /// <returns>The <see cref="IQueryable{T}" /> with includes applied.</returns>
-        private IQueryable<TEntity> ApplyIncludes(IEnumerable<Func<IQueryable<TEntity>, IQueryable<TEntity>>> includes)
-        {
-            return includes.Aggregate(queryable, static (current, include) => include(current));
-        }
-    }
-
-    extension<TEntity>(IQueryable<TEntity> queryable) where TEntity : class, IEntity
-    {
         /// <summary>
         ///     Applies a collection of ordering expressions to the queryable, using OrderBy for the first and ThenBy for
         ///     subsequent ones.
@@ -251,10 +245,7 @@ internal static class QueryableExtensions
                 _ => queryable.AsTracking()
             };
         }
-    }
 
-    extension<TEntity>(IQueryable<TEntity> query) where TEntity : class, IEntity
-    {
         /// <summary>
         ///     Applies a verification's filters to the queryable. Returns the original query if verification is null or has no
         ///     filters.
@@ -264,11 +255,11 @@ internal static class QueryableExtensions
         internal IQueryable<TEntity> ApplyVerification(IVerification<TEntity>? verification)
         {
             // Do not apply anything if specification is null
-            if (verification is null) return query;
+            if (verification is null) return queryable;
 
             // Modify the IQueryable
 
-            return verification.Filters.Count > 0 ? query.ApplyFilters(verification.Filters) : query;
+            return verification.Filters.Count > 0 ? queryable.ApplyFilters(verification.Filters) : queryable;
         }
 
         /// <summary>
@@ -280,19 +271,21 @@ internal static class QueryableExtensions
         internal IQueryable<TEntity> ApplySpecification(ISpecification<TEntity>? specification)
         {
             // Do not apply anything if specification is null
-            if (specification is null) return query;
+            if (specification is null) return queryable;
 
             // Modify the IQueryable
 
-            query = specification.Filters.Count > 0 ? query.ApplyFilters(specification.Filters) : query;
-            query = specification.Includes.Count > 0 ? query.ApplyIncludes(specification.Includes) : query;
-            query = specification.GroupBy is not null ? query.ApplyGroupBy(specification.GroupBy) : query;
-            query = specification.OrderBys.Count > 0 ? query.ApplyOrderBys(specification.OrderBys) : query;
-            query = specification.TakeRows is not null ? query.ApplyTakeRows((int)specification.TakeRows) : query;
-            query = query.ApplyQuerySplitStrategy(specification.QuerySplitStrategy);
-            query = query.ApplyQueryTrackStrategy(specification.QueryTrackStrategy);
+            queryable = specification.Filters.Count > 0 ? queryable.ApplyFilters(specification.Filters) : queryable;
+            queryable = specification.Includes.Count > 0 ? queryable.ApplyIncludes(specification.Includes) : queryable;
+            queryable = specification.GroupBy is not null ? queryable.ApplyGroupBy(specification.GroupBy) : queryable;
+            queryable = specification.OrderBys.Count > 0 ? queryable.ApplyOrderBys(specification.OrderBys) : queryable;
+            queryable = specification.TakeRows is not null
+                ? queryable.ApplyTakeRows((int)specification.TakeRows)
+                : queryable;
+            queryable = queryable.ApplyQuerySplitStrategy(specification.QuerySplitStrategy);
+            queryable = queryable.ApplyQueryTrackStrategy(specification.QueryTrackStrategy);
 
-            return query;
+            return queryable;
         }
 
         /// <summary>
@@ -308,7 +301,7 @@ internal static class QueryableExtensions
                 "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]
         internal IQueryable<TDto> ApplyProjection<TDto>(IProjection<TEntity, TDto> projection) where TDto : class, IDto
         {
-            return query.Select(projection.Expression);
+            return queryable.Select(projection.Expression);
         }
 
         /// <summary>
@@ -330,7 +323,7 @@ internal static class QueryableExtensions
             var selectedFieldsTree = context.GetSelectedFieldsTree();
             var lambdaBody = BuildMemberInit(projection.Expression.Body, selectedFieldsTree);
             var lambda = Expression.Lambda<Func<TEntity, TDto>>(lambdaBody, projection.Expression.Parameters);
-            return query.Select(lambda);
+            return queryable.Select(lambda);
         }
     }
 }

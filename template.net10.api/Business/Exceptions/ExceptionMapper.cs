@@ -132,6 +132,10 @@ internal static class ExceptionMapper
             {
                 ExceptionType.NotImplemented,
                 HttpResultFactory.CreateNotImplementedResult
+            },
+            {
+                ExceptionType.NotSupported,
+                HttpResultFactory.CreateInternalServerErrorResult
             }
             // Add more exception type mappings as needed
         };
@@ -158,7 +162,7 @@ internal static class ExceptionMapper
     {
         var exceptionType = GetExceptionType(ex);
         if (exceptionType is ExceptionType.NotSupported)
-            throw new NotSupportedException(localizer["MapperExceptionResultNotSupported", exceptionType]);
+            ex = new NotSupportedException(localizer["MapperExceptionResultNotSupported", exceptionType], ex);
 
         return ActionResultHandlers.TryGetValue(exceptionType, out var handler)
             ? handler(ex, localizer, features)

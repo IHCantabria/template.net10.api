@@ -29,7 +29,10 @@ internal sealed class LoggerInstaller : IServiceInstaller
 
     /// <inheritdoc cref="IServiceInstaller.InstallServiceAsync" />
     /// <exception cref="ArgumentNullException"><paramref name="builder" /> is <see langword="null" />.</exception>
-    /// <exception cref="InvalidConfigurationException">Thrown when the OpenTelemetry log endpoint is unreachable or the Serilog/OpenTelemetry configuration is missing or invalid.</exception>
+    /// <exception cref="InvalidConfigurationException">
+    ///     Thrown when the OpenTelemetry log endpoint is unreachable or the
+    ///     Serilog/OpenTelemetry configuration is missing or invalid.
+    /// </exception>
     /// <exception cref="ArgumentOutOfRangeException">Given depth must be positive.</exception>
     /// <exception cref="InvalidOperationException">When the logger is already created</exception>
     public async Task InstallServiceAsync(WebApplicationBuilder builder)
@@ -59,7 +62,7 @@ internal sealed class LoggerInstaller : IServiceInstaller
     ///     current working directory. Returns an empty string if the file does not exist or
     ///     the property is absent.
     /// </summary>
-    /// <returns>The version string, or <see cref="string.Empty"/> if unavailable.</returns>
+    /// <returns>The version string, or <see cref="string.Empty" /> if unavailable.</returns>
     private static async Task<string> ReadPackageJsonVersionAsync()
     {
         var ct = CancellationToken.None;

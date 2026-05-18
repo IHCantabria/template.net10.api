@@ -65,7 +65,7 @@ internal sealed class CamelCaseStringEnumerableConverter : JsonConverter<IEnumer
     ///     Reads a single array element and converts its string value to camelCase.
     /// </summary>
     /// <param name="reader">The UTF-8 JSON reader positioned at the current element.</param>
-    /// <returns>The camelCase string value, or <see langword="null"/> for a JSON null token.</returns>
+    /// <returns>The camelCase string value, or <see langword="null" /> for a JSON null token.</returns>
     /// <exception cref="JsonException">Thrown when the token is neither a string nor null.</exception>
     [SuppressMessage(
         "ReSharper",
@@ -115,7 +115,7 @@ internal sealed class CamelCaseStringEnumerableConverter : JsonConverter<IEnumer
     ///     Converts a string to camelCase by lowering its first character.
     /// </summary>
     /// <param name="str">The string to convert.</param>
-    /// <returns>The camelCase string, or <see langword="null"/> if the input is null.</returns>
+    /// <returns>The camelCase string, or <see langword="null" /> if the input is null.</returns>
     [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase",
         Justification = "Lowercase normalization is required to implement camelCase naming rules.")]
     private static string? ToCamelCase(string? str)

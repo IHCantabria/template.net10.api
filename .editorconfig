@@ -1,5 +1,5 @@
 [*.cs]
-# Roslynator
+# Roslynator and another external analyzers
 dotnet_diagnostic.RCS1124.severity = warning
 dotnet_diagnostic.RCS1021.severity = warning
 dotnet_diagnostic.IDE0305.severity = warning
@@ -11,10 +11,17 @@ dotnet_diagnostic.IDE0060.severity = warning
 dotnet_diagnostic.SYSLIB10.severity = warning
 dotnet_diagnostic.RCS1212.severity = warning
 dotnet_diagnostic.RCS1261.severity = warning
-dotnet_diagnostic.RCS1001.severity = none
-dotnet_diagnostic.IDE0130.severity = none
+dotnet_diagnostic.RCS1001.severity = none # Add braces to if statement (when expression spans over multiple lines)
+dotnet_diagnostic.IDE0130.severity = none # Namespace X does not match folder structure, expected X.
 dotnet_diagnostic.IDE0019.severity = warning
 dotnet_diagnostic.IDE0028.severity = warning
 dotnet_diagnostic.RCS1205.severity = warning
 dotnet_diagnostic.IDE0290.severity = warning
 dotnet_diagnostic.RCS1243.severity = warning
+dotnet_diagnostic.CA1724.severity = none  # The type name Identity conflicts in whole or in part with the namespace name X. Change either name to eliminate the conflict
+dotnet_diagnostic.CA1716.severity = none # Rename namespace X so that it no longer conflicts with the reserved language keyword 'template'. Using a reserved keyword as the name of a namespace makes it harder for consumers in other languages to use the namespace.
+dotnet_diagnostic.RCS1158.severity = none # Static member in generic type should use a type parameter
+dotnet_diagnostic.S2325.severity = none # False positive with C# 14 extension blocks: Sonar suggests making the method static, but instance extension members cannot be static.
+dotnet_diagnostic.RCS1192.severity = none # Unnecessary usage of verbatim string literal
+dotnet_diagnostic.ASP0015.severity = warning # The Header X can be accesed via the property Y.
+

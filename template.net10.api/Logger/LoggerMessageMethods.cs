@@ -1,8 +1,17 @@
-﻿namespace template.net10.api.Logger;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace template.net10.api.Logger;
 
 /// <summary>
-///     Provides source-generated high-performance logger extension methods for structured logging throughout the application.
+///     Provides source-generated high-performance logger extension methods for structured logging throughout the
+///     application.
 /// </summary>
+[SuppressMessage("ReSharper", "ClassTooBig",
+    Justification = "The class intentionally centralizes all the business logging methods in a single location.")]
+[SuppressMessage(
+    "ReSharper",
+    "UnusedMember.Local",
+    Justification = "General-purpose logger methods; not all members are used in every scenario.")]
 internal static partial class LoggerMessageMethods
 {
     /// <summary>
@@ -139,6 +148,17 @@ internal static partial class LoggerMessageMethods
         LogHandlingPostProcess(this ILogger logger, string postProcessType, string requestType);
 
     /// <summary>
+    ///     Logs an error in the post-process with the error and exception details.
+    /// </summary>
+    /// <param name="logger">The logger instance.</param>
+    /// <param name="postProcessType">The type name of the post-processor.</param>
+    /// <param name="requestType">The type name of the originating request.</param>
+    /// <param name="ex">The post proccess exception that occurred.</param>
+    [LoggerMessage(Level = LogLevel.Error, Message = LoggerMessageDefinitions.HandledPostProcessError)]
+    internal static partial void LogPostProcessError(this ILogger logger, string postProcessType, string requestType,
+        Exception ex);
+
+    /// <summary>
     ///     Logs a completed MediatR post-process with elapsed time.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
@@ -148,6 +168,51 @@ internal static partial class LoggerMessageMethods
     [LoggerMessage(Level = LogLevel.Information, Message = LoggerMessageDefinitions.HandledPostProcess)]
     internal static partial void LogHandledPostProcess(this ILogger logger, string postProcessType, string requestType,
         string time);
+
+    /// <summary>
+    ///     Logs the start of a background task execution.
+    /// </summary>
+    /// <param name="logger">The logger instance.</param>
+    /// <param name="backgroundTaskType">The type name of the background task.</param>
+    /// <param name="requestType">The type name of the originating request.</param>
+    [LoggerMessage(Level = LogLevel.Information, Message = LoggerMessageDefinitions.BackgroundTaskStarted)]
+    internal static partial void LogBackgroundTaskStarted(this ILogger logger, string backgroundTaskType,
+        string requestType);
+
+    /// <summary>
+    ///     Logs the completion of a background task with and exception details.
+    /// </summary>
+    /// <param name="logger">The logger instance.</param>
+    /// <param name="backgroundTaskType">The type name of the background task.</param>
+    /// <param name="requestType">The type name of the originating request.</param>
+    /// <param name="ex">The post proccess exception that occurred.</param>
+    [LoggerMessage(Level = LogLevel.Error, Message = LoggerMessageDefinitions.BackgroundTaskException)]
+    internal static partial void LogBackgroundTaskException(this ILogger logger, string backgroundTaskType,
+        string requestType,
+        Exception ex);
+
+    /// <summary>
+    ///     Logs a completed background task with elapsed time.
+    /// </summary>
+    /// <param name="logger">The logger instance.</param>
+    /// <param name="backgroundTaskType">The type name of the background task.</param>
+    /// <param name="requestType">The type name of the originating request.</param>
+    /// <param name="time">The formatted elapsed time string.</param>
+    [LoggerMessage(Level = LogLevel.Information, Message = LoggerMessageDefinitions.BackgroundTaskCompleted)]
+    internal static partial void LogBackgroundTaskCompleted(this ILogger logger, string backgroundTaskType,
+        string requestType,
+        string time);
+
+    /// <summary>
+    ///     Logs a completed MediatR post-process with elapsed time.
+    /// </summary>
+    /// <param name="logger">The logger instance.</param>
+    /// <param name="capacity">The configured capacity of the background task queue.</param>
+    /// <param name="backgroundTaskType">The type name of the background task.</param>
+    /// <param name="requestType">The type name of the originating request.</param>
+    [LoggerMessage(Level = LogLevel.Error, Message = LoggerMessageDefinitions.BackgroundQueueFull)]
+    internal static partial void LogBackgroundQueueFull(this ILogger logger, string capacity,
+        string backgroundTaskType, string requestType);
 
     /// <summary>
     ///     Logs a database health check failure at error level.

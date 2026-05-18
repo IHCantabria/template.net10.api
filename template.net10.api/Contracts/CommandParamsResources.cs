@@ -108,7 +108,7 @@ public sealed record CommandUpdateUserParamsBodyResource : IPublicApiContract,
     /// <summary>
     ///     Gets a value indicating whether the user account should be disabled.
     /// </summary>
-    public bool IsDisabled { get; init; }
+    public bool? IsDisabled { get; init; }
 
     /// <summary>
     ///     Gets the updated email address, or null to leave unchanged.

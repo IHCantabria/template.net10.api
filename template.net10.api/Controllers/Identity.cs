@@ -39,7 +39,7 @@ public sealed class Identity(
     /// </summary>
     /// <param name="queryParams">The login credentials resource.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the identity token on success.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the identity token on success.</returns>
     [HttpPost]
     [RequestTimeout(RequestConstants.RequestCommandGenericPolicy)]
     [Route(ApiRoutes.IdentityController.Login)]
@@ -77,7 +77,7 @@ public sealed class Identity(
     ///     Requests an access token for the currently authenticated user using the identity token.
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the access token on success.</returns>
+    /// <returns>An <see cref="IActionResult" /> containing the access token on success.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method

@@ -3,7 +3,7 @@
 namespace template.net10.api.Core.Logger;
 
 /// <summary>
-///     Provides ambient request ID storage and retrieval using <see cref="AsyncLocal{T}"/> and <see cref="Activity"/>.
+///     Provides ambient request ID storage and retrieval using <see cref="AsyncLocal{T}" /> and <see cref="Activity" />.
 /// </summary>
 internal static class RequestIdProvider
 {
@@ -22,9 +22,9 @@ internal static class RequestIdProvider
     }
 
     /// <summary>
-    ///     Gets the current request ID from the active <see cref="Activity"/> or the stored trace identifier.
+    ///     Gets the current request ID from the active <see cref="Activity" /> or the stored trace identifier.
     /// </summary>
-    /// <returns>The current request ID, or <see langword="null"/> if none is available.</returns>
+    /// <returns>The current request ID, or <see langword="null" /> if none is available.</returns>
     public static string? GetCurrentRequestId()
     {
         return Activity.Current?.Id ?? CurrentTraceIdentifier.Value;

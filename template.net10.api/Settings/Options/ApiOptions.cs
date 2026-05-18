@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using Microsoft.Extensions.Options;
 
@@ -8,10 +9,11 @@ namespace template.net10.api.Settings.Options;
 ///     Strongly-typed configuration options for the API definition, including its public name and base address.
 ///     Bound from the <c>Api</c> configuration section.
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 internal sealed record ApiOptions : IEqualityOperators<ApiOptions, ApiOptions, bool>
 {
     /// <summary>
-    ///     The configuration section key used to bind <see cref="ApiOptions"/>.
+    ///     The configuration section key used to bind <see cref="ApiOptions" />.
     /// </summary>
     public const string Api = nameof(Api);
 
@@ -29,7 +31,7 @@ internal sealed record ApiOptions : IEqualityOperators<ApiOptions, ApiOptions, b
 }
 
 /// <summary>
-///     Source-generated <see cref="IValidateOptions{TOptions}"/> validator for <see cref="ApiOptions"/>.
+///     Source-generated <see cref="IValidateOptions{TOptions}" /> validator for <see cref="ApiOptions" />.
 /// </summary>
 [OptionsValidator]
 internal sealed partial class ApiOptionsValidator : IValidateOptions<ApiOptions>;

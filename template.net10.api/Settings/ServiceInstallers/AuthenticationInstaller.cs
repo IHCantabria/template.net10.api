@@ -19,8 +19,8 @@ namespace template.net10.api.Settings.ServiceInstallers;
 internal sealed class AuthenticationInstaller : IServiceInstaller
 {
     /// <summary>
-    ///     Cached JWT options resolved from configuration, populated during <see cref="InstallServiceAsync"/>
-    ///     and consumed by <see cref="ConfigureJwtBearer"/>.
+    ///     Cached JWT options resolved from configuration, populated during <see cref="InstallServiceAsync" />
+    ///     and consumed by <see cref="ConfigureJwtBearer" />.
     /// </summary>
     private JwtOptions? _config;
 
@@ -44,7 +44,7 @@ internal sealed class AuthenticationInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     Registers <see cref="AppJwtBearerEvents"/> as a scoped service so it can be resolved
+    ///     Registers <see cref="AppJwtBearerEvents" /> as a scoped service so it can be resolved
     ///     by the JWT Bearer middleware during request processing.
     /// </summary>
     /// <param name="services">The application service collection.</param>
@@ -58,7 +58,7 @@ internal sealed class AuthenticationInstaller : IServiceInstaller
     ///     and returns them together with the current host environment.
     /// </summary>
     /// <param name="builder">The web application builder providing configuration and environment.</param>
-    /// <returns>A tuple containing the validated <see cref="JwtOptions"/> and the <see cref="IWebHostEnvironment"/>.</returns>
+    /// <returns>A tuple containing the validated <see cref="JwtOptions" /> and the <see cref="IWebHostEnvironment" />.</returns>
     private static (JwtOptions? jwtOptions, IWebHostEnvironment Environment) LoadAndValidateOptions(
         WebApplicationBuilder builder)
     {
@@ -87,7 +87,7 @@ internal sealed class AuthenticationInstaller : IServiceInstaller
 
     /// <summary>
     ///     Registers JWT Bearer as the default authentication and challenge scheme
-    ///     and delegates JWT configuration to <see cref="ConfigureJwtBearer"/>.
+    ///     and delegates JWT configuration to <see cref="ConfigureJwtBearer" />.
     /// </summary>
     /// <param name="services">The application service collection.</param>
     /// <param name="environment">The host environment, passed to JWT bearer options for HTTPS enforcement.</param>
@@ -102,8 +102,8 @@ internal sealed class AuthenticationInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     Configures JWT Bearer token validation parameters from <see cref="_config"/>, registers
-    ///     <see cref="AppJwtBearerEvents"/> as the events type, and disables HTTPS metadata
+    ///     Configures JWT Bearer token validation parameters from <see cref="_config" />, registers
+    ///     <see cref="AppJwtBearerEvents" /> as the events type, and disables HTTPS metadata
     ///     enforcement in non-production environments.
     /// </summary>
     /// <param name="options">The JWT Bearer options to configure.</param>
@@ -135,11 +135,11 @@ internal sealed class AuthenticationInstaller : IServiceInstaller
     /// <summary>
     ///     Validates that a JWT token has not expired by comparing its expiry date against the current time.
     /// </summary>
-    /// <param name="notBefore">The earliest valid date for the token, or <see langword="null"/> if not set.</param>
-    /// <param name="expires">The expiry date of the token, or <see langword="null"/> if not set.</param>
+    /// <param name="notBefore">The earliest valid date for the token, or <see langword="null" /> if not set.</param>
+    /// <param name="expires">The expiry date of the token, or <see langword="null" /> if not set.</param>
     /// <param name="securityToken">The security token being validated (unused).</param>
     /// <param name="validationParameters">The token validation parameters (unused).</param>
-    /// <returns><see langword="true"/> if the token has not yet expired; <see langword="false"/> otherwise.</returns>
+    /// <returns><see langword="true" /> if the token has not yet expired; <see langword="false" /> otherwise.</returns>
     private static bool LifetimeValidator(DateTime? notBefore,
         DateTime? expires,
         SecurityToken securityToken,

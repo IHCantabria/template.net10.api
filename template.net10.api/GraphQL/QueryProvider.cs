@@ -28,7 +28,7 @@ public sealed class QueryProvider
     /// </summary>
     /// <param name="mediatr">The MediatR mediator instance for dispatching the query.</param>
     /// <param name="context">The HotChocolate resolver context for the current GraphQL operation.</param>
-    /// <returns>A queryable collection of <see cref="UserDto"/> entities.</returns>
+    /// <returns>A queryable collection of <see cref="UserDto" /> entities.</returns>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="mediatr" /> is <see langword="null" />.
     ///     <paramref name="context" /> is <see langword="null" />.

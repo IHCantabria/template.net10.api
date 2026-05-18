@@ -39,7 +39,7 @@ public sealed record QueryAccessUser(QueryAccessUserParamsDto QueryParams)
         IEqualityOperators<QueryAccessUser, QueryAccessUser, bool>;
 
 /// <summary>
-///     Handles the <see cref="QueryAccessUser"/> request by generating an access token (JWT) for the authenticated user.
+///     Handles the <see cref="QueryAccessUser" /> request by generating an access token (JWT) for the authenticated user.
 /// </summary>
 internal sealed class QueryAccessUserHandler(
     IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -58,7 +58,7 @@ internal sealed class QueryAccessUserHandler(
     private readonly JwtOptions _jwtConfig = jwtConfig.Value ?? throw new ArgumentNullException(nameof(jwtConfig));
 
     /// <summary>
-    ///     Read-only repository for querying <see cref="User"/> entities.
+    ///     Read-only repository for querying <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
@@ -109,38 +109,46 @@ internal sealed class QueryAccessUserHandler(
 }
 
 /// <summary>
-///     FluentValidation validator that verifies the identity token UUID, user status, and role when requesting an access token.
+///     FluentValidation validator that verifies the identity token UUID, user status, and role when requesting an access
+///     token.
 /// </summary>
 [UsedImplicitly]
 internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUser>
 {
+    /// <summary>
+    ///     Const string representing the property name for the identity token in validation error messages, used to maintain
+    ///     consistency across rules.
+    /// </summary>
+    private const string IdToken = "id_token";
+
     /// <summary>
     ///     Localization service for retrieving validation error messages.
     /// </summary>
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     Read-only repository for verifying <see cref="Role"/> entities.
+    ///     Read-only repository for verifying <see cref="Role" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, Role> _roleRepository;
 
     /// <summary>
-    ///     Read-only repository for verifying <see cref="User"/> entities.
+    ///     Read-only repository for verifying <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _userRepository;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="AccessUserUuidValidator"/> class with repositories and localization dependencies.
+    ///     Initializes a new instance of the <see cref="AccessUserUuidValidator" /> class with repositories and localization
+    ///     dependencies.
     /// </summary>
-    /// <param name="roleRepository">The read-only repository used to verify <see cref="Role"/> entities during validation.</param>
-    /// <param name="userRepository">The read-only repository used to verify <see cref="User"/> entities during validation.</param>
+    /// <param name="roleRepository">The read-only repository used to verify <see cref="Role" /> entities during validation.</param>
+    /// <param name="userRepository">The read-only repository used to verify <see cref="User" /> entities during validation.</param>
     /// <param name="localizer">The string localizer for retrieving validation error messages.</param>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="roleRepository"/> is <see langword="null"/>.
+    ///     <paramref name="roleRepository" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="userRepository"/> is <see langword="null"/>.
+    ///     <paramref name="userRepository" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     <paramref name="localizer" /> is <see langword="null" />.
     /// </exception>
     public AccessUserUuidValidator(
         IGenericDbRepositoryReadContext<AppDbContext, Role> roleRepository,
@@ -158,28 +166,28 @@ internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUse
         {
             RuleFor(static x => x.QueryParams.Identity.UserUuid)
                 .NotNull()
-                .OverridePropertyName("id_token")
+                .OverridePropertyName(IdToken)
                 .WithMessage(_localizer["AccessUserValidatorUuidMissingMsg"])
                 .WithErrorCode(_localizer["AccessUserValidatorUuidMissingCode"])
                 .WithState(static _ => HttpStatusCode.Unauthorized);
 
             RuleFor(static x => x.QueryParams.Identity.UserUuid)
                 .NotEmpty()
-                .OverridePropertyName("id_token")
+                .OverridePropertyName(IdToken)
                 .WithMessage(_localizer["AccessUserValidatorUuidEmptyMsg"])
                 .WithErrorCode(_localizer["AccessUserValidatorUuidEmptyCode"])
                 .WithState(static _ => HttpStatusCode.Unauthorized);
 
             RuleFor(static x => x.QueryParams.Identity.UserUuid ?? Guid.Empty)
                 .Must(ValidateTokenUserActive)
-                .OverridePropertyName("id_token")
+                .OverridePropertyName(IdToken)
                 .WithMessage(_localizer["AccessUserValidatorUserDisabledMsg"])
                 .WithErrorCode(_localizer["AccessUserValidatorUserDisabledCode"])
                 .WithState(static _ => HttpStatusCode.Forbidden);
 
             RuleFor(static x => x.QueryParams.Identity.UserRoleName ?? "")
                 .Must(ValidateTokenUserRole)
-                .OverridePropertyName("id_token")
+                .OverridePropertyName(IdToken)
                 .WithMessage(_localizer["AccessUserValidatorRoleInvalidMsg"])
                 .WithErrorCode(_localizer["AccessUserValidatorRoleInvalidCode"])
                 .WithState(static _ => HttpStatusCode.Unauthorized)
@@ -191,7 +199,7 @@ internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUse
     ///     Validates that the user identified by the UUID is currently active (enabled).
     /// </summary>
     /// <param name="key">The unique identifier of the user to check active status for.</param>
-    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user is active; otherwise, <see langword="false" />.</returns>
     private bool ValidateTokenUserActive(Guid key)
     {
         var verification = new UserEnabledVerification(key);
@@ -207,7 +215,7 @@ internal sealed class AccessUserUuidValidator : AbstractValidator<QueryAccessUse
     ///     Validates that the specified role name exists in the system.
     /// </summary>
     /// <param name="roleName">The name of the role to verify existence for.</param>
-    /// <returns><see langword="true"/> if the role exists; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the role exists; otherwise, <see langword="false" />.</returns>
     private bool ValidateTokenUserRole(string roleName)
     {
         var verification = new EntityVerificationByNameKey<Role>(roleName);

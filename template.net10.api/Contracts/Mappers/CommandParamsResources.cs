@@ -5,7 +5,8 @@ namespace template.net10.api.Contracts;
 public sealed partial record CommandCreateUserParamsResource
 {
     /// <summary>
-    ///     Implicitly converts a <see cref="CommandCreateUserParamsResource"/> to a <see cref="CommandCreateUserParamsDto"/>.
+    ///     Implicitly converts a <see cref="CommandCreateUserParamsResource" /> to a <see cref="CommandCreateUserParamsDto" />
+    ///     .
     /// </summary>
     public static implicit operator CommandCreateUserParamsDto(CommandCreateUserParamsResource resource)
     {
@@ -25,7 +26,8 @@ public sealed partial record CommandCreateUserParamsResource
     }
 
     /// <summary>
-    ///     Converts the specified <see cref="CommandCreateUserParamsResource"/> to a <see cref="CommandCreateUserParamsDto"/>.
+    ///     Converts the specified <see cref="CommandCreateUserParamsResource" /> to a
+    ///     <see cref="CommandCreateUserParamsDto" />.
     /// </summary>
     public static CommandCreateUserParamsDto ToCommandCreateUserParamsDto(
         CommandCreateUserParamsResource resource)
@@ -37,7 +39,8 @@ public sealed partial record CommandCreateUserParamsResource
 public sealed partial record CommandUpdateUserParamsResource
 {
     /// <summary>
-    ///     Implicitly converts a <see cref="CommandUpdateUserParamsResource"/> to a <see cref="CommandUpdateUserParamsDto"/>.
+    ///     Implicitly converts a <see cref="CommandUpdateUserParamsResource" /> to a <see cref="CommandUpdateUserParamsDto" />
+    ///     .
     /// </summary>
     public static implicit operator CommandUpdateUserParamsDto(CommandUpdateUserParamsResource resource)
     {
@@ -56,7 +59,8 @@ public sealed partial record CommandUpdateUserParamsResource
     }
 
     /// <summary>
-    ///     Converts the specified <see cref="CommandUpdateUserParamsResource"/> to a <see cref="CommandUpdateUserParamsDto"/>.
+    ///     Converts the specified <see cref="CommandUpdateUserParamsResource" /> to a
+    ///     <see cref="CommandUpdateUserParamsDto" />.
     /// </summary>
     public static CommandUpdateUserParamsDto ToCommandUpdateUserParamsDto(
         CommandUpdateUserParamsResource resource)
@@ -68,7 +72,8 @@ public sealed partial record CommandUpdateUserParamsResource
 public sealed partial record CommandDisableUserParamsResource
 {
     /// <summary>
-    ///     Implicitly converts a <see cref="CommandDisableUserParamsResource"/> to a <see cref="CommandDisableUserParamsDto"/>.
+    ///     Implicitly converts a <see cref="CommandDisableUserParamsResource" /> to a
+    ///     <see cref="CommandDisableUserParamsDto" />.
     /// </summary>
     public static implicit operator CommandDisableUserParamsDto(CommandDisableUserParamsResource resource)
     {
@@ -81,7 +86,8 @@ public sealed partial record CommandDisableUserParamsResource
     }
 
     /// <summary>
-    ///     Converts the specified <see cref="CommandDisableUserParamsResource"/> to a <see cref="CommandDisableUserParamsDto"/>.
+    ///     Converts the specified <see cref="CommandDisableUserParamsResource" /> to a
+    ///     <see cref="CommandDisableUserParamsDto" />.
     /// </summary>
     public static CommandDisableUserParamsDto ToCommandDisableUserParamsDto(
         CommandDisableUserParamsResource resource)
@@ -93,7 +99,8 @@ public sealed partial record CommandDisableUserParamsResource
 public sealed partial record CommandEnableUserParamsResource
 {
     /// <summary>
-    ///     Implicitly converts a <see cref="CommandEnableUserParamsResource"/> to a <see cref="CommandEnableUserParamsDto"/>.
+    ///     Implicitly converts a <see cref="CommandEnableUserParamsResource" /> to a <see cref="CommandEnableUserParamsDto" />
+    ///     .
     /// </summary>
     public static implicit operator CommandEnableUserParamsDto(CommandEnableUserParamsResource resource)
     {
@@ -106,7 +113,8 @@ public sealed partial record CommandEnableUserParamsResource
     }
 
     /// <summary>
-    ///     Converts the specified <see cref="CommandEnableUserParamsResource"/> to a <see cref="CommandEnableUserParamsDto"/>.
+    ///     Converts the specified <see cref="CommandEnableUserParamsResource" /> to a
+    ///     <see cref="CommandEnableUserParamsDto" />.
     /// </summary>
     public static CommandEnableUserParamsDto ToCommandEnableUserParamsDto(
         CommandEnableUserParamsResource resource)
@@ -118,7 +126,8 @@ public sealed partial record CommandEnableUserParamsResource
 public sealed partial record CommandDeleteUserParamsResource
 {
     /// <summary>
-    ///     Implicitly converts a <see cref="CommandDeleteUserParamsResource"/> to a <see cref="CommandDeleteUserParamsDto"/>.
+    ///     Implicitly converts a <see cref="CommandDeleteUserParamsResource" /> to a <see cref="CommandDeleteUserParamsDto" />
+    ///     .
     /// </summary>
     public static implicit operator CommandDeleteUserParamsDto(CommandDeleteUserParamsResource resource)
     {
@@ -131,7 +140,8 @@ public sealed partial record CommandDeleteUserParamsResource
     }
 
     /// <summary>
-    ///     Converts the specified <see cref="CommandDeleteUserParamsResource"/> to a <see cref="CommandDeleteUserParamsDto"/>.
+    ///     Converts the specified <see cref="CommandDeleteUserParamsResource" /> to a
+    ///     <see cref="CommandDeleteUserParamsDto" />.
     /// </summary>
     public static CommandDeleteUserParamsDto ToCommandDeleteUserParamsDto(
         CommandDeleteUserParamsResource resource)
@@ -143,7 +153,8 @@ public sealed partial record CommandDeleteUserParamsResource
 public sealed partial record CommandResetUserPasswordParamsResource
 {
     /// <summary>
-    ///     Implicitly converts a <see cref="CommandResetUserPasswordParamsResource"/> to a <see cref="CommandResetUserPasswordParamsDto"/>.
+    ///     Implicitly converts a <see cref="CommandResetUserPasswordParamsResource" /> to a
+    ///     <see cref="CommandResetUserPasswordParamsDto" />.
     /// </summary>
     public static implicit operator CommandResetUserPasswordParamsDto(CommandResetUserPasswordParamsResource resource)
     {
@@ -158,7 +169,8 @@ public sealed partial record CommandResetUserPasswordParamsResource
     }
 
     /// <summary>
-    ///     Converts the specified <see cref="CommandResetUserPasswordParamsResource"/> to a <see cref="CommandResetUserPasswordParamsDto"/>.
+    ///     Converts the specified <see cref="CommandResetUserPasswordParamsResource" /> to a
+    ///     <see cref="CommandResetUserPasswordParamsDto" />.
     /// </summary>
     public static CommandResetUserPasswordParamsDto ToCommandResetUserPasswordParamsDto(
         CommandResetUserPasswordParamsResource resource)

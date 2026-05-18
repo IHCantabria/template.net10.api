@@ -17,6 +17,7 @@ using Serilog.Sinks.OpenTelemetry;
 using template.net10.api.Business;
 using template.net10.api.Core.Logger.Enrichers;
 using template.net10.api.Core.OpenTelemetry.Options;
+using template.net10.api.Logger.Business;
 using template.net10.api.Settings.Options;
 using Path = System.IO.Path;
 
@@ -29,29 +30,11 @@ namespace template.net10.api.Core.Logger.Extensions;
 internal static class LoggerConfigurationExtensions
 {
     /// <summary>
-    ///     Checks whether the OpenTelemetry log endpoint is reachable by sending a minimal HTTP request.
+    ///     A shared <see cref="HttpClient" /> instance used for checking OpenTelemetry endpoint availability, configured with
+    ///     a short timeout to avoid blocking application startup. This client is static and reused across checks to optimize
+    ///     resource usage and connection pooling.
     /// </summary>
-    /// <param name="config">The OpenTelemetry options containing the log endpoint configuration.</param>
-    /// <returns>A <see cref="LanguageExt.Try{T}" /> indicating whether the endpoint responded successfully.</returns>
-    private static Try<bool> IsLogOpenTelemetryAvailable(OpenTelemetryOptions config)
-    {
-        return () =>
-        {
-            using var client = new HttpClient();
-            using var request = new HttpRequestMessage(HttpMethod.Post, config.LogEndpointUrl);
-
-            if (config.UseLogHeaderApiKey() && config.LogEndpointApiKeyHeader != null)
-                request.Headers.Add(config.LogEndpointApiKeyHeader, config.LogEndpointApiKeyValue);
-
-            // Send a minimal valid OpenTelemetry log entry
-            request.Content = new ByteArrayContent([]);
-            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-protobuf");
-
-            // Check if client responds
-            using var response = client.Send(request, HttpCompletionOption.ResponseHeadersRead);
-            return response.IsSuccessStatusCode;
-        };
-    }
+    private static readonly HttpClient Client = new();
 
     extension(LoggerConfiguration lc)
     {
@@ -106,7 +89,8 @@ internal static class LoggerConfigurationExtensions
                 .MinimumLevel.Override("Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager",
                     LogEventLevel.Error)
                 .MinimumLevel.Override("Microsoft.AspNetCore.DataProtection.Repositories.EphemeralXmlRepository",
-                    LogEventLevel.Error);
+                    LogEventLevel.Error)
+                .ConfigureBusinessMinLevels();
         }
 
         /// <summary>
@@ -116,7 +100,10 @@ internal static class LoggerConfigurationExtensions
         /// <param name="envName">The current environment name.</param>
         /// <param name="version">The application version.</param>
         /// <returns>The <see cref="LoggerConfiguration" /> with sinks configured.</returns>
-        /// <exception cref="InvalidConfigurationException">Thrown when the OpenTelemetry log endpoint is unreachable or the OpenTelemetry/API configuration section in the appsettings file is missing or invalid.</exception>
+        /// <exception cref="InvalidConfigurationException">
+        ///     Thrown when the OpenTelemetry log endpoint is unreachable or the
+        ///     OpenTelemetry/API configuration section in the appsettings file is missing or invalid.
+        /// </exception>
         internal LoggerConfiguration ConfigureSinks(ConfigurationManager builderConfiguration, string envName,
             string version)
         {
@@ -127,7 +114,7 @@ internal static class LoggerConfigurationExtensions
                 return lc.ConfigureSinkLocal();
 
             OptionsValidator.ValidateOpenTelemetryOptions(openTelemetryOptions);
-            var useOpenTelemetry = IsLogOpenTelemetryAvailable(openTelemetryOptions).Try();
+            var useOpenTelemetry = LoggerConfiguration.IsLogOpenTelemetryAvailable(openTelemetryOptions).Try();
             if (useOpenTelemetry.IsFaulted)
                 throw new InvalidConfigurationException(
                     "The OpenTelemetry Log configuration in the appsettings file is incorrect or the endpoint for the logs is down. There was a problem trying to connecte to the OpenTelemetry log endpoint");
@@ -146,6 +133,50 @@ internal static class LoggerConfigurationExtensions
                 Version = version
             };
             return lc.ConfigureSinkTelemetry(config);
+        }
+
+        /// <summary>
+        ///     Configures a local file sink that writes logs in compact JSON format with daily rolling.
+        /// </summary>
+        /// <returns>The <see cref="LoggerConfiguration" /> with a local file sink configured.</returns>
+        [SuppressMessage(
+            "ReSharper",
+            "ExceptionNotDocumentedOptional",
+            Justification =
+                "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]
+        internal LoggerConfiguration ConfigureSinkLocal()
+        {
+            var logPath = Path.Combine(AppContext.BaseDirectory, "logs", "log.txt");
+            return lc.WriteTo.Async(c => c.File(
+                new CompactJsonFormatter(),
+                logPath,
+                buffered: true,
+                rollingInterval: RollingInterval.Day,
+                rollOnFileSizeLimit: true));
+        }
+
+        /// <summary>
+        ///     Checks whether the OpenTelemetry log endpoint is reachable by sending a minimal HTTP request.
+        /// </summary>
+        /// <param name="config">The OpenTelemetry options containing the log endpoint configuration.</param>
+        /// <returns>A <see cref="LanguageExt.Try{T}" /> indicating whether the endpoint responded successfully.</returns>
+        private static Try<bool> IsLogOpenTelemetryAvailable(OpenTelemetryOptions config)
+        {
+            return () =>
+            {
+                using var request = new HttpRequestMessage(HttpMethod.Post, config.LogEndpointUrl);
+
+                if (config.UseLogHeaderApiKey() && config.LogEndpointApiKeyHeader != null)
+                    request.Headers.Add(config.LogEndpointApiKeyHeader, config.LogEndpointApiKeyValue);
+
+                // Send a minimal valid OpenTelemetry log entry
+                request.Content = new ByteArrayContent([]);
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-protobuf");
+
+                // Check if client responds
+                using var response = Client.Send(request, HttpCompletionOption.ResponseHeadersRead);
+                return response.IsSuccessStatusCode;
+            };
         }
 
         /// <summary>
@@ -191,26 +222,6 @@ internal static class LoggerConfigurationExtensions
                 };
                 x.FormatProvider = CultureInfo.InvariantCulture;
             }));
-        }
-
-        /// <summary>
-        ///     Configures a local file sink that writes logs in compact JSON format with daily rolling.
-        /// </summary>
-        /// <returns>The <see cref="LoggerConfiguration" /> with a local file sink configured.</returns>
-        [SuppressMessage(
-            "ReSharper",
-            "ExceptionNotDocumentedOptional",
-            Justification =
-                "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]
-        internal LoggerConfiguration ConfigureSinkLocal()
-        {
-            var logPath = Path.Combine(AppContext.BaseDirectory, "logs", "log.txt");
-            return lc.WriteTo.Async(c => c.File(
-                new CompactJsonFormatter(),
-                logPath,
-                buffered: true,
-                rollingInterval: RollingInterval.Day,
-                rollOnFileSizeLimit: true));
         }
     }
 }

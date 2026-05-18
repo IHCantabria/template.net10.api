@@ -15,17 +15,18 @@ internal sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavi
     : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
     /// <summary>
-    ///     Property name constant for <see cref="LanguageExt.Common.Result{T}.IsBottom"/>.
+    ///     Property name constant for <see cref="LanguageExt.Common.Result{T}.IsBottom" />.
     /// </summary>
     private const string IsBottom = nameof(LanguageExt.Common.Result<>.IsBottom);
 
     /// <summary>
-    ///     Property name constant for <see cref="LanguageExt.Common.Result{T}.IsSuccess"/>.
+    ///     Property name constant for <see cref="LanguageExt.Common.Result{T}.IsSuccess" />.
     /// </summary>
     private const string IsSuccess = nameof(LanguageExt.Common.Result<>.IsSuccess);
 
     /// <summary>
-    ///     Property name constant for <see cref="LanguageExt.Common.Result{T}.IsFaulted"/>, used to detect faulted results via reflection.
+    ///     Property name constant for <see cref="LanguageExt.Common.Result{T}.IsFaulted" />, used to detect faulted results
+    ///     via reflection.
     /// </summary>
     private const string IsFaulted = nameof(LanguageExt.Common.Result<>.IsFaulted);
 
@@ -35,7 +36,7 @@ internal sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavi
     private const string Exception = "exception";
 
     /// <summary>
-    ///     Logger instance scoped to <see cref="LoggingBehavior{TRequest, TResponse}"/>.
+    ///     Logger instance scoped to <see cref="LoggingBehavior{TRequest, TResponse}" />.
     /// </summary>
     private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger =
         logger ?? throw new ArgumentNullException(nameof(logger));
@@ -54,7 +55,8 @@ internal sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavi
     }
 
     /// <summary>
-    ///     Executes the core logging pipeline: logs the request start, invokes the next handler, and logs the result with elapsed time.
+    ///     Executes the core logging pipeline: logs the request start, invokes the next handler, and logs the result with
+    ///     elapsed time.
     /// </summary>
     /// <param name="next">The delegate for the next handler in the pipeline.</param>
     /// <returns>The response produced by the next handler.</returns>
@@ -81,7 +83,8 @@ internal sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavi
     }
 
     /// <summary>
-    ///     Inspects the response and dispatches to the appropriate log method based on whether the result is null, a <c>Result</c> type, or a plain value.
+    ///     Inspects the response and dispatches to the appropriate log method based on whether the result is null, a
+    ///     <c>Result</c> type, or a plain value.
     /// </summary>
     /// <param name="result">The response to inspect.</param>
     /// <param name="delta">The elapsed time for the request.</param>
@@ -163,10 +166,11 @@ internal sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavi
     }
 
     /// <summary>
-    ///     Determines whether the specified type is a LanguageExt <c>Result</c> type by checking for the presence of <c>IsFaulted</c>, <c>IsSuccess</c>, and <c>IsBottom</c> properties.
+    ///     Determines whether the specified type is a LanguageExt <c>Result</c> type by checking for the presence of
+    ///     <c>IsFaulted</c>, <c>IsSuccess</c>, and <c>IsBottom</c> properties.
     /// </summary>
     /// <param name="type">The type to evaluate.</param>
-    /// <returns><see langword="true"/> if the type is a <c>Result</c> type; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the type is a <c>Result</c> type; otherwise, <see langword="false" />.</returns>
     private static bool IsResultType(Type type)
     {
         return type.GetProperty(IsFaulted) != null

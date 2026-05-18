@@ -37,7 +37,8 @@ public sealed record QueryLoginUser(QueryLoginUserParamsDto QueryParams)
     : IRequest<LanguageExt.Common.Result<IdTokenDto>>, IEqualityOperators<QueryLoginUser, QueryLoginUser, bool>;
 
 /// <summary>
-///     Handles the <see cref="QueryLoginUser"/> request by authenticating the user and generating an identity token (JWT).
+///     Handles the <see cref="QueryLoginUser" /> request by authenticating the user and generating an identity token
+///     (JWT).
 /// </summary>
 internal sealed class QueryLoginUserHandler(
     IGenericDbRepositoryReadContext<AppDbContext, User> repository,
@@ -56,7 +57,7 @@ internal sealed class QueryLoginUserHandler(
     private readonly JwtOptions _jwtConfig = jwtConfig.Value ?? throw new ArgumentNullException(nameof(jwtConfig));
 
     /// <summary>
-    ///     Read-only repository for querying <see cref="User"/> entities.
+    ///     Read-only repository for querying <see cref="User" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));
@@ -95,6 +96,11 @@ internal sealed class QueryLoginUserHandler(
 internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser>
 {
     /// <summary>
+    ///     Constant key used for localization of internal server error validation data messages during validation failures.
+    /// </summary>
+    private const string InternalServerErrorValidationData = nameof(InternalServerErrorValidationData);
+
+    /// <summary>
     ///     Password configuration options including the pepper used for credential verification.
     /// </summary>
     private readonly PasswordOptions _config;
@@ -105,12 +111,13 @@ internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser
     private readonly IStringLocalizer<ResourceMain> _localizer;
 
     /// <summary>
-    ///     Read-only repository for querying <see cref="User"/> entities during validation.
+    ///     Read-only repository for querying <see cref="User" /> entities during validation.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, User> _repository;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="LoginUserEmailValidator"/> class with email, password, and active status validation rules.
+    ///     Initializes a new instance of the <see cref="LoginUserEmailValidator" /> class with email, password, and active
+    ///     status validation rules.
     /// </summary>
     /// <param name="repository">The read-only repository used to query user data during validation.</param>
     /// <param name="config">The password configuration options containing the pepper for credential verification.</param>
@@ -168,7 +175,7 @@ internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser
     ///     Validates that the user associated with the specified email is currently active (enabled).
     /// </summary>
     /// <param name="email">The email address of the user to check active status for.</param>
-    /// <returns><see langword="true"/> if the user is active; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the user is active; otherwise, <see langword="false" />.</returns>
     private bool ValidateUserActive(string email)
     {
         var verification = new UserEnabledVerification(email);
@@ -184,35 +191,40 @@ internal sealed class LoginUserEmailValidator : AbstractValidator<QueryLoginUser
     ///     Validates that a user account with the specified email exists in the system.
     /// </summary>
     /// <param name="email">The email address to verify existence for.</param>
-    /// <returns><see langword="true"/> if a user with the given email exists; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if a user with the given email exists; otherwise, <see langword="false" />.</returns>
     private bool ValidateEmail(string email)
     {
         var verification = new UserEmailVerification(email);
         var result = _repository.Verificate(verification).Try();
         if (result.IsFaulted)
-            throw new InternalServerErrorException(_localizer["InternalServerErrorValidationData"],
+            throw new InternalServerErrorException(_localizer[InternalServerErrorValidationData],
                 result.ExtractException());
 
         return result.ExtractData();
     }
 
+
     /// <summary>
-    ///     Validates the user's password by retrieving credentials from the database and verifying against the provided password.
+    ///     Validates the user's password by retrieving credentials from the database and verifying against the provided
+    ///     password.
     /// </summary>
     /// <param name="queryParams">The login query parameters containing the email and password to verify.</param>
-    /// <returns><see langword="true"/> if the provided password matches the stored credentials; otherwise, <see langword="false"/>.</returns>
+    /// <returns>
+    ///     <see langword="true" /> if the provided password matches the stored credentials; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
     private bool ValidatePassword(QueryLoginUserParamsDto queryParams)
     {
         var specification = new UserReadByEmailSpecification(queryParams.Email);
         var resultUser = _repository.GetFirst(specification, UserProjections.UserCredentialsProjection).Try();
         if (resultUser.IsFaulted)
-            throw new InternalServerErrorException(_localizer["InternalServerErrorValidationData"],
+            throw new InternalServerErrorException(_localizer[InternalServerErrorValidationData],
                 resultUser.ExtractException());
 
         var resultValidation = PasswordUtils
             .VerifyUserCredentials(resultUser.ExtractData(), queryParams.Password, _config.Pepper).Try();
         if (resultValidation.IsFaulted)
-            throw new InternalServerErrorException(_localizer["InternalServerErrorValidationData"],
+            throw new InternalServerErrorException(_localizer[InternalServerErrorValidationData],
                 resultValidation.ExtractException());
 
         return resultValidation.ExtractData();

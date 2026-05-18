@@ -15,7 +15,6 @@ namespace template.net10.api.Settings.ServiceInstallers;
 ///     including the OpenAPI document, JWT security scheme, custom operation/document filters,
 ///     XML comments, and server URL. Load order: 17.
 /// </summary>
-// ReSharper disable once ConditionalAnnotation
 [UsedImplicitly]
 internal sealed class SwaggerInstaller : IServiceInstaller
 {
@@ -36,8 +35,7 @@ internal sealed class SwaggerInstaller : IServiceInstaller
         var swaggerOptions = config.GetSection(SwaggerOptions.Swagger).Get<SwaggerOptions>();
         OptionsValidator.ValidateSwaggerOptions(swaggerOptions);
         if (swaggerOptions is null)
-            throw new InvalidConfigurationException(
-                "The Swagger configuration in the appsettings file is incorrect.");
+            return Task.CompletedTask;
         // Configure strongly typed options objects
         var swaggerSecurityOptions =
             config.GetSection(SwaggerSecurityOptions.SwaggerSecurity).Get<SwaggerSecurityOptions>();

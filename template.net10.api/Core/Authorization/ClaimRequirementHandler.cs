@@ -14,7 +14,7 @@ internal sealed class ClaimRequirementHandler : AuthorizationHandler<ClaimRequir
     /// </summary>
     /// <param name="context">The authorization handler context containing the user principal.</param>
     /// <param name="requirement">The claim requirements to evaluate against the principal.</param>
-    /// <returns>A completed <see cref="Task"/>.</returns>
+    /// <returns>A completed <see cref="Task" />.</returns>
     /// <exception cref="ArgumentNullException">
     ///     <paramref name="context" /> is <see langword="null" />.
     ///     -or-
@@ -34,7 +34,7 @@ internal sealed class ClaimRequirementHandler : AuthorizationHandler<ClaimRequir
     /// </summary>
     /// <param name="principal">The claims principal to evaluate.</param>
     /// <param name="requirements">The claim requirements to check.</param>
-    /// <returns><see langword="true"/> if the principal satisfies the requirements; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if the principal satisfies the requirements; otherwise, <see langword="false" />.</returns>
     private static bool HasRequiredClaims(ClaimsPrincipal principal, ClaimRequirements requirements)
     {
         return requirements.ClaimLogic switch
@@ -52,7 +52,7 @@ internal sealed class ClaimRequirementHandler : AuthorizationHandler<ClaimRequir
     /// </summary>
     /// <param name="claims">The collection of claims to search.</param>
     /// <param name="requirement">The individual claim requirement to match.</param>
-    /// <returns><see langword="true"/> if a matching claim is found; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true" /> if a matching claim is found; otherwise, <see langword="false" />.</returns>
     private static bool HasRequiredClaim(IEnumerable<Claim> claims, ClaimRequirement requirement)
     {
         return claims.Any(c =>

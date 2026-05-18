@@ -2,7 +2,7 @@
 
 /// <summary>
 ///     Marker interface for options classes that represent connection configurations.
-///     Provides the canonical configuration section key <see cref="Connections"/>.
+///     Provides the canonical configuration section key <see cref="Connections" />.
 /// </summary>
 internal interface IConnectionsOptions
 {

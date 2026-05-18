@@ -1,7 +1,7 @@
 # Copilot Instructions - Universal Software Engineering Template
 
 - This document defines universal engineering rules and best practices.
-- If a file named `project-instructions.md` exists in the same folder as this file, follow it in addition to this file for project-specific rules, architecture, constraints, bussiness logic and domain context.  
+- If a file named `project-instructions.md` exists in the same folder as this file, follow it in addition to this file for project-specific rules, architecture, constraints, business logic, and domain context.  
 - If conflicts exist, project-specific instructions always take precedence.
 
 ---

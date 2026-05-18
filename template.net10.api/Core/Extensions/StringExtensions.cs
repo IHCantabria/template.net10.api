@@ -45,29 +45,29 @@ internal static partial class StringExtensions
         return trimmedInput.IsEmpty ? string.Empty : UnwantedCharsRegex().Replace(trimmedInput.ToString(), "");
     }
 
-    /// <summary>
-    ///     Removes diacritical marks (accents) from the specified text by decomposing and recomposing Unicode characters.
-    /// </summary>
-    /// <param name="text">The text from which to remove diacritics.</param>
-    /// <returns>The text with all diacritical marks removed.</returns>
-    /// <exception cref="ArgumentException">The current instance contains invalid Unicode characters.</exception>
-    [SuppressMessage(
-        "ReSharper",
-        "ExceptionNotDocumentedOptional",
-        Justification =
-            "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]
-    internal static string RemoveDiacritics(string text)
-    {
-        if (string.IsNullOrWhiteSpace(text)) return text;
-
-        return string.Concat(
-            text.Normalize(NormalizationForm.FormD)
-                .Where(static c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-        ).Normalize(NormalizationForm.FormC);
-    }
-
     extension(string input)
     {
+        /// <summary>
+        ///     Removes diacritical marks (accents) from the specified text by decomposing and recomposing Unicode characters.
+        /// </summary>
+        /// <param name="text">The text from which to remove diacritics.</param>
+        /// <returns>The text with all diacritical marks removed.</returns>
+        /// <exception cref="ArgumentException">The current instance contains invalid Unicode characters.</exception>
+        [SuppressMessage(
+            "ReSharper",
+            "ExceptionNotDocumentedOptional",
+            Justification =
+                "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]
+        internal static string RemoveDiacritics(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return text;
+
+            return string.Concat(
+                text.Normalize(NormalizationForm.FormD)
+                    .Where(static c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+            ).Normalize(NormalizationForm.FormC);
+        }
+
         /// <summary>
         ///     Cleans the string by removing unwanted characters and optionally removing additional specified characters.
         /// </summary>

@@ -3,20 +3,20 @@
 # and checks the Quality Gate status after the scan.
 
 #usage:
-#   .\sonarqube-windows.ps1 -SonarScannerVersion "11.1.0" -ProjectKey "my_project_key" -SonarHostUrl "http://mysonarqube.server:9000" -SonarToken "my_sonar_token" -ProjectDir "path\to\my\project" -SolutionFile "MySolution.sln" -SkipConnectivityTest -SkipQualityGateCheck
+#   .\sonarqube-windows.ps1 -SonarScannerVersion "11.2.0" -ProjectKey "my_project_key" -SonarHostUrl "http://mysonarqube.server:9000" -SonarToken "my_sonar_token" -ProjectDir "path\to\my\project" -SolutionFile "MySolution.slnx" -SkipConnectivityTest -SkipQualityGateCheck
 #
 # Parameters:
-#   -SonarScannerVersion  : SonarScanner for .NET version (default: "11.1.0")
+#   -SonarScannerVersion  : SonarScanner for .NET version (default: "11.2.0")
 #   -ProjectKey           : SonarQube project key (default: "PROJECT_KEY")
 #   -SonarHostUrl         : SonarQube server URL (default: "https://ihsonarqube.ihcantabria.com")
 #   -SonarToken           : SonarQube authentication token (default: "SONAR_TOKEN_KEY")
 #   -ProjectDir           : Project directory to scan (default: ".")
-#   -SolutionFile         : Solution file to build (default: auto-detect *.sln)
+#   -SolutionFile         : Solution file to build (default: auto-detect *.slnx)
 #   -SkipConnectivityTest : Skip server connectivity test (switch)
 #   -SkipQualityGateCheck : Skip Quality Gate verification (switch)
 
 param(
-    [string]$SonarScannerVersion = "11.1.0",
+    [string]$SonarScannerVersion = "11.2.0",
     [string]$ProjectKey = "PROJECT_KEY",
     [string]$SonarHostUrl = "https://ihsonarqube.ihcantabria.com",
     [string]$SonarToken = "SONAR_TOKEN_KEY",
@@ -161,10 +161,10 @@ function Find-SolutionFile {
         }
     }
     
-    $solutionFiles = Get-ChildItem -Path $directory -Filter "*.sln" -File
+    $solutionFiles = Get-ChildItem -Path $directory -Filter "*.slnx" -File
     
     if ($solutionFiles.Count -eq 0) {
-        Write-Error "No solution file (*.sln) found in directory: $directory"
+        Write-Error "No solution file (*.slnx) found in directory: $directory"
         exit 1
     } elseif ($solutionFiles.Count -eq 1) {
         Write-Host "Found solution file: $($solutionFiles[0].Name)"

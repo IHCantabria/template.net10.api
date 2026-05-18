@@ -16,7 +16,7 @@ namespace template.net10.api.Core.Interfaces;
 internal interface IProjection<TEntity, TDto> where TEntity : class, IEntity where TDto : class, IDto
 {
     /// <summary>
-    ///     Gets the projection expression that maps <typeparamref name="TEntity"/> to <typeparamref name="TDto"/>.
+    ///     Gets the projection expression that maps <typeparamref name="TEntity" /> to <typeparamref name="TDto" />.
     /// </summary>
     Expression<Func<TEntity, TDto>> Expression { get; }
 }

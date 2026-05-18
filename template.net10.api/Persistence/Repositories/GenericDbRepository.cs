@@ -21,7 +21,7 @@ internal sealed class GenericDbRepositoryWriteContext<TDbContext, TEntity>(
     where TDbContext : DbContext where TEntity : class, IEntity
 {
     /// <summary>
-    ///     The tracked <see cref="DbSet{TEntity}"/> for <typeparamref name="TEntity"/> obtained from the write context.
+    ///     The tracked <see cref="DbSet{TEntity}" /> for <typeparamref name="TEntity" /> obtained from the write context.
     /// </summary>
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
@@ -158,13 +158,16 @@ internal sealed class GenericDbRepositoryWriteContext<TDbContext, TEntity>(
 
     /// <inheritdoc cref="IGenericDbRepositoryWriteContext{TDbContext,TEntity}.DeleteAsync" />
     /// <exception cref="OperationCanceledException">If the <see cref="CancellationToken" /> is canceled.</exception>
-    public async Task<LanguageExt.Common.Result<TEntity>> DeleteAsync<TKey>(TKey? entityKey,
+    /// <exception cref="ArgumentNullException"><paramref name="entityKey" /> is <see langword="null" />.</exception>
+    public async Task<LanguageExt.Common.Result<TEntity>> DeleteAsync<TKey>(TKey entityKey,
         CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(entityKey);
+
         var entity = await _dbSet.FindItemAsync(entityKey, cancellationToken).ConfigureAwait(false);
         if (entity is null)
             return new LanguageExt.Common.Result<TEntity>(
-                new CoreException($"Entity with key:({entityKey}) not found"));
+                new EntityNotFoundException($"Entity with key:({entityKey}) not found"));
 
         return Delete(entity).Try();
     }
@@ -292,12 +295,12 @@ internal sealed class GenericDbRepositoryWriteContext<TDbContext, TEntity>(
     }
 
     /// <summary>
-    ///     Builds an <see cref="IQueryable{T}"/> that executes a stored procedure on <typeparamref name="TEntity"/>.
-    ///     Called on the write context's tracked <see cref="DbSet{TEntity}"/>.
+    ///     Builds an <see cref="IQueryable{T}" /> that executes a stored procedure on <typeparamref name="TEntity" />.
+    ///     Called on the write context's tracked <see cref="DbSet{TEntity}" />.
     /// </summary>
     /// <param name="procedureName">The name of the stored procedure to execute.</param>
     /// <param name="parameters">Parameters passed to the stored procedure.</param>
-    /// <returns>An <see cref="IQueryable{T}"/> over the procedure result set.</returns>
+    /// <returns>An <see cref="IQueryable{T}" /> over the procedure result set.</returns>
     private IQueryable<TEntity> PrepareProcedureQueryable(string procedureName, params object[] parameters)
     {
         return Context.Set<TEntity>().FromSql($"{procedureName} {parameters}");
@@ -313,7 +316,7 @@ internal sealed class GenericDbRepositoryReadContext<TDbContext, TEntity>(
     where TDbContext : DbContext where TEntity : class, IEntity
 {
     /// <summary>
-    ///     The factory used to create short-lived, read-only <typeparamref name="TDbContext"/> instances
+    ///     The factory used to create short-lived, read-only <typeparamref name="TDbContext" /> instances
     ///     for stateless read operations.
     /// </summary>
     private readonly IDbContextFactory<TDbContext> _dbContextFactory =
@@ -538,10 +541,10 @@ internal sealed class GenericDbRepositoryReadContext<TDbContext, TEntity>(
     }
 
     /// <summary>
-    ///     Creates and returns a short-lived <typeparamref name="TDbContext"/> instance from the factory.
+    ///     Creates and returns a short-lived <typeparamref name="TDbContext" /> instance from the factory.
     ///     The caller is responsible for disposing it.
     /// </summary>
-    /// <returns>A new <typeparamref name="TDbContext"/> instance.</returns>
+    /// <returns>A new <typeparamref name="TDbContext" /> instance.</returns>
     [MustDisposeResource]
     private TDbContext CreateDbContext()
     {
@@ -549,12 +552,12 @@ internal sealed class GenericDbRepositoryReadContext<TDbContext, TEntity>(
     }
 
     /// <summary>
-    ///     Builds an <see cref="IQueryable{T}"/> that executes a stored procedure on a freshly created context.
+    ///     Builds an <see cref="IQueryable{T}" /> that executes a stored procedure on a freshly created context.
     ///     Used by the read-only (stateless) context path.
     /// </summary>
     /// <param name="procedureName">The name of the stored procedure to execute.</param>
     /// <param name="parameters">Parameters passed to the stored procedure.</param>
-    /// <returns>An <see cref="IQueryable{T}"/> over the procedure result set.</returns>
+    /// <returns>An <see cref="IQueryable{T}" /> over the procedure result set.</returns>
     private IQueryable<TEntity> PrepareProcedureQueryable(string procedureName, params object[] parameters)
     {
         using var context = CreateDbContext();

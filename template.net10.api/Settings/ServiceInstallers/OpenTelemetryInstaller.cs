@@ -54,8 +54,7 @@ internal sealed class OpenTelemetryInstaller : IServiceInstaller
         var version = builder.Configuration.Get<ProjectOptions>()?.Version ?? "";
 
         if (apiOptions is null)
-            throw new InvalidConfigurationException(
-                "The Api configuration in the appsettings file is incorrect.");
+            return Task.CompletedTask;
 
         builder.Services.AddOpenTelemetry()
             .ConfigureResource(resource => resource

@@ -29,7 +29,7 @@ internal static class Cloner
     /// </summary>
     /// <typeparam name="T">The type of the object to clone.</typeparam>
     /// <param name="obj">The object to deep clone.</param>
-    /// <returns>A <see cref="LanguageExt.Try{T}"/> containing the cloned object or an exception.</returns>
+    /// <returns>A <see cref="LanguageExt.Try{T}" /> containing the cloned object or an exception.</returns>
     /// <exception cref="ResultSuccessInvalidOperationException">
     ///     Result is not a success! Use ExtractException method instead
     ///     and Check the state of Result with IsSuccess or IsFaulted before use this method or ExtractException method
@@ -54,7 +54,7 @@ internal static class Cloner
     /// </summary>
     /// <typeparam name="T">The type of the object to serialize.</typeparam>
     /// <param name="obj">The object to serialize.</param>
-    /// <returns>A <see cref="LanguageExt.Try{T}"/> containing the JSON string or an exception.</returns>
+    /// <returns>A <see cref="LanguageExt.Try{T}" /> containing the JSON string or an exception.</returns>
     private static Try<string> Serialize<T>(T obj)
     {
         return () => JsonSerializer.Serialize(obj, Options);
@@ -65,7 +65,7 @@ internal static class Cloner
     /// </summary>
     /// <typeparam name="T">The type to deserialize the JSON string into.</typeparam>
     /// <param name="stringObj">The JSON string to deserialize.</param>
-    /// <returns>A <see cref="LanguageExt.Try{T}"/> containing the deserialized object or an exception.</returns>
+    /// <returns>A <see cref="LanguageExt.Try{T}" /> containing the deserialized object or an exception.</returns>
     private static Try<T> Deserialize<T>(string stringObj)
     {
         return () =>
@@ -74,7 +74,7 @@ internal static class Cloner
             return obj is not null
                 ? obj
                 : new LanguageExt.Common.Result<T>(
-                    new CoreException("The response received from the Deserializer is empty"));
+                    new JsonSerializerException("The response received from the Deserializer is empty"));
         };
     }
 }

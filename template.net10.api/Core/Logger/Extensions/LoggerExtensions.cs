@@ -12,36 +12,6 @@ namespace template.net10.api.Core.Logger.Extensions;
 /// </summary>
 internal static class LoggerExtensions
 {
-    /// <summary>
-    ///     Determines whether the specified sink is or wraps a <see cref="MemorySink" /> by inspecting internal fields via
-    ///     reflection.
-    /// </summary>
-    /// <param name="sink">The log event sink to inspect.</param>
-    /// <returns>
-    ///     <see langword="true" /> if the sink is or wraps a <see cref="MemorySink" />; otherwise,
-    ///     <see langword="false" />.
-    /// </returns>
-    [SuppressMessage("Security",
-        "S3011:Reflection should not be used to increase accessibility of classes, methods, or fields",
-        Justification =
-            "Reflection is required to access internal Serilog state because no public API is available to determine whether sinks are configured.")]
-    private static bool IsOrWrapsMemorySink(ILogEventSink sink)
-    {
-        switch (sink)
-        {
-            case null:
-                return false;
-            case MemorySink:
-                return true;
-        }
-
-        var wrappedSinkField = sink.GetType().GetField("_wrappedSink", BindingFlags.NonPublic | BindingFlags.Instance);
-        if (wrappedSinkField == null) return false;
-
-        return wrappedSinkField.GetValue(sink) is ILogEventSink inner
-               && IsOrWrapsMemorySink(inner);
-    }
-
     extension(ILogger? logger)
     {
         /// <summary>
@@ -92,7 +62,38 @@ internal static class LoggerExtensions
             if (sinksField == null) return false;
 
             var sinks = sinksField.GetValue(pipeline) as IEnumerable;
-            return sinks?.Cast<ILogEventSink>().Any(static s => !IsOrWrapsMemorySink(s)) == true;
+            return sinks?.Cast<ILogEventSink>().Any(static s => !ILogger.IsOrWrapsMemorySink(s)) == true;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified sink is or wraps a <see cref="MemorySink" /> by inspecting internal fields via
+        ///     reflection.
+        /// </summary>
+        /// <param name="sink">The log event sink to inspect.</param>
+        /// <returns>
+        ///     <see langword="true" /> if the sink is or wraps a <see cref="MemorySink" />; otherwise,
+        ///     <see langword="false" />.
+        /// </returns>
+        [SuppressMessage("Security",
+            "S3011:Reflection should not be used to increase accessibility of classes, methods, or fields",
+            Justification =
+                "Reflection is required to access internal Serilog state because no public API is available to determine whether sinks are configured.")]
+        private static bool IsOrWrapsMemorySink(ILogEventSink sink)
+        {
+            switch (sink)
+            {
+                case null:
+                    return false;
+                case MemorySink:
+                    return true;
+            }
+
+            var wrappedSinkField =
+                sink.GetType().GetField("_wrappedSink", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (wrappedSinkField == null) return false;
+
+            return wrappedSinkField.GetValue(sink) is ILogEventSink inner
+                   && ILogger.IsOrWrapsMemorySink(inner);
         }
     }
 }

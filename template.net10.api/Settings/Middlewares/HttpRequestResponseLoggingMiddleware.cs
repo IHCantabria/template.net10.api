@@ -28,7 +28,7 @@ internal sealed class HttpRequestResponseLoggingMiddleware(
     ///     On error status codes the response body is also captured and logged.
     /// </summary>
     /// <param name="context">The current HTTP context.</param>
-    /// <returns>A <see cref="Task"/> that completes when the pipeline finishes.</returns>
+    /// <returns>A <see cref="Task" /> that completes when the pipeline finishes.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="context" /> is <see langword="null" />.</exception>
     /// <exception cref="Exception">A delegate callback throws an exception.</exception>
     [SuppressMessage("ReSharper", "CA2007",

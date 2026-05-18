@@ -28,14 +28,14 @@ public sealed record QueryGetVersion : IRequest<LanguageExt.Common.Result<Versio
     IEqualityOperators<QueryGetVersion, QueryGetVersion, bool>;
 
 /// <summary>
-///     Handles the <see cref="QueryGetVersion"/> request by retrieving the current database version.
+///     Handles the <see cref="QueryGetVersion" /> request by retrieving the current database version.
 /// </summary>
 internal sealed class QueryGetVersionHandler(
     IGenericDbRepositoryReadContext<AppDbContext, CurrentVersion> repository)
     : IRequestHandler<QueryGetVersion, LanguageExt.Common.Result<VersionDto>>
 {
     /// <summary>
-    ///     Read-only repository for querying <see cref="CurrentVersion"/> entities.
+    ///     Read-only repository for querying <see cref="CurrentVersion" /> entities.
     /// </summary>
     private readonly IGenericDbRepositoryReadContext<AppDbContext, CurrentVersion> _repository =
         repository ?? throw new ArgumentNullException(nameof(repository));

@@ -11,7 +11,8 @@ namespace template.net10.api.Domain.Specifications;
 internal sealed class CurrentVersionReadSpecification : SpecificationBase<CurrentVersion>
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CurrentVersionReadSpecification"/> class with descending version order and no-tracking behavior.
+    ///     Initializes a new instance of the <see cref="CurrentVersionReadSpecification" /> class with descending version
+    ///     order and no-tracking behavior.
     /// </summary>
     internal CurrentVersionReadSpecification()
     {

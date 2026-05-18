@@ -92,7 +92,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsValidationTitle"],
             Detail = localizer["ProblemDetailsBadRequestValidationJsonMalformedDetail"],
-            Type = "https://tools.ietf.org/html/rfc9110#name-400-bad-request",
+            Type = RfcReferenceConstants.BadRequest,
             Status = StatusCodes.Status400BadRequest
         };
         problemDetails.Extensions.TryAdd("errors", errors);
@@ -120,7 +120,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsValidationTitle"],
             Detail = localizer["ProblemDetailsBadRequestValidationJsonInvalidDetail"],
-            Type = "https://tools.ietf.org/html/rfc9110#name-400-bad-request",
+            Type = RfcReferenceConstants.BadRequest,
             Status = StatusCodes.Status400BadRequest
         };
         problemDetails.Extensions.TryAdd("errors", errors);
@@ -146,7 +146,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsBadRequestTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-400-bad-request",
+            Type = RfcReferenceConstants.BadRequest,
             Status = StatusCodes.Status400BadRequest
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsBadRequestCode"].Value);
@@ -170,7 +170,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsBadRequestHttpNotSupportedTitle"],
             Detail = localizer["ProblemDetailsBadRequestHttpNotSupportedDetail"],
-            Type = "https://tools.ietf.org/html/rfc9110#name-400-bad-request",
+            Type = RfcReferenceConstants.BadRequest,
             Status = StatusCodes.Status500InternalServerError
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsBadRequestHttpNotSupportedCode"].Value);
@@ -195,7 +195,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsUnauthorizedTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-401-unauthorized",
+            Type = RfcReferenceConstants.Unauthorized,
             Status = StatusCodes.Status401Unauthorized
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsUnauthorizedCode"].Value);
@@ -220,7 +220,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsUnauthorizedMissingTokenTitle"],
             Detail = localizer["ProblemDetailsUnauthorizedMissingTokenDetail"],
-            Type = "https://tools.ietf.org/html/rfc9110#name-401-unauthorized",
+            Type = RfcReferenceConstants.Unauthorized,
             Status = StatusCodes.Status401Unauthorized
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsUnauthorizedMissingTokenCode"].Value);
@@ -245,7 +245,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsUnauthorizedProcessFailTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-401-unauthorized",
+            Type = RfcReferenceConstants.Unauthorized,
             Status = StatusCodes.Status401Unauthorized
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsUnauthorizedProcessFailCode"].Value);
@@ -268,7 +268,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsForbiddenAccessTitle"],
             Detail = localizer["ProblemDetailsForbiddenAccessDetail"],
-            Type = "https://tools.ietf.org/html/rfc9110#name-403-forbidden",
+            Type = RfcReferenceConstants.Forbidden,
             Status = StatusCodes.Status403Forbidden
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsForbiddenAccessCode"].Value);
@@ -293,7 +293,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsForbiddenTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-403-forbidden",
+            Type = RfcReferenceConstants.Forbidden,
             Status = StatusCodes.Status403Forbidden
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsForbiddenCode"].Value);
@@ -318,7 +318,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsNotFoundTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-404-not-found",
+            Type = RfcReferenceConstants.NotFound,
             Status = StatusCodes.Status404NotFound
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsNotFoundCode"].Value);
@@ -343,7 +343,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsMethodNotAllowedTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-405-method-not-allowed",
+            Type = RfcReferenceConstants.MethodNotAllowed,
             Status = StatusCodes.Status405MethodNotAllowed
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsMethodNotAllowedCode"].Value);
@@ -368,7 +368,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsRequestTimeoutTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-408-request-timeout",
+            Type = RfcReferenceConstants.RequestTimeout,
             Status = StatusCodes.Status408RequestTimeout
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsRequestTimeoutCode"].Value);
@@ -393,7 +393,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsConflictTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-409-conflict",
+            Type = RfcReferenceConstants.Conflict,
             Status = StatusCodes.Status409Conflict
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsConflictCode"].Value);
@@ -418,7 +418,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsGoneTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-410-gone",
+            Type = RfcReferenceConstants.Gone,
             Status = StatusCodes.Status410Gone
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsGoneCode"].Value);
@@ -438,7 +438,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsUnsupportedMediaTypeTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-415-unsupported-media-type",
+            Type = RfcReferenceConstants.UnsupportedMediaType,
             Status = StatusCodes.Status415UnsupportedMediaType
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsUnsupportedMediaTypeCode"].Value);
@@ -463,7 +463,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsUnprocessableEntityTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-422-unprocessable-content",
+            Type = RfcReferenceConstants.UnprocessableEntity,
             Status = StatusCodes.Status422UnprocessableEntity
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsUnprocessableEntityCode"].Value);
@@ -488,7 +488,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsTooManyRequestTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc6585#section-4",
+            Type = RfcReferenceConstants.TooManyRequests,
             Status = StatusCodes.Status429TooManyRequests
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsTooManyRequestCode"].Value);
@@ -513,7 +513,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsInternalServerErrorTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-500-internal-server-error",
+            Type = RfcReferenceConstants.InternalServerError,
             Status = StatusCodes.Status500InternalServerError
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsInternalServerErrorCode"].Value);
@@ -538,7 +538,7 @@ internal static class ProblemDetailsFactoryCore
         {
             Title = localizer["ProblemDetailsNotImplementedTitle"],
             Detail = exception.Message,
-            Type = "https://tools.ietf.org/html/rfc9110#name-501-not-implemented",
+            Type = RfcReferenceConstants.NotImplemented,
             Status = StatusCodes.Status501NotImplemented
         };
         problemDetails.Extensions.TryAdd("code", localizer["ProblemDetailsNotImplementedCode"].Value);

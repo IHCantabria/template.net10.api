@@ -3,7 +3,7 @@
 namespace template.net10.api.Hubs.Extensions;
 
 /// <summary>
-///     Provides extension methods for <see cref="WebApplication"/> to configure SignalR hub endpoint mappings.
+///     Provides extension methods for <see cref="WebApplication" /> to configure SignalR hub endpoint mappings.
 /// </summary>
 internal static class WebApplicationExtensions
 {

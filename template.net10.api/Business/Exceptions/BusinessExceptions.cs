@@ -15,14 +15,14 @@ namespace template.net10.api.Business.Exceptions;
 public abstract class BusinessException : CoreException
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BusinessException"/> class.
+    ///     Initializes a new instance of the <see cref="BusinessException" /> class.
     /// </summary>
     protected BusinessException()
     {
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BusinessException"/> class with a specified error message.
+    ///     Initializes a new instance of the <see cref="BusinessException" /> class with a specified error message.
     /// </summary>
     /// <param name="message">The error message that describes the exception.</param>
     protected BusinessException(string message) : base(message)
@@ -30,7 +30,8 @@ public abstract class BusinessException : CoreException
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BusinessException"/> class with a specified error message and a reference to the inner exception.
+    ///     Initializes a new instance of the <see cref="BusinessException" /> class with a specified error message and a
+    ///     reference to the inner exception.
     /// </summary>
     /// <param name="message">The error message that describes the exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception.</param>

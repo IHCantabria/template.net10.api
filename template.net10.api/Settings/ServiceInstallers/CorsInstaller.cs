@@ -38,12 +38,12 @@ internal sealed class CorsInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     Registers the CORS policy from <paramref name="apiOptions"/> with the configured origins,
-    ///     <see cref="AllowedMethods"/>, any header, exposed ETags, and credentials support.
-    ///     Does nothing if <paramref name="apiOptions"/> is <see langword="null"/>.
+    ///     Registers the CORS policy from <paramref name="apiOptions" /> with the configured origins,
+    ///     <see cref="AllowedMethods" />, any header, exposed ETags, and credentials support.
+    ///     Does nothing if <paramref name="apiOptions" /> is <see langword="null" />.
     /// </summary>
     /// <param name="builder">The web application builder to register the policy on.</param>
-    /// <param name="apiOptions">The resolved CORS options, or <see langword="null"/> if configuration is missing.</param>
+    /// <param name="apiOptions">The resolved CORS options, or <see langword="null" /> if configuration is missing.</param>
     private static void AddCors(WebApplicationBuilder builder, CorsOptions? apiOptions)
     {
         if (apiOptions is null) return;

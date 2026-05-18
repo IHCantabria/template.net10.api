@@ -102,15 +102,20 @@ internal static class RequestLogger
     }
 
     /// <summary>
-    ///     Reads form fields from the request if the content type is URL-encoded or multipart form data.
+    ///     Reads form fields from the request if the content type is URL-encoded.
+    ///     Multipart form-data requests are intentionally excluded to prevent parsing
+    ///     the entire request body (which may contain multi-GB file payloads) during logging.
     /// </summary>
     /// <param name="context">The current HTTP context.</param>
     /// <returns>A dictionary of form field key-value pairs, or <see langword="null" /> if the content type does not match.</returns>
     private static async Task<Dictionary<string, string>?> TryReadFormFieldsAsync(HttpContext context)
     {
         var contentType = context.Request.ContentType ?? string.Empty;
-        if (!contentType.Contains("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase) &&
-            !contentType.Contains("multipart/form-data", StringComparison.OrdinalIgnoreCase))
+
+        // Only read URL-encoded forms. Multipart requests are skipped because ReadFormAsync()
+        // forces the entire body (including multi-GB file streams) to be parsed and buffered,
+        // which would block the request pipeline and waste significant I/O and memory.
+        if (!contentType.Contains("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase))
             return null;
 
         context.Request.EnableBuffering();

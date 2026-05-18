@@ -3,7 +3,8 @@
 namespace template.net10.api.Core.Exceptions;
 
 /// <summary>
-///     Represents an invalid operation error thrown when attempting to access a success value from a faulted <see cref="LanguageExt.Common.Result{T}"/>.
+///     Represents an invalid operation error thrown when attempting to access a success value from a faulted
+///     <see cref="LanguageExt.Common.Result{T}" />.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -24,14 +25,15 @@ namespace template.net10.api.Core.Exceptions;
 public sealed class ResultFaultedInvalidOperationException : CoreException
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ResultFaultedInvalidOperationException"/> class.
+    ///     Initializes a new instance of the <see cref="ResultFaultedInvalidOperationException" /> class.
     /// </summary>
     public ResultFaultedInvalidOperationException()
     {
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ResultFaultedInvalidOperationException"/> class with a specified error message.
+    ///     Initializes a new instance of the <see cref="ResultFaultedInvalidOperationException" /> class with a specified
+    ///     error message.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     public ResultFaultedInvalidOperationException(string message) : base(message)
@@ -39,7 +41,8 @@ public sealed class ResultFaultedInvalidOperationException : CoreException
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ResultFaultedInvalidOperationException"/> class with a specified error message and inner exception.
+    ///     Initializes a new instance of the <see cref="ResultFaultedInvalidOperationException" /> class with a specified
+    ///     error message and inner exception.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception.</param>

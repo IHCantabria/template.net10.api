@@ -10,6 +10,11 @@ namespace template.net10.api.Core.Authorization.DTOs.Base;
 internal abstract record UserIdTokenBaseDto : IDto, IEqualityOperators<UserIdTokenBaseDto, UserIdTokenBaseDto, bool>
 {
     /// <summary>
+    ///     Gets the Id of the user.
+    /// </summary>
+    internal required short Id { get; init; }
+
+    /// <summary>
     ///     Gets the unique identifier of the user.
     /// </summary>
     internal required Guid Uuid { get; init; }
@@ -46,6 +51,11 @@ internal abstract record UserIdTokenBaseDto : IDto, IEqualityOperators<UserIdTok
 internal abstract record UserAccessTokenBaseDto : IDto,
     IEqualityOperators<UserAccessTokenBaseDto, UserAccessTokenBaseDto, bool>
 {
+    /// <summary>
+    ///     Gets the Id of the user.
+    /// </summary>
+    internal required short Id { get; init; }
+
     /// <summary>
     ///     Gets the unique identifier of the user.
     /// </summary>

@@ -3,13 +3,15 @@ using FluentValidation.Results;
 using JetBrains.Annotations;
 using MediatR;
 using Microsoft.Extensions.Localization;
+using template.net10.api.Core.Extensions;
 using template.net10.api.Core.Parallel;
 using template.net10.api.Localize.Resources;
 
 namespace template.net10.api.Behaviors;
 
 /// <summary>
-///     MediatR pipeline behavior that validates incoming requests using FluentValidation before forwarding them to the next handler.
+///     MediatR pipeline behavior that validates incoming requests using FluentValidation before forwarding them to the
+///     next handler.
 /// </summary>
 /// <typeparam name="TRequest">The type of the request to validate.</typeparam>
 /// <typeparam name="TResponse">The type of the response wrapped in a <c>Result</c>.</typeparam>
@@ -27,7 +29,7 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
         localizer ?? throw new ArgumentNullException(nameof(localizer));
 
     /// <summary>
-    ///     Collection of FluentValidation validators registered for <typeparamref name="TRequest"/>.
+    ///     Collection of FluentValidation validators registered for <typeparamref name="TRequest" />.
     /// </summary>
     private readonly IEnumerable<IValidator<TRequest>> _validators =
         validators ?? throw new ArgumentNullException(nameof(validators));
@@ -38,7 +40,7 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
     /// <param name="request">The incoming MediatR request.</param>
     /// <param name="next">The delegate for the next handler in the pipeline.</param>
     /// <param name="cancellationToken">A token to observe for cancellation.</param>
-    /// <returns>A <c>Result</c> containing either the successful response or a <see cref="ValidationException"/>.</returns>
+    /// <returns>A <c>Result</c> containing either the successful response or a <see cref="ValidationException" />.</returns>
     public Task<LanguageExt.Common.Result<TResponse>> Handle(TRequest request,
         RequestHandlerDelegate<LanguageExt.Common.Result<TResponse>> next,
         CancellationToken cancellationToken)
@@ -52,13 +54,17 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
     /// <param name="request">The request to validate.</param>
     /// <param name="next">The delegate for the next handler in the pipeline.</param>
     /// <param name="cancellationToken">A token to observe for cancellation.</param>
-    /// <returns>A <c>Result</c> containing either the response or a <see cref="ValidationException"/>.</returns>
+    /// <returns>A <c>Result</c> containing either the response or a <see cref="ValidationException" />.</returns>
     private async Task<LanguageExt.Common.Result<TResponse>> BehaviorLogicAsync(TRequest request,
         RequestHandlerDelegate<LanguageExt.Common.Result<TResponse>> next,
         CancellationToken cancellationToken = default)
     {
-        var failures = await ValidateRequestAsync(request, cancellationToken).ConfigureAwait(false);
-        return failures.Count > 0
+        var failuresResult = await ValidateRequestAsync(request, cancellationToken).ConfigureAwait(false);
+        if (failuresResult.IsFaulted)
+            return new LanguageExt.Common.Result<TResponse>(failuresResult.ExtractException());
+
+        var failures = failuresResult.ExtractData();
+        return failuresResult.ExtractData().Count > 0
             ? new LanguageExt.Common.Result<TResponse>(new ValidationException(failures))
             : await next(cancellationToken).ConfigureAwait(false);
     }
@@ -68,13 +74,17 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
     /// </summary>
     /// <param name="request">The request to validate.</param>
     /// <param name="cancellationToken">A token to observe for cancellation.</param>
-    /// <returns>A collection of <see cref="ValidationFailure"/> instances from all validators.</returns>
-    private async Task<ICollection<ValidationFailure>> ValidateRequestAsync(TRequest request,
+    /// <returns>A collection of <see cref="ValidationFailure" /> instances from all validators.</returns>
+    private async Task<LanguageExt.Common.Result<ICollection<ValidationFailure>>> ValidateRequestAsync(TRequest request,
         CancellationToken cancellationToken = default)
     {
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var results = await ValidateValidatorsAsync(request, cts).ConfigureAwait(false);
-        return [..AggregateValidationResults(results)];
+        return results.Match<LanguageExt.Common.Result<ICollection<ValidationFailure>>>(
+            static obj =>
+                new LanguageExt.Common.Result<ICollection<ValidationFailure>>([.. AggregateValidationResults(obj)]),
+            static ex => new LanguageExt.Common.Result<ICollection<ValidationFailure>
+            >(ex));
     }
 
     /// <summary>
@@ -82,9 +92,10 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
     /// </summary>
     /// <param name="request">The request to validate.</param>
     /// <param name="cts">A linked cancellation token source for coordinating parallel validator execution.</param>
-    /// <returns>The collection of <see cref="ValidationResult"/> produced by each validator.</returns>
+    /// <returns>The collection of <see cref="ValidationResult" /> produced by each validator.</returns>
     /// <exception cref="ValidationException">Thrown when one or more validators fail to complete.</exception>
-    private async Task<IEnumerable<ValidationResult>> ValidateValidatorsAsync(TRequest request,
+    private async Task<LanguageExt.Common.Result<IEnumerable<ValidationResult>>> ValidateValidatorsAsync(
+        TRequest request,
         CancellationTokenSource cts)
     {
         var tasks = _validators.Select(validator =>
@@ -95,15 +106,17 @@ internal sealed class ValidationBehavior<TRequest, TResponse>(
         var result = await ParallelUtils.ExecuteDependentInParallelAsync(tasks, cts).ConfigureAwait(false);
         var validateValidatorsAsync = result.ToList();
         return validateValidatorsAsync.Length() != _validators.Length()
-            ? throw new ValidationException(_localizer["GenericValidatorError"])
+            ? new LanguageExt.Common.Result<IEnumerable<ValidationResult>>(
+                new ValidationException(_localizer["GenericValidatorError"]))
             : validateValidatorsAsync;
     }
 
     /// <summary>
-    ///     Aggregates and flattens all <see cref="ValidationFailure"/> instances from multiple validation results, filtering out nulls and duplicates.
+    ///     Aggregates and flattens all <see cref="ValidationFailure" /> instances from multiple validation results, filtering
+    ///     out nulls and duplicates.
     /// </summary>
     /// <param name="results">The validation results to aggregate.</param>
-    /// <returns>A distinct sequence of non-null <see cref="ValidationFailure"/> instances.</returns>
+    /// <returns>A distinct sequence of non-null <see cref="ValidationFailure" /> instances.</returns>
     private static IEnumerable<ValidationFailure> AggregateValidationResults(IEnumerable<ValidationResult> results)
     {
         return results

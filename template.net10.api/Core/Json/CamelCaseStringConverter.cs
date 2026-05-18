@@ -15,7 +15,7 @@ internal sealed class CamelCaseStringConverter : JsonConverter<string>
     /// <param name="reader">The UTF-8 JSON reader to read from.</param>
     /// <param name="typeToConvert">The type to convert.</param>
     /// <param name="options">The serializer options.</param>
-    /// <returns>The camelCase string value, or <see langword="null"/> for a JSON null token.</returns>
+    /// <returns>The camelCase string value, or <see langword="null" /> for a JSON null token.</returns>
     /// <exception cref="JsonException">Expected JSON string</exception>
     /// <exception cref="InvalidOperationException">
     ///     The JSON token value isn't a string (that is, not a <see cref="System.Text.Json.JsonTokenType.String" />,
@@ -59,7 +59,7 @@ internal sealed class CamelCaseStringConverter : JsonConverter<string>
     ///     Converts a string to camelCase by lowering its first character.
     /// </summary>
     /// <param name="str">The string to convert.</param>
-    /// <returns>The camelCase string, or <see langword="null"/> if the input is null.</returns>
+    /// <returns>The camelCase string, or <see langword="null" /> if the input is null.</returns>
     [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase",
         Justification = "Lowercase normalization is required to implement camelCase naming rules.")]
     private static string? ToCamelCase(string? str)

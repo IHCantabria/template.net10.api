@@ -14,7 +14,7 @@ internal static class HubUserEvents
     /// </summary>
     /// <param name="localizer">The string localizer for resolving event description texts.</param>
     /// <param name="fullUrl">The full URL path of the SignalR hub endpoint.</param>
-    /// <returns>A collection of <see cref="HubEventResource"/> describing all available user hub events.</returns>
+    /// <returns>A collection of <see cref="HubEventResource" /> describing all available user hub events.</returns>
     internal static IEnumerable<HubEventResource> GetEvents(IStringLocalizer<ResourceMain> localizer, string fullUrl)
     {
         return

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using JetBrains.Annotations;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using template.net10.api.Core.Attributes;
 using template.net10.api.Core.Interfaces;
 using template.net10.api.Settings.Interfaces;
@@ -74,7 +75,30 @@ internal sealed class ServicesInstaller : IServiceInstaller
             serviceType
                 .GetCustomAttributes<ServiceLifetimeAttribute>().FirstOrDefault();
 
-        switch (serviceLifetimeAttribute?.ServiceLifetime ?? ServiceLifetime.Scoped)
+        var serviceTypeAttribute =
+            serviceType
+                .GetCustomAttributes<ServiceTypeAttribute>().FirstOrDefault();
+
+        if (serviceTypeAttribute is { ServiceType: ServiceType.Normal })
+            RegisterNormalService(services, serviceType, serviceLifetimeAttribute, interfaceType);
+        else
+            RegisterBackgroundService(services, serviceType);
+    }
+
+    /// <summary>
+    ///     Registers <paramref name="serviceType" /> as a normal service in the DI container with the lifetime specified by
+    ///     <paramref name="serviceLifetime" />, defaulting to <see cref="ServiceLifetime.Scoped" /> if the attribute is not
+    ///     present.
+    /// </summary>
+    /// <param name="services">The application service collection to register into.</param>
+    /// <param name="serviceType">The concrete implementation type.</param>
+    /// <param name="serviceLifetime">The optional attribute specifying the desired service lifetime.</param>
+    /// <param name="interfaceType">The service interface type to register against.</param>
+    private static void RegisterNormalService(IServiceCollection services, Type serviceType,
+        ServiceLifetimeAttribute? serviceLifetime,
+        Type interfaceType)
+    {
+        switch (serviceLifetime?.ServiceLifetime ?? ServiceLifetime.Scoped)
         {
             case ServiceLifetime.Scoped:
                 services.AddScoped(interfaceType, serviceType);
@@ -89,5 +113,16 @@ internal sealed class ServicesInstaller : IServiceInstaller
                 services.AddScoped(interfaceType, serviceType);
                 break;
         }
+    }
+
+    /// <summary>
+    ///     Registers <paramref name="serviceType" /> as a hosted service in the DI container with a singleton lifetime.
+    /// </summary>
+    /// <param name="services">The application service collection to register into.</param>
+    /// <param name="serviceType">The concrete implementation type.</param>
+    private static void RegisterBackgroundService(IServiceCollection services, Type serviceType)
+    {
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton(typeof(IHostedService), serviceType));
     }
 }

@@ -36,20 +36,20 @@ public abstract class MyControllerBase : ControllerBase
     internal readonly IMediator Mediator;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="MyControllerBase"/> class with the required dependencies.
+    ///     Initializes a new instance of the <see cref="MyControllerBase" /> class with the required dependencies.
     /// </summary>
     /// <param name="mediator">The MediatR mediator for dispatching requests.</param>
     /// <param name="localizer">The string localizer for resource translations.</param>
     /// <param name="logger">The logger instance for diagnostic output.</param>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="mediator"/> is <see langword="null"/>.
+    ///     <paramref name="mediator" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="localizer"/> is <see langword="null"/>.
+    ///     <paramref name="localizer" /> is <see langword="null" />.
     ///     -or-
-    ///     <paramref name="logger"/> is <see langword="null"/>.
+    ///     <paramref name="logger" /> is <see langword="null" />.
     /// </exception>
     protected MyControllerBase(IMediator mediator, IStringLocalizer<ResourceMain> localizer,
-        ILogger<MyControllerBase> logger)
+        ILogger logger)
     {
         Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));

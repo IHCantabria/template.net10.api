@@ -16,7 +16,7 @@ namespace template.net10.api.Core.Base;
     "UnusedMember.Global",
     Justification =
         "Base infrastructure class. Members are intended to be used selectively by derived verification implementations.")]
-internal class VerificationBase<TEntity> : IVerification<TEntity> where TEntity : class, IEntity
+internal abstract class VerificationBase<TEntity> : IVerification<TEntity> where TEntity : class, IEntity
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="VerificationBase{TEntity}" /> class.
@@ -71,7 +71,7 @@ internal class VerificationBase<TEntity> : IVerification<TEntity> where TEntity 
     "UnusedMember.Global",
     Justification =
         "Base infrastructure class. Members are intended to be used selectively by derived verification implementations.")]
-internal class SpecificationBase<TEntity> : ISpecification<TEntity> where TEntity : class, IEntity
+internal abstract class SpecificationBase<TEntity> : ISpecification<TEntity> where TEntity : class, IEntity
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="SpecificationBase{TEntity}" /> class.

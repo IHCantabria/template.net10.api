@@ -112,6 +112,7 @@ internal static class UserProjections
     internal static IProjection<User, UserIdTokenDto> UserIdTokenProjection =>
         new Projection<User, UserIdTokenDto>(static p => new UserIdTokenDto
         {
+            Id = p.Id,
             Uuid = p.Uuid,
             Email = p.Email,
             FirstName = p.FirstName,
@@ -132,6 +133,7 @@ internal static class UserProjections
     internal static IProjection<User, UserAccessTokenDto> UserAccessTokenProjection =>
         new Projection<User, UserAccessTokenDto>(static p => new UserAccessTokenDto
         {
+            Id = p.Id,
             Uuid = p.Uuid,
             Email = p.Email,
             FirstName = p.FirstName,
