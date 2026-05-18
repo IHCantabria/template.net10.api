@@ -26,9 +26,19 @@ namespace template.net10.api.Services.Base;
 internal class FilesManagerServiceBase : ServiceBase
 {
     /// <summary>
-    ///     ADD DOCUMENTATION
+    ///     Initializes a new instance of the <see cref="FilesManagerServiceBase" /> class,
+    ///     binding the <see cref="FileStorageOptions" /> configuration and registering the logger
+    ///     for derived file-management services.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="logger" /> is <see langword="null" />.</exception>
+    /// <param name="config">
+    ///     The <see cref="IOptions{TOptions}" /> wrapper for <see cref="FileStorageOptions" />, providing
+    ///     the root paths used for temporary and permanent file storage operations.
+    /// </param>
+    /// <param name="logger">The logger instance for diagnostic output in derived services.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="config" /> value is <see langword="null" />, or
+    ///     <paramref name="logger" /> is <see langword="null" />.
+    /// </exception>
     protected FilesManagerServiceBase(IOptions<FileStorageOptions> config, ILogger<FilesManagerServiceBase> logger) :
         base(logger)
     {
