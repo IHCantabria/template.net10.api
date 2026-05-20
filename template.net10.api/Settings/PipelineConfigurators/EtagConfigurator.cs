@@ -36,8 +36,8 @@ internal sealed class EtagConfigurator : IPipelineConfigurator
         if (string.IsNullOrEmpty(configuration.ConnectionString)) return Task.CompletedTask;
 
         app.UseDelta<AppDbContext>(static _ => BusinessConstants.ApiName,
-            static httpContext => httpContext.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase));
-
+            static httpContext => httpContext.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase),
+            allowAnonymous: true);
         //Beware of caching on permission-segregated or user-segregated data, use suffix and Identity access to separate cache entries.
         return Task.CompletedTask;
     }
