@@ -88,7 +88,7 @@
     <PackageReference Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.4.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.2.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.25.0.139117">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.26.0.140279">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

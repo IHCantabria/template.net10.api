@@ -326,11 +326,6 @@ public sealed class Users(
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>An <see cref="IActionResult" /> containing the collection of users.</returns>
-    [SuppressMessage(
-        "ReSharper",
-        "ExceptionNotDocumentedOptional",
-        Justification =
-            "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]
     [HttpGet]
     [Authorize(Policy = PoliciesConstants.UserReadPolicy)]
     [RequestTimeout(RequestConstants.RequestQueryGenericPolicy)]

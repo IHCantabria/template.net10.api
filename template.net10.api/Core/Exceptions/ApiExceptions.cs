@@ -51,10 +51,6 @@ public abstract class CoreException : Exception
     "MemberCanBeInternal",
     Justification =
         "Exception types are part of the public contract and must remain public to be consumed by external callers.")]
-[SuppressMessage("ReSharper",
-    "ClassNeverInstantiated.Global",
-    Justification =
-        "Exception type is part of the public API; instantiation depends on usage by consumers or higher-level layers.")]
 [SuppressMessage(
     "ReSharper",
     "UnusedMember.Global",
@@ -99,10 +95,6 @@ public sealed class GlobalUnhandledException : CoreException
     "MemberCanBeInternal",
     Justification =
         "Exception types are part of the public contract and must remain public to be consumed by external callers.")]
-[SuppressMessage("ReSharper",
-    "ClassNeverInstantiated.Global",
-    Justification =
-        "Exception type is part of the public API; instantiation depends on usage by consumers or higher-level layers.")]
 [SuppressMessage(
     "ReSharper",
     "UnusedMember.Global",
@@ -148,10 +140,6 @@ public sealed class EntityNotFoundException : CoreException
     "MemberCanBeInternal",
     Justification =
         "Exception types are part of the public contract and must remain public to be consumed by external callers.")]
-[SuppressMessage("ReSharper",
-    "ClassNeverInstantiated.Global",
-    Justification =
-        "Exception type is part of the public API; instantiation depends on usage by consumers or higher-level layers.")]
 [SuppressMessage(
     "ReSharper",
     "UnusedMember.Global",
@@ -197,10 +185,6 @@ public sealed class ActionResultException : CoreException
     "MemberCanBeInternal",
     Justification =
         "Exception types are part of the public contract and must remain public to be consumed by external callers.")]
-[SuppressMessage("ReSharper",
-    "ClassNeverInstantiated.Global",
-    Justification =
-        "Exception type is part of the public API; instantiation depends on usage by consumers or higher-level layers.")]
 [SuppressMessage(
     "ReSharper",
     "UnusedMember.Global",
@@ -246,10 +230,6 @@ public sealed class DatabaseTransactionException : CoreException
     "MemberCanBeInternal",
     Justification =
         "Exception types are part of the public contract and must remain public to be consumed by external callers.")]
-[SuppressMessage("ReSharper",
-    "ClassNeverInstantiated.Global",
-    Justification =
-        "Exception type is part of the public API; instantiation depends on usage by consumers or higher-level layers.")]
 [SuppressMessage(
     "ReSharper",
     "UnusedMember.Global",

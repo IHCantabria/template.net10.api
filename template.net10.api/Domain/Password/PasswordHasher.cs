@@ -63,11 +63,6 @@ internal static class PasswordHasher
     /// </returns>
     [SuppressMessage(
         "ReSharper",
-        "ExceptionNotDocumented",
-        Justification =
-            "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]
-    [SuppressMessage(
-        "ReSharper",
         "ExceptionNotDocumentedOptional",
         Justification =
             "Potential exceptions originate from underlying implementation details and are not part of the method contract.")]

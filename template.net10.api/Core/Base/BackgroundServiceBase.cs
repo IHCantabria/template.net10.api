@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using template.net10.api.Core.Attributes;
+﻿using template.net10.api.Core.Attributes;
 using template.net10.api.Core.Interfaces;
 using template.net10.api.Logger;
 
@@ -13,10 +12,6 @@ namespace template.net10.api.Core.Base;
 ///     them as hosted services automatically.
 /// </summary>
 [ServiceType(ServiceType.Background)]
-[SuppressMessage(
-    "ReSharper",
-    "MemberCanBePrivate.Global",
-    Justification = "Members are intended to be accessed by derived classes.")]
 internal abstract class BackgroundServiceBase : BackgroundService, IServiceImplementation
 {
     /// <summary>

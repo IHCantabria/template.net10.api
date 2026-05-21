@@ -84,10 +84,10 @@ internal static class ControllerExtensions
             ActionResultPayload<TSuccessResult, TContract> action)
         {
             if (action.IsAcceptedAction)
-                return LanguageExt.Common.Result<TResult>.HandleAcceptedContentResult(controller, action);
+                return LanguageExt.Common.Result<TResult>.HandleUnmappedAcceptedContentResult(controller, action);
 
             return action.IsCreatedAction
-                ? LanguageExt.Common.Result<TResult>.HandleCreatedAtActionResult(action)
+                ? LanguageExt.Common.Result<TResult>.HandleUnmappedCreatedAtActionResult(action)
                 : throw new ActionResultException(
                     "Error Creating the Http Action Result. The mapping action for endpoint is not defined");
         }
@@ -98,7 +98,8 @@ internal static class ControllerExtensions
         /// <param name="controller">The controller handling the request.</param>
         /// <param name="action">The action result payload defining the location configuration.</param>
         /// <returns>An <see cref="AcceptedResult" /> with optional location header.</returns>
-        private static AcceptedResult HandleAcceptedContentResult<TSuccessResult, TContract>(ControllerBase controller,
+        private static AcceptedResult HandleUnmappedAcceptedContentResult<TSuccessResult, TContract>(
+            ControllerBase controller,
             ActionResultPayload<TSuccessResult, TContract> action)
         {
             if (!action.AddLocationHeader)
@@ -124,7 +125,7 @@ internal static class ControllerExtensions
         /// </summary>
         /// <param name="action">The action result payload defining the route and location configuration.</param>
         /// <returns>A <see cref="CreatedAtActionResult" /> with location headers but no response body.</returns>
-        private static CreatedAtActionResult HandleCreatedAtActionResult<TSuccessResult, TContract>(
+        private static CreatedAtActionResult HandleUnmappedCreatedAtActionResult<TSuccessResult, TContract>(
             ActionResultPayload<TSuccessResult, TContract> action)
         {
             if (!action.AddLocationHeader)
@@ -161,10 +162,11 @@ internal static class ControllerExtensions
             ActionResultPayload<TSuccessResult, TContract> action, TContract response)
         {
             if (action.IsAcceptedAction)
-                return LanguageExt.Common.Result<TResult>.HandleAcceptedContentResult(controller, action, response);
+                return LanguageExt.Common.Result<TResult>.HandleMappedAcceptedContentResult(controller, action,
+                    response);
 
             if (action.IsCreatedAction)
-                return LanguageExt.Common.Result<TResult>.HandleCreatedAtActionResult(response, action);
+                return LanguageExt.Common.Result<TResult>.HandleMappedCreatedAtActionResult(response, action);
 
             return LanguageExt.Common.Result<TResult>.HandleOkResult(controller, action, response);
         }
@@ -176,7 +178,8 @@ internal static class ControllerExtensions
         /// <param name="action">The action result payload defining the location configuration.</param>
         /// <param name="response">The mapped response contract object.</param>
         /// <returns>An <see cref="AcceptedResult" /> with the response and optional location header.</returns>
-        private static AcceptedResult HandleAcceptedContentResult<TSuccessResult, TContract>(ControllerBase controller,
+        private static AcceptedResult HandleMappedAcceptedContentResult<TSuccessResult, TContract>(
+            ControllerBase controller,
             ActionResultPayload<TSuccessResult, TContract> action, TContract response)
         {
             if (!action.AddLocationHeader)
@@ -209,7 +212,8 @@ internal static class ControllerExtensions
         /// <param name="response">The mapped response contract object.</param>
         /// <param name="action">The action result payload defining the route and location configuration.</param>
         /// <returns>A <see cref="CreatedAtActionResult" /> containing the response and location.</returns>
-        private static CreatedAtActionResult HandleCreatedAtActionResult<TSuccessResult, TContract>(TContract response,
+        private static CreatedAtActionResult HandleMappedCreatedAtActionResult<TSuccessResult, TContract>(
+            TContract response,
             ActionResultPayload<TSuccessResult, TContract> action)
         {
             if (!action.AddLocationHeader)
