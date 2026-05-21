@@ -47,6 +47,26 @@ file static class EnumerableExtensions
         }
 
         /// <summary>
+        ///     Finds all elements whose valuation function matches the specified maximum value.
+        /// </summary>
+        private static List<TValue> FindMaxElements<TValue, TResult>(IEnumerator<TValue> enumerator,
+            Func<TValue, TResult> valuingFoo, TResult maxValue)
+            where TResult : IComparable
+        {
+            var maxElements = new List<TValue>();
+
+            enumerator.Reset();
+
+            while (enumerator.MoveNext())
+            {
+                var currentVal = valuingFoo(enumerator.Current);
+                if (currentVal.CompareTo(maxValue) == 0) maxElements.Add(enumerator.Current);
+            }
+
+            return maxElements;
+        }
+
+        /// <summary>
         ///     Collects all maximum values from the enumerator by comparing each element's valuation.
         /// </summary>
         private static List<TResult> FindMaxValues<TValue, TResult>(IEnumerator<TValue> enumerator,
@@ -73,26 +93,6 @@ file static class EnumerableExtensions
             }
 
             return maxValues;
-        }
-
-        /// <summary>
-        ///     Finds all elements whose valuation function matches the specified maximum value.
-        /// </summary>
-        private static List<TValue> FindMaxElements<TValue, TResult>(IEnumerator<TValue> enumerator,
-            Func<TValue, TResult> valuingFoo, TResult maxValue)
-            where TResult : IComparable
-        {
-            var maxElements = new List<TValue>();
-
-            enumerator.Reset();
-
-            while (enumerator.MoveNext())
-            {
-                var currentVal = valuingFoo(enumerator.Current);
-                if (currentVal.CompareTo(maxValue) == 0) maxElements.Add(enumerator.Current);
-            }
-
-            return maxElements;
         }
 
         /// <summary>
