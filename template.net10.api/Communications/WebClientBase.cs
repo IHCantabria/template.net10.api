@@ -64,4 +64,24 @@ internal abstract class WebClientBase
     {
         return new HttpRequestMessage(method, path);
     }
+
+    /// <summary>
+    ///     Creates an <see cref="HttpRequestMessage" /> with a JSON-serialized body for the specified HTTP method and URI.
+    /// </summary>
+    /// <typeparam name="TPayload">The type of the payload to serialize as JSON.</typeparam>
+    /// <param name="method">The HTTP method (GET, POST, PUT, DELETE, etc.).</param>
+    /// <param name="path">The target URI for the request.</param>
+    /// <param name="payload">The object to serialize as the request body.</param>
+    /// <returns>
+    ///     A new <see cref="HttpRequestMessage" /> configured with the given method, URI and a
+    ///     <see cref="JsonContent" /> body.
+    /// </returns>
+    [MustDisposeResource]
+    internal static HttpRequestMessage CreateJsonRequest<TPayload>(HttpMethod method, Uri path, TPayload payload)
+    {
+        return new HttpRequestMessage(method, path)
+        {
+            Content = JsonContent.Create(payload)
+        };
+    }
 }
