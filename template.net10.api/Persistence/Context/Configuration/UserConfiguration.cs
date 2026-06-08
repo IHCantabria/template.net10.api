@@ -19,6 +19,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     {
         ConfigurePrimaryKeys(builder);
         ConfigureProperties(builder);
+        ConfigureIndexes(builder);
         ConfigureInsertUserRelationship(builder);
         ConfigureRoleRelationship(builder);
         ConfigureUpdateUserRelationship(builder);
@@ -44,6 +45,31 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(static e => e.InsertDatetime).HasDefaultValueSql("(now() AT TIME ZONE 'UTC'::text)");
         builder.Property(static e => e.UpdateDatetime).HasDefaultValueSql("(now() AT TIME ZONE 'UTC'::text)");
         builder.Property(static e => e.Uuid).HasDefaultValueSql("gen_random_uuid()");
+    }
+
+    /// <summary>
+    ///     Configures performance indexes for User entity, including foreign key index for Role,
+    ///     composite index for login queries, and index for disabled status filtering.
+    /// </summary>
+    /// <param name="builder">The entity type builder.</param>
+    private static void ConfigureIndexes(EntityTypeBuilder<User> builder)
+    {
+        // Composite index for login queries (email + is_disabled)
+        // Optimizes UserEnabledVerification(email) and similar authentication flows
+        builder.HasIndex(static e => new { e.Email, e.IsDisabled }, "user_email_is_disabled_idx")
+            .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
+
+        // Index for insert_datetime to optimize ordering in user read queries
+        builder.HasIndex(static e => e.InsertDatetime, "user_insert_datetime_idx")
+            .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
+
+        // Index for is_disabled to optimize queries filtering by user status
+        builder.HasIndex(static e => e.IsDisabled, "user_is_disabled_idx")
+            .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
+
+        // Foreign key index for role_id to optimize JOINs with Role table
+        builder.HasIndex(static e => e.RoleId, "user_role_id_idx")
+            .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
     }
 
     /// <summary>
@@ -101,6 +127,8 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
                 {
                     j.HasKey("UserId", "ClaimId").HasName("claim_user_pkey");
                     j.ToTable("claim_user", "identity");
+                    j.HasIndex(["ClaimId"], "claim_user_claim_id_idx")
+                        .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
                     j.IndexerProperty<short>("UserId").HasColumnName("user_id");
                     j.IndexerProperty<short>("ClaimId").HasColumnName("claim_id");
                 });

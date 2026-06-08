@@ -49,6 +49,8 @@ internal sealed class ClaimConfiguration : IEntityTypeConfiguration<Claim>
                 {
                     j.HasKey("ClaimId", "RoleId").HasName("claim_role_pkey");
                     j.ToTable("claim_role", "identity");
+                    j.HasIndex(["RoleId"], "claim_role_role_id_idx")
+                        .HasAnnotation("Npgsql:StorageParameter:deduplicate_items", "true");
                     j.IndexerProperty<short>("ClaimId").HasColumnName("claim_id");
                     j.IndexerProperty<short>("RoleId").HasColumnName("role_id");
                 });
