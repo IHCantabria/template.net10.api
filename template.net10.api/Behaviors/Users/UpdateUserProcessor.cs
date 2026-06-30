@@ -50,15 +50,14 @@ internal sealed class UpdateUserProcessor(
         queue ?? throw new ArgumentNullException(nameof(queue));
 
     /// <inheritdoc />
-    public Task Process(CommandUpdateUser request, LanguageExt.Common.Result<User> response,
+    public async Task Process(CommandUpdateUser request, LanguageExt.Common.Result<User> response,
         CancellationToken cancellationToken)
     {
-        if (response.IsFaulted) return Task.CompletedTask;
+        if (response.IsFaulted) return;
 
         var start = _logger.PrepareLogHandlingPostProcess(nameof(UpdateUserProcessor), nameof(CommandUpdateUser));
-        ExecutePostProcess(response);
+        await ExecutePostProcessAsync(response).ConfigureAwait(false);
         _logger.PrepareLogHandledPostProcess(nameof(UpdateUserProcessor), nameof(CommandUpdateUser), start);
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -70,13 +69,14 @@ internal sealed class UpdateUserProcessor(
     ///     The successful result of the <see cref="CommandUpdateUser" /> command containing the updated
     ///     <see cref="User" />.
     /// </param>
-    private void ExecutePostProcess(LanguageExt.Common.Result<User> response)
+    private async Task ExecutePostProcessAsync(LanguageExt.Common.Result<User> response)
     {
         var uuid = response.ExtractData().Uuid;
-        _queue.Enqueue(new BackgroundWorkItem(
+        await _queue.EnqueueAsync(new BackgroundWorkItem(
             (_, _) => SendNotificationAsync(uuid),
             nameof(UpdateUserProcessor),
-            nameof(CommandUpdateUser)));
+            nameof(CommandUpdateUser),
+            BackgroundWorkCategory.Notification), CancellationToken.None).ConfigureAwait(false);
     }
 
     /// <summary>

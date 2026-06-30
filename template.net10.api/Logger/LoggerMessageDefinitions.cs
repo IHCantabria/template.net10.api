@@ -114,8 +114,14 @@ internal static class LoggerMessageDefinitions
         "An Exception occurred in the Background Task {backgroundTaskType} for the Request {requestType}.";
 
     /// <summary>
-    ///     Log message template for background queue full error.
+    ///     Log message template for background queue full error (work item dropped after the back-pressure timeout).
     /// </summary>
     internal const string BackgroundQueueFull =
-        "Background task queue is full ({capacity}), dropped Task: {backgroundTaskType}/{requestType}";
+        "Background task queue '{category}' is full ({capacity}), dropped Task: {backgroundTaskType}/{requestType} after back-pressure timeout.";
+
+    /// <summary>
+    ///     Log message template for a background queue back-pressure event (pool full, waiting for free space).
+    /// </summary>
+    internal const string BackgroundQueueBackpressure =
+        "Background task queue '{category}' is full ({capacity}), applying back-pressure for Task: {backgroundTaskType}/{requestType}.";
 }

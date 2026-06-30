@@ -204,14 +204,41 @@ internal static partial class LoggerMessageMethods
         string time);
 
     /// <summary>
-    ///     Logs a completed MediatR post-process with elapsed time.
+    ///     Logs that a background work item was dropped after the back-pressure timeout elapsed on a full pool.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
-    /// <param name="capacity">The configured capacity of the background task queue.</param>
+    /// <param name="category">The pool category (Database/External) that was full.</param>
+    /// <param name="capacity">The configured capacity of the background task queue pool.</param>
     /// <param name="backgroundTaskType">The type name of the background task.</param>
     /// <param name="requestType">The type name of the originating request.</param>
     [LoggerMessage(Level = LogLevel.Error, Message = LoggerMessageDefinitions.BackgroundQueueFull)]
-    internal static partial void LogBackgroundQueueFull(this ILogger logger, string capacity,
+    [SuppressMessage(
+        "ReSharper",
+        "TooManyArguments",
+        Justification =
+            "LoggerMessage source-generated methods require each logged value to be provided as a separate parameter. " +
+            "These arguments are intentionally kept independent to preserve structured logging fields for improving observability " +
+            "and queryability in log aggregation systems.")]
+    internal static partial void LogBackgroundQueueFull(this ILogger logger, string category, string capacity,
+        string backgroundTaskType, string requestType);
+
+    /// <summary>
+    ///     Logs that a background pool is full and back-pressure is being applied while waiting for free space.
+    /// </summary>
+    /// <param name="logger">The logger instance.</param>
+    /// <param name="category">The pool category (Database/External) that is full.</param>
+    /// <param name="capacity">The configured capacity of the background task queue pool.</param>
+    /// <param name="backgroundTaskType">The type name of the background task.</param>
+    /// <param name="requestType">The type name of the originating request.</param>
+    [LoggerMessage(Level = LogLevel.Warning, Message = LoggerMessageDefinitions.BackgroundQueueBackpressure)]
+    [SuppressMessage(
+        "ReSharper",
+        "TooManyArguments",
+        Justification =
+            "LoggerMessage source-generated methods require each logged value to be provided as a separate parameter. " +
+            "These arguments are intentionally kept independent to preserve structured logging fields for improving observability " +
+            "and queryability in log aggregation systems.")]
+    internal static partial void LogBackgroundQueueBackpressure(this ILogger logger, string category, string capacity,
         string backgroundTaskType, string requestType);
 
     /// <summary>

@@ -50,16 +50,14 @@ internal sealed class DeleteUserProcessor(
         queue ?? throw new ArgumentNullException(nameof(queue));
 
     /// <inheritdoc />
-    public Task Process(CommandDeleteUser request, LanguageExt.Common.Result<User> response,
+    public async Task Process(CommandDeleteUser request, LanguageExt.Common.Result<User> response,
         CancellationToken cancellationToken)
     {
-        if (response.IsFaulted) return Task.CompletedTask;
+        if (response.IsFaulted) return;
 
         var start = _logger.PrepareLogHandlingPostProcess(nameof(DeleteUserProcessor), nameof(CommandDeleteUser));
-        ExecutePostProcess(response);
+        await ExecutePostProcessAsync(response).ConfigureAwait(false);
         _logger.PrepareLogHandledPostProcess(nameof(DeleteUserProcessor), nameof(CommandDeleteUser), start);
-
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -71,13 +69,14 @@ internal sealed class DeleteUserProcessor(
     ///     The successful result of the <see cref="CommandDeleteUser" /> command containing the deleted
     ///     <see cref="User" />.
     /// </param>
-    private void ExecutePostProcess(LanguageExt.Common.Result<User> response)
+    private async Task ExecutePostProcessAsync(LanguageExt.Common.Result<User> response)
     {
         var uuid = response.ExtractData().Uuid;
-        _queue.Enqueue(new BackgroundWorkItem(
+        await _queue.EnqueueAsync(new BackgroundWorkItem(
             (_, _) => SendNotificationAsync(uuid),
             nameof(DeleteUserProcessor),
-            nameof(CommandDeleteUser)));
+            nameof(CommandDeleteUser),
+            BackgroundWorkCategory.Notification), CancellationToken.None).ConfigureAwait(false);
     }
 
     /// <summary>

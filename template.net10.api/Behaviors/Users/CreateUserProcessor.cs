@@ -50,15 +50,14 @@ internal sealed class CreateUserProcessor(
         queue ?? throw new ArgumentNullException(nameof(queue));
 
     /// <inheritdoc />
-    public Task Process(CommandCreateUser request, LanguageExt.Common.Result<User> response,
+    public async Task Process(CommandCreateUser request, LanguageExt.Common.Result<User> response,
         CancellationToken cancellationToken)
     {
-        if (response.IsFaulted) return Task.CompletedTask;
+        if (response.IsFaulted) return;
 
         var start = _logger.PrepareLogHandlingPostProcess(nameof(CreateUserProcessor), nameof(CommandCreateUser));
-        ExecutePostProcess(response);
+        await ExecutePostProcessAsync(response).ConfigureAwait(false);
         _logger.PrepareLogHandledPostProcess(nameof(CreateUserProcessor), nameof(CommandCreateUser), start);
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -70,13 +69,14 @@ internal sealed class CreateUserProcessor(
     ///     The successful result of the <see cref="CommandCreateUser" /> command containing the created
     ///     <see cref="User" />.
     /// </param>
-    private void ExecutePostProcess(LanguageExt.Common.Result<User> response)
+    private async Task ExecutePostProcessAsync(LanguageExt.Common.Result<User> response)
     {
         var uuid = response.ExtractData().Uuid;
-        _queue.Enqueue(new BackgroundWorkItem(
+        await _queue.EnqueueAsync(new BackgroundWorkItem(
             (_, _) => SendNotificationAsync(uuid),
             nameof(CreateUserProcessor),
-            nameof(CommandCreateUser)));
+            nameof(CommandCreateUser),
+            BackgroundWorkCategory.Notification), CancellationToken.None).ConfigureAwait(false);
     }
 
     /// <summary>

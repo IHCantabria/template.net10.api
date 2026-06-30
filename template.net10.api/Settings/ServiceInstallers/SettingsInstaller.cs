@@ -92,7 +92,8 @@ internal sealed class SettingsInstaller : IServiceInstaller
     }
 
     /// <summary>
-    ///     Registers business-related options: <see cref="FileStorageOptions" /> and <see cref="AppDbOptions" /> as well as
+    ///     Registers business-related options: <see cref="FileStorageOptions" />, <see cref="AppDbOptions" /> and
+    ///     <see cref="BackgroundQueueOptions" /> as well as
     ///     their source-generated validators.
     /// </summary>
     /// <param name="builder">The web application builder.</param>
@@ -104,5 +105,8 @@ internal sealed class SettingsInstaller : IServiceInstaller
 
         builder.Services.Configure<AppDbOptions>(config.GetSection(AppDbOptions.AppDb));
         builder.Services.AddSingleton<IValidateOptions<AppDbOptions>, AppDbOptionsValidator>();
+
+        builder.Services.Configure<BackgroundQueueOptions>(config.GetSection(BackgroundQueueOptions.BackgroundQueue));
+        builder.Services.AddSingleton<IValidateOptions<BackgroundQueueOptions>, BackgroundQueueOptionsValidator>();
     }
 }
