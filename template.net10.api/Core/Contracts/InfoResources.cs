@@ -6,7 +6,7 @@ using template.net10.api.Core.Interfaces;
 namespace template.net10.api.Core.Contracts;
 
 /// <summary>
-///     Represents an application information resource containing version, description, and status details.
+///     Represents an application information resource containing status, version, and environment details.
 /// </summary>
 [SuppressMessage("Design",
     "CA1515:Consider making public types internal",
@@ -15,20 +15,26 @@ namespace template.net10.api.Core.Contracts;
 public sealed record InfoResource : IPublicApiContract, IEqualityOperators<InfoResource, InfoResource, bool>
 {
     /// <summary>
-    ///     Gets the application version string.
+    ///     Gets the HTTP status code indicating the application's current state.
     /// </summary>
     [JsonRequired]
-    public required string Version { get; init; }
+    public required short Status { get; init; }
 
     /// <summary>
-    ///     Gets a human-readable label describing the application's current operational status (e.g., "Healthy", "Degraded").
+    ///     Gets a human-readable label describing the application's current operational status (e.g., "OK", "Degraded").
     /// </summary>
     [JsonRequired]
     public required string StatusInfo { get; init; }
 
     /// <summary>
-    ///     Gets the HTTP status code indicating the application's current state.
+    ///     Gets the application version string, normalized without the leading <c>v</c> prefix.
     /// </summary>
     [JsonRequired]
-    public required short StatusCode { get; init; }
+    public required string Version { get; init; }
+
+    /// <summary>
+    ///     Gets the deployment environment name in upper case (e.g., <c>LOCAL</c>, <c>DEV</c>, <c>PRE</c>, <c>PROD</c>).
+    /// </summary>
+    [JsonRequired]
+    public required string Environment { get; init; }
 }

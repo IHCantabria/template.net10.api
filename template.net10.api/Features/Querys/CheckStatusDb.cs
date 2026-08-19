@@ -37,9 +37,21 @@ public sealed record QueryCheckStatus : IRequest<LanguageExt.Common.Result<InfoD
 internal sealed class QueryCheckStatusHandler(
     IGenericDbRepositoryReadContext<AppDbContext, CurrentVersion> repository,
     IOptions<ProjectOptions> options,
+    IOptions<AppOptions> appOptions,
     ILogger<QueryCheckStatusHandler> logger)
     : IRequestHandler<QueryCheckStatus, LanguageExt.Common.Result<InfoDto>>
 {
+    /// <summary>
+    ///     Status label reported when the API and its database are responding correctly.
+    /// </summary>
+    private const string HealthyStatusInfo = "OK";
+
+    /// <summary>
+    ///     Application configuration options containing the current deployment environment name.
+    /// </summary>
+    private readonly AppOptions _appOptions =
+        appOptions.Value ?? throw new ArgumentNullException(nameof(appOptions));
+
     /// <summary>
     ///     Logger instance for recording database status check operations.
     /// </summary>
@@ -74,28 +86,44 @@ internal sealed class QueryCheckStatusHandler(
         {
             var result = await _repository.VerificateAsync(null, cancellationToken).ConfigureAwait(false);
             return result.IsSuccess
-                ? new InfoDto
-                {
-                    StatusCode = StatusCodes.Status200OK,
-                    StatusInfo = "API is running fine.",
-                    Version = _options.Version
-                }
-                : new InfoDto
-                {
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                    StatusInfo = result.ExtractException().Message,
-                    Version = _options.Version
-                };
+                ? BuildInfo(StatusCodes.Status200OK, HealthyStatusInfo)
+                : BuildInfo(StatusCodes.Status500InternalServerError, result.ExtractException().Message);
         }
         catch (NpgsqlException ex)
         {
             _logger.LogStatusDbFail(ex);
-            return new InfoDto
-            {
-                StatusCode = StatusCodes.Status500InternalServerError,
-                StatusInfo = ex.Message,
-                Version = _options.Version
-            };
+            return BuildInfo(StatusCodes.Status500InternalServerError, ex.Message);
         }
+    }
+
+    /// <summary>
+    ///     Normalizes the configured version by dropping the optional leading <c>v</c> prefix (<c>v1.2.3</c> becomes
+    ///     <c>1.2.3</c>), so every API of the platform reports the version in the same shape.
+    /// </summary>
+    /// <param name="version">The raw version string read from configuration.</param>
+    /// <returns>The normalized version string.</returns>
+    private static string NormalizeVersion(string version)
+    {
+        var trimmed = version.AsSpan().Trim();
+        return trimmed.Length > 1 && trimmed[0] is 'v' or 'V' && char.IsAsciiDigit(trimmed[1])
+            ? trimmed[1..].ToString()
+            : trimmed.ToString();
+    }
+
+    /// <summary>
+    ///     Builds the health check payload, attaching the version and environment metadata shared by every response.
+    /// </summary>
+    /// <param name="status">The HTTP status code describing the current API state.</param>
+    /// <param name="statusInfo">The human-readable label describing the current API state.</param>
+    /// <returns>The <see cref="InfoDto" /> exposed by the health check endpoint.</returns>
+    private InfoDto BuildInfo(short status, string statusInfo)
+    {
+        return new InfoDto
+        {
+            Status = status,
+            StatusInfo = statusInfo,
+            Version = NormalizeVersion(_options.Version),
+            Environment = _appOptions.Env.ToUpperInvariant()
+        };
     }
 }

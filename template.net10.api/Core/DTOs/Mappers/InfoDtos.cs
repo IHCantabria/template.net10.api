@@ -14,9 +14,10 @@ internal sealed partial record InfoDto
         ArgumentNullException.ThrowIfNull(dto);
         return new InfoResource
         {
+            Status = dto.Status,
             StatusInfo = dto.StatusInfo,
             Version = dto.Version,
-            StatusCode = dto.StatusCode
+            Environment = dto.Environment
         };
     }
 }
